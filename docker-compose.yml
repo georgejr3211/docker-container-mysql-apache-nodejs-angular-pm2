@@ -3,23 +3,21 @@ services:
   db:
     image: mysql:5.7
     restart: always
+    container_name: my-db
     env_file:
       - .env
-    networks:
-      - app-db
     ports:
-      - "3306:3306"
+      - 3306:3306
     expose:
-      - "3306"
+      - 3306
     volumes:
       - my-db:/var/lib/mysql
   app:
+    container_name: my-app
     build:
       context: .
       dockerfile: .docker/Dockerfile
     restart: always
-    networks:
-      - app-db
     links:
       - db
     ports:
@@ -27,10 +25,11 @@ services:
       - 3000:3000
     working_dir: "/var/www"
     volumes:
+      # DIRETÓRIO DAS DIST'S
       - ./www:/var/www
+      # VIRTUAL HOST
       - ./apache2/sites-available:/etc/apache2/sites-available
-    # command: bash -c "npm install && pm2 start src/server.js"
-networks:
-  app-db: {}
+      # START NODE
+    command: sh -c "script.sh"
 volumes:
   my-db: {}
