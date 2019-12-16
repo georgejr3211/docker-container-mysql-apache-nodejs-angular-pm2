@@ -1,8 +1,8 @@
 {
   "apps": [
     {
-      "name": "api.com",
-      "script": "./api.com/public_html/src/server.js",
+      "name": "fairtek-server",
+      "script": "./fairtek-server/src/server.js",
       "instances": 1,
       "exec_mode": "cluster",
       "env": {

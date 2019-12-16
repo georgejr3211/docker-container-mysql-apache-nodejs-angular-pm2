@@ -16,8 +16,8 @@ RUN apt-get install -y nodejs && \
   npm install -g @angular/cli && \
   npm install -g pm2
 
-# # JAVA
-# RUN apt-get install -y default-jre default-jdk
+# JAVA
+RUN apt-get install -y default-jre default-jdk
 
 ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
