@@ -1,35 +1,36 @@
 version: "3.3"
 services:
-  db:
-    image: mysql:5.7
-    restart: always
-    container_name: my-db
-    env_file:
-      - .env
-    ports:
-      - 3306:3306
-    expose:
-      - 3306
-    volumes:
-      - my-db:/var/lib/mysql
+  # db:
+  #   image: mysql:5.7
+  #   restart: always
+  #   container_name: my-db
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - 3306:3306
+  #   expose:
+  #     - 3306
+  #   volumes:
+  #     - my-db:/var/lib/mysql
   app:
     container_name: my-app
     build:
       context: .
       dockerfile: .docker/Dockerfile
     restart: always
-    links:
-      - db
+    # links:
+    #   - db
     ports:
       - 80:80
       - 3000:3000
     working_dir: "/var/www"
+    # tty: true
     volumes:
       # DIRETÓRIO DAS DIST'S
       - ./www:/var/www
       # VIRTUAL HOST
       - ./apache2/sites-available:/etc/apache2/sites-available
       # START NODE
-    command: sh -c "script.sh"
+    command: bash -c "script.sh"
 volumes:
   my-db: {}

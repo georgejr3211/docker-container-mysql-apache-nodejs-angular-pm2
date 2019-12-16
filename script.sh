@@ -1,7 +1,11 @@
-# API_DIR=/var/www/api.com/public_html
-# APP_DIR=/var/www/app.com/public_html
+MAIN_DIR=/var/www
 
-# cd API_DIR
-# npm i
-# pm2 start src/server.js
-# /bin/bash
+a2dissite 000-default.conf && a2ensite \
+  app.com.conf \
+  api.com.conf
+
+echo "RESTARTANDO APACHE"
+service apache2 restart
+
+echo "Inciando a API"
+cd $MAIN_DIR && pm2-docker pm2.json
