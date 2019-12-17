@@ -1,18 +1,9 @@
-const mysql = require("mysql");
-
-function dbConnection() {
-  return mysql.createConnection({
-    host: "my-db",
-    user: "root",
-    password: "root",
-    database: "db",
-    port: 3306
-  });
-}
+const dbConnection = require("../config/db");
 
 function getAll() {
   sql = `SELECT id, name FROM users`;
   const conn = dbConnection();
+  conn.connect();
 
   return new Promise((resolve, reject) => {
     conn.query(sql, (error, result) => {
@@ -30,6 +21,7 @@ function getAll() {
 async function createUser(name) {
   sql = `INSERT INTO users (name) VALUES ('${name}')`;
   const conn = dbConnection();
+  conn.connect();
 
   return new Promise((resolve, reject) => {
     conn.query(sql, (error, result) => {
