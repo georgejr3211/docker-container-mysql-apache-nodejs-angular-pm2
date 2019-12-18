@@ -14,12 +14,28 @@ LOG_BACKUP_FILENAME=logs_backup.txt
 
 DUMP_DAYS_FOLDER=dump_days
 
+SDCARD_DIR=/home/nuc/sdcard
+
+#############################################################
+
 a2dissite 000-default.conf && a2ensite \
   $APP_CONF $APP_CONF
 
 service apache2 restart
 
-mkdir $MAIN_DIR/$API_NAME/$DUMP_DAYS_FOLDER
+service cron start
+
+# (crontab -l && echo "* * * * * /usr/local/bin/backup.sh") | crontab -
+
+crontab -l | { cat; echo "* * * * * /usr/local/bin/backup.sh"; } | crontab -
+
+if [ ! -e $SDCARD_DIR ]; then
+  mkdir -p $SDCARD_DIR
+fi
+
+if [ ! -e $MAIN_DIR/$API_NAME/$DUMP_DAYS_FOLDER ]; then
+  mkdir $MAIN_DIR/$API_NAME/$DUMP_DAYS_FOLDER
+fi
 
 if [ ! -e $MAIN_DIR/$API_NAME/$LOG_BACKUP_FILENAME ]; then
   cd $MAIN_DIR/$API_NAME

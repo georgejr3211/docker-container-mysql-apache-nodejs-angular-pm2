@@ -5,7 +5,9 @@ services:
     restart: always
     container_name: my-db
     env_file:
-      - .env
+      - .docker/mysql.env
+    environment: 
+      - TZ=America/Sao_Paulo
     ports:
       - 3306:3306
     expose:
@@ -14,6 +16,8 @@ services:
       - my-db:/var/lib/mysql
   app:
     container_name: my-app
+    environment: 
+      - TZ=America/Sao_Paulo
     build:
       context: .
       dockerfile: .docker/Dockerfile
@@ -26,7 +30,6 @@ services:
     working_dir: "/var/www"
     volumes:
       - ./www:/var/www
-      - ./apache2/sites-available:/etc/apache2/sites-available
     command: bash -c "script.sh"
 volumes:
   my-db: {}

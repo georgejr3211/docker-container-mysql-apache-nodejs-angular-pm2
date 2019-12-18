@@ -3,12 +3,15 @@ FROM ubuntu:latest
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
   wget nano curl net-tools lsof \
   build-essential make unzip git \
-  apache2 && apt-get clean
+  mysql-client cron apache2 && apt-get clean
 
 RUN curl --silent --location https://deb.nodesource.com/setup_10.x | bash -
 
 COPY script.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/script.sh
+
+COPY backup/backup.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/backup.sh
 
 # NODE, ANGULAR, PM2
 RUN apt-get install -y nodejs && \
@@ -18,6 +21,10 @@ RUN apt-get install -y nodejs && \
 
 # JAVA
 RUN apt-get install -y default-jre default-jdk
+
+# TIMEZONE
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get install -y tzdata;
 
 ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data

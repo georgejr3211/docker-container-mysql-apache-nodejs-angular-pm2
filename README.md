@@ -35,3 +35,9 @@ docker rmi $(docker images -q)
 docker rm $(docker ps -a -q)
 
 https://medium.com/@shakyShane/laravel-docker-part-1-setup-for-development-e3daaefaf3c
+
+<!-- BACKUP SCRIPT -->
+https://medium.com/@fotios.floros/linux-backup-script-1722cc9c2bf6
+
+<!-- OPEN TGZ -->
+tar -xzf filename.tgz
