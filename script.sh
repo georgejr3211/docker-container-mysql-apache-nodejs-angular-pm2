@@ -25,8 +25,6 @@ service apache2 restart
 
 service cron start
 
-# (crontab -l && echo "* * * * * /usr/local/bin/backup.sh") | crontab -
-
 crontab -l | { cat; echo "* * * * * /usr/local/bin/backup.sh"; } | crontab -
 
 if [ ! -e $SDCARD_DIR ]; then
@@ -46,7 +44,7 @@ cd $MAIN_DIR/$APP_NAME
 npm i
 npm audit fix
 npm update
-ng build --prod
+ng build --prod --aot=false
 
 cd $MAIN_DIR/$API_NAME
 npm i

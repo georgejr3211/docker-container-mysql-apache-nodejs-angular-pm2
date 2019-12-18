@@ -1,0 +1,2356 @@
+{
+    "tables": {
+        "tb_acl_grupos": {
+            "tableName": "tb_acl_grupos",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "nome": {
+                    "allowNull": false,
+                    "field": "nome",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "descricao": {
+                    "allowNull": true,
+                    "field": "descricao",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "status": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "1"
+                    },
+                    "field": "status",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_acl_permissoes": {
+            "tableName": "tb_acl_permissoes",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_acl_grupos_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_acl_grupos",
+                        "key": "id"
+                    },
+                    "field": "tb_acl_grupos_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_acl_regras_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_acl_regras",
+                        "key": "id"
+                    },
+                    "field": "tb_acl_regras_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "status": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "status",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_acl_regras": {
+            "tableName": "tb_acl_regras",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "menu": {
+                    "allowNull": false,
+                    "field": "menu",
+                    "seqType": "Sequelize.STRING(100)"
+                },
+                "acao": {
+                    "allowNull": false,
+                    "field": "acao",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "status": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "1"
+                    },
+                    "field": "status",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_alimentacao_dia": {
+            "tableName": "tb_alimentacao_dia",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "ID_ANIMAL": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_animais",
+                        "key": "id"
+                    },
+                    "field": "ID_ANIMAL",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "HORA_PARCIAL": {
+                    "allowNull": true,
+                    "field": "HORA_PARCIAL",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "HORA_COMPLET": {
+                    "allowNull": true,
+                    "field": "HORA_COMPLET",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "DIA": {
+                    "allowNull": false,
+                    "field": "DIA",
+                    "seqType": "Sequelize.DATEONLY"
+                }
+            },
+            "indexes": []
+        },
+        "tb_animais": {
+            "tableName": "tb_animais",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "id_rede": {
+                    "allowNull": false,
+                    "field": "id_rede",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_dieta_id": {
+                    "allowNull": true,
+                    "field": "tb_dieta_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "rfid": {
+                    "allowNull": false,
+                    "field": "rfid",
+                    "seqType": "Sequelize.BIGINT"
+                },
+                "tatuagem": {
+                    "allowNull": false,
+                    "field": "tatuagem",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "brinco": {
+                    "allowNull": false,
+                    "field": "brinco",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "tempo_entre_dosagem": {
+                    "allowNull": true,
+                    "field": "tempo_entre_dosagem",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "baias_id": {
+                    "allowNull": true,
+                    "field": "baias_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "qr": {
+                    "allowNull": true,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "qr",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "ativo": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "1"
+                    },
+                    "field": "ativo",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "ag_update": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "1"
+                    },
+                    "field": "ag_update",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "dieta_id": {
+                    "allowNull": true,
+                    "field": "dieta_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "dt_entrada": {
+                    "allowNull": true,
+                    "field": "dt_entrada",
+                    "seqType": "Sequelize.DATEONLY"
+                },
+                "escore_id": {
+                    "allowNull": true,
+                    "field": "escore_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "gestacao": {
+                    "allowNull": true,
+                    "field": "gestacao",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "motivo": {
+                    "allowNull": true,
+                    "field": "motivo",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "chip": {
+                    "allowNull": false,
+                    "field": "chip",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_setor_tipo_id": {
+                    "allowNull": true,
+                    "field": "tb_setor_tipo_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "ciclo_animal": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "ciclo_animal",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "calibracao": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "calibracao",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_animais_movimentacoes": {
+            "tableName": "tb_animais_movimentacoes",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_animal_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_animais",
+                        "key": "id"
+                    },
+                    "field": "tb_animal_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_dieta_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "tb_dietas",
+                        "key": "id"
+                    },
+                    "field": "tb_dieta_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "dt_inseminacao": {
+                    "allowNull": true,
+                    "field": "dt_inseminacao",
+                    "seqType": "Sequelize.DATE"
+                },
+                "dt_movimentacao": {
+                    "allowNull": false,
+                    "field": "dt_movimentacao",
+                    "seqType": "Sequelize.DATE"
+                },
+                "motivo": {
+                    "allowNull": true,
+                    "field": "motivo",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "status": {
+                    "allowNull": false,
+                    "field": "status",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "tb_setor_tipo_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_setores_tipos",
+                        "key": "id"
+                    },
+                    "field": "tb_setor_tipo_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_escore_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "tb_escores",
+                        "key": "id"
+                    },
+                    "field": "tb_escore_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_baias_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "tb_baias",
+                        "key": "id"
+                    },
+                    "field": "tb_baias_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_tempo_dosagem": {
+                    "allowNull": true,
+                    "field": "tb_tempo_dosagem",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_animais_registros": {
+            "tableName": "tb_animais_registros",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_animais_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_animais",
+                        "key": "id"
+                    },
+                    "field": "tb_animais_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "dia": {
+                    "allowNull": false,
+                    "field": "dia",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "qa": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "qa",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "qt": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "qt",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "dieta_codigo": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "dieta_codigo",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "dosador_data": {
+                    "allowNull": false,
+                    "field": "dosador_data",
+                    "seqType": "Sequelize.DATEONLY"
+                },
+                "ult_dosador": {
+                    "allowNull": true,
+                    "field": "ult_dosador",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "ciclo_animal": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "1"
+                    },
+                    "field": "ciclo_animal",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_backup_logs": {
+            "tableName": "tb_backup_logs",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "status": {
+                    "allowNull": false,
+                    "field": "status",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "detalhes": {
+                    "allowNull": false,
+                    "field": "detalhes",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_baias": {
+            "tableName": "tb_baias",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_galpoes_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_galpoes",
+                        "key": "id"
+                    },
+                    "field": "tb_galpoes_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "nome": {
+                    "allowNull": false,
+                    "field": "nome",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "capacidade": {
+                    "allowNull": false,
+                    "field": "capacidade",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "largura": {
+                    "allowNull": true,
+                    "field": "largura",
+                    "seqType": "Sequelize.STRING(7)"
+                },
+                "comprimento": {
+                    "allowNull": true,
+                    "field": "comprimento",
+                    "seqType": "Sequelize.STRING(7)"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "ativo": {
+                    "allowNull": false,
+                    "field": "ativo",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "total": {
+                    "allowNull": false,
+                    "field": "total",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "espaco": {
+                    "allowNull": true,
+                    "field": "espaco",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "sugerido": {
+                    "allowNull": true,
+                    "field": "sugerido",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "femea": {
+                    "allowNull": false,
+                    "field": "femea",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_calendarios": {
+            "tableName": "tb_calendarios",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "dt_inicio": {
+                    "allowNull": true,
+                    "unique": true,
+                    "field": "dt_inicio",
+                    "seqType": "Sequelize.DATE"
+                },
+                "dt_fim": {
+                    "allowNull": true,
+                    "unique": true,
+                    "field": "dt_fim",
+                    "seqType": "Sequelize.DATE"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_calibracao": {
+            "tableName": "tb_calibracao",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "chip": {
+                    "allowNull": false,
+                    "field": "chip",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "peso": {
+                    "allowNull": false,
+                    "field": "peso",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "pta_antigo": {
+                    "allowNull": false,
+                    "field": "pta_antigo",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "pta_novo": {
+                    "allowNull": false,
+                    "field": "pta_novo",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_chips": {
+            "tableName": "tb_chips",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "chip": {
+                    "allowNull": false,
+                    "field": "chip",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "ativo": {
+                    "allowNull": false,
+                    "field": "ativo",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_desativacao": {
+            "tableName": "tb_desativacao",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "motivo": {
+                    "allowNull": false,
+                    "field": "motivo",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "observacao": {
+                    "allowNull": false,
+                    "field": "observacao",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_dieta_dias": {
+            "tableName": "tb_dieta_dias",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_dietas_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_dietas",
+                        "key": "id"
+                    },
+                    "field": "tb_dietas_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "dia": {
+                    "allowNull": false,
+                    "field": "dia",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "qr": {
+                    "allowNull": false,
+                    "field": "qr",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "qtd": {
+                    "allowNull": false,
+                    "field": "qtd",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "ativo": {
+                    "allowNull": false,
+                    "field": "ativo",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_dietas": {
+            "tableName": "tb_dietas",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "id_rede": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "id_rede",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "nome": {
+                    "allowNull": false,
+                    "field": "nome",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "ag_update": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "ag_update",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "qtd_dias": {
+                    "allowNull": false,
+                    "field": "qtd_dias",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "ativo": {
+                    "allowNull": true,
+                    "field": "ativo",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "tipo_dieta": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "1"
+                    },
+                    "references": {
+                        "model": "tb_dietas_tipos",
+                        "key": "id"
+                    },
+                    "field": "tipo_dieta",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "dieta_calibracao": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "dieta_calibracao",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_dietas_historico": {
+            "tableName": "tb_dietas_historico",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_dietas_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_dietas",
+                        "key": "id"
+                    },
+                    "field": "tb_dietas_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "motivo": {
+                    "allowNull": false,
+                    "field": "motivo",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_dietas_tipos": {
+            "tableName": "tb_dietas_tipos",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "nome": {
+                    "allowNull": false,
+                    "field": "nome",
+                    "seqType": "Sequelize.STRING(50)"
+                },
+                "qtd_dias": {
+                    "allowNull": false,
+                    "field": "qtd_dias",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_dosadores": {
+            "tableName": "tb_dosadores",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_baias_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "tb_baias",
+                        "key": "id"
+                    },
+                    "field": "tb_baias_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "codigo": {
+                    "allowNull": false,
+                    "unique": true,
+                    "field": "codigo",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "ativo": {
+                    "allowNull": false,
+                    "field": "ativo",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "ativo_rede": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "ativo_rede",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "status_racao": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "status_racao",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "status_antena": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "1"
+                    },
+                    "field": "status_antena",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "status_motor": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "status_motor",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "status_dosador": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "1"
+                    },
+                    "field": "status_dosador",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "status_memoria": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "1"
+                    },
+                    "field": "status_memoria",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "status_rede": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "1"
+                    },
+                    "field": "status_rede",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "status": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "1"
+                    },
+                    "primaryKey": true,
+                    "field": "status",
+                    "seqType": "Sequelize.STRING(50)"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "ag_update": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "ag_update",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "sincronizado": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "sincronizado",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_escores": {
+            "tableName": "tb_escores",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "nome": {
+                    "allowNull": false,
+                    "field": "nome",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "peso": {
+                    "allowNull": false,
+                    "field": "peso",
+                    "seqType": "Sequelize.INTEGER(10)"
+                },
+                "medida": {
+                    "allowNull": false,
+                    "field": "medida",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_eventos_parametros": {
+            "tableName": "tb_eventos_parametros",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_dosadores_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_dosadores",
+                        "key": "id"
+                    },
+                    "unique": true,
+                    "field": "tb_dosadores_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "pTi": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "450"
+                    },
+                    "field": "pTi",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "pTd": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "pTd",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "pTa": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "7000"
+                    },
+                    "field": "pTa",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "pTp": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "1000"
+                    },
+                    "field": "pTp",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "pTr": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "500"
+                    },
+                    "field": "pTr",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "pTs": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "3000"
+                    },
+                    "field": "pTs",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "pTar": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "60000"
+                    },
+                    "field": "pTar",
+                    "seqType": "Sequelize.INTEGER(11)"
+                }
+            },
+            "indexes": []
+        },
+        "tb_fazendas": {
+            "tableName": "tb_fazendas",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_produtores_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_produtores",
+                        "key": "id"
+                    },
+                    "field": "tb_produtores_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "nome": {
+                    "allowNull": false,
+                    "field": "nome",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "localizacao": {
+                    "allowNull": true,
+                    "field": "localizacao",
+                    "seqType": "Sequelize.STRING(50)"
+                },
+                "endereco": {
+                    "allowNull": true,
+                    "field": "endereco",
+                    "seqType": "Sequelize.STRING(100)"
+                },
+                "email": {
+                    "allowNull": false,
+                    "field": "email",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "telefone": {
+                    "allowNull": false,
+                    "field": "telefone",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "ativo": {
+                    "allowNull": false,
+                    "field": "ativo",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_galpoes": {
+            "tableName": "tb_galpoes",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_granjas_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_granjas",
+                        "key": "id"
+                    },
+                    "field": "tb_granjas_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "nome": {
+                    "allowNull": false,
+                    "field": "nome",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "largura": {
+                    "allowNull": true,
+                    "field": "largura",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "comprimento": {
+                    "allowNull": true,
+                    "field": "comprimento",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "codigo": {
+                    "allowNull": true,
+                    "field": "codigo",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "ativo": {
+                    "allowNull": false,
+                    "field": "ativo",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_geneticas": {
+            "tableName": "tb_geneticas",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "nome": {
+                    "allowNull": false,
+                    "field": "nome",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "codigo": {
+                    "allowNull": true,
+                    "field": "codigo",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "ativo": {
+                    "allowNull": false,
+                    "field": "ativo",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_gerentes": {
+            "tableName": "tb_gerentes",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "nome": {
+                    "allowNull": false,
+                    "field": "nome",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "email": {
+                    "allowNull": false,
+                    "field": "email",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "cpf": {
+                    "allowNull": true,
+                    "field": "cpf",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "telefone": {
+                    "allowNull": false,
+                    "field": "telefone",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "codigo": {
+                    "allowNull": true,
+                    "field": "codigo",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "ativo": {
+                    "allowNull": false,
+                    "field": "ativo",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_granjas": {
+            "tableName": "tb_granjas",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_fazendas_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_fazendas",
+                        "key": "id"
+                    },
+                    "field": "tb_fazendas_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_veterinarios_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_veterinarios",
+                        "key": "id"
+                    },
+                    "field": "tb_veterinarios_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_nutricionistas_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_nutricionistas",
+                        "key": "id"
+                    },
+                    "field": "tb_nutricionistas_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_gerentes_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_gerentes",
+                        "key": "id"
+                    },
+                    "field": "tb_gerentes_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_operadores_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_operadores",
+                        "key": "id"
+                    },
+                    "field": "tb_operadores_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_geneticas_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_geneticas",
+                        "key": "id"
+                    },
+                    "field": "tb_geneticas_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_produtores_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_produtores",
+                        "key": "id"
+                    },
+                    "field": "tb_produtores_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "nome": {
+                    "allowNull": false,
+                    "field": "nome",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "localizacao": {
+                    "allowNull": true,
+                    "field": "localizacao",
+                    "seqType": "Sequelize.STRING(50)"
+                },
+                "endereco": {
+                    "allowNull": true,
+                    "field": "endereco",
+                    "seqType": "Sequelize.STRING(100)"
+                },
+                "modulo_de_producao": {
+                    "allowNull": true,
+                    "field": "modulo_de_producao",
+                    "seqType": "Sequelize.STRING(4)"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "ativo": {
+                    "allowNull": false,
+                    "field": "ativo",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "plano": {
+                    "allowNull": false,
+                    "field": "plano",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_notificacoes": {
+            "tableName": "tb_notificacoes",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.BIGINT"
+                },
+                "tb_notificacoes_tipos_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_notificacoes_tipos",
+                        "key": "id"
+                    },
+                    "field": "tb_notificacoes_tipos_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "origem": {
+                    "allowNull": true,
+                    "field": "origem",
+                    "seqType": "Sequelize.STRING(5)"
+                },
+                "destino": {
+                    "allowNull": true,
+                    "field": "destino",
+                    "seqType": "Sequelize.STRING(5)"
+                },
+                "valor": {
+                    "allowNull": false,
+                    "field": "valor",
+                    "seqType": "Sequelize.STRING(255)"
+                },
+                "lida": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "lida",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "st_toast": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "st_toast",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "visualizada": {
+                    "allowNull": true,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "visualizada",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_notificacoes_tipos": {
+            "tableName": "tb_notificacoes_tipos",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "codigo": {
+                    "allowNull": false,
+                    "field": "codigo",
+                    "seqType": "Sequelize.STRING(10)"
+                },
+                "nome": {
+                    "allowNull": false,
+                    "field": "nome",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "descricao": {
+                    "allowNull": false,
+                    "field": "descricao",
+                    "seqType": "Sequelize.STRING(100)"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "ativo": {
+                    "allowNull": false,
+                    "field": "ativo",
+                    "seqType": "Sequelize.BOOLEAN"
+                }
+            },
+            "indexes": []
+        },
+        "tb_nutricionistas": {
+            "tableName": "tb_nutricionistas",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "nome": {
+                    "allowNull": false,
+                    "field": "nome",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "email": {
+                    "allowNull": false,
+                    "field": "email",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "crn": {
+                    "allowNull": true,
+                    "field": "crn",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "telefone": {
+                    "allowNull": false,
+                    "field": "telefone",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "codigo": {
+                    "allowNull": true,
+                    "field": "codigo",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "ativo": {
+                    "allowNull": false,
+                    "field": "ativo",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_operadores": {
+            "tableName": "tb_operadores",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "nome": {
+                    "allowNull": false,
+                    "field": "nome",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "email": {
+                    "allowNull": false,
+                    "field": "email",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "telefone": {
+                    "allowNull": false,
+                    "field": "telefone",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "codigo": {
+                    "allowNull": true,
+                    "field": "codigo",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "ativo": {
+                    "allowNull": false,
+                    "field": "ativo",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_parametros": {
+            "tableName": "tb_parametros",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "nome": {
+                    "allowNull": false,
+                    "field": "nome",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "t_refresh_pagina": {
+                    "allowNull": false,
+                    "field": "t_refresh_pagina",
+                    "seqType": "Sequelize.TIME"
+                },
+                "t_atualizacao_bd": {
+                    "allowNull": false,
+                    "field": "t_atualizacao_bd",
+                    "seqType": "Sequelize.TIME"
+                },
+                "t_varredura_notificacao": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "00:00:10"
+                    },
+                    "field": "t_varredura_notificacao",
+                    "seqType": "Sequelize.TIME"
+                },
+                "t_varredura_rede": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "00:00:10"
+                    },
+                    "field": "t_varredura_rede",
+                    "seqType": "Sequelize.TIME"
+                },
+                "ativo": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "ativo",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_produtores": {
+            "tableName": "tb_produtores",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "nome": {
+                    "allowNull": false,
+                    "field": "nome",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "cpf_cnpj": {
+                    "allowNull": false,
+                    "field": "cpf_cnpj",
+                    "seqType": "Sequelize.STRING(25)"
+                },
+                "email": {
+                    "allowNull": false,
+                    "field": "email",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "plano": {
+                    "allowNull": true,
+                    "field": "plano",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "endereco": {
+                    "allowNull": false,
+                    "field": "endereco",
+                    "seqType": "Sequelize.STRING(100)"
+                },
+                "telefone": {
+                    "allowNull": false,
+                    "field": "telefone",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "ativo": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "ativo",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_rede": {
+            "tableName": "tb_rede",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "status": {
+                    "allowNull": true,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "status",
+                    "seqType": "Sequelize.INTEGER(11)"
+                }
+            },
+            "indexes": []
+        },
+        "tb_rede_dietas": {
+            "tableName": "tb_rede_dietas",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "status": {
+                    "allowNull": true,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "status",
+                    "seqType": "Sequelize.INTEGER(11)"
+                }
+            },
+            "indexes": []
+        },
+        "tb_registros": {
+            "tableName": "tb_registros",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.BIGINT"
+                },
+                "tb_baias_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_baias",
+                        "key": "id"
+                    },
+                    "field": "tb_baias_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_dosadores_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_dosadores",
+                        "key": "id"
+                    },
+                    "field": "tb_dosadores_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_animais_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_animais",
+                        "key": "id"
+                    },
+                    "field": "tb_animais_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "qa": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "qa",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "qa_data": {
+                    "allowNull": false,
+                    "field": "qa_data",
+                    "seqType": "Sequelize.DATE"
+                },
+                "qr_dieta": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "qr_dieta",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "codigo_dieta": {
+                    "allowNull": false,
+                    "field": "codigo_dieta",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "dia_animal": {
+                    "allowNull": false,
+                    "field": "dia_animal",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_registros_status_dosador": {
+            "tableName": "tb_registros_status_dosador",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.BIGINT"
+                },
+                "tb_dosadores_id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "tb_dosadores",
+                        "key": "id"
+                    },
+                    "field": "tb_dosadores_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_baias_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "tb_baias",
+                        "key": "id"
+                    },
+                    "field": "tb_baias_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "status_rede": {
+                    "allowNull": true,
+                    "field": "status_rede",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "status_racao": {
+                    "allowNull": true,
+                    "field": "status_racao",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "status_antena": {
+                    "allowNull": true,
+                    "field": "status_antena",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "status_motor": {
+                    "allowNull": true,
+                    "field": "status_motor",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "status_dosador": {
+                    "allowNull": true,
+                    "field": "status_dosador",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "status_memoria": {
+                    "allowNull": true,
+                    "field": "status_memoria",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_setores_tipos": {
+            "tableName": "tb_setores_tipos",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "nome": {
+                    "allowNull": false,
+                    "field": "nome",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_system_version": {
+            "tableName": "tb_system_version",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "version": {
+                    "allowNull": false,
+                    "field": "version",
+                    "seqType": "Sequelize.STRING(45)"
+                }
+            },
+            "indexes": []
+        },
+        "tb_usuarios": {
+            "tableName": "tb_usuarios",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "tb_granja_id": {
+                    "allowNull": true,
+                    "field": "tb_granja_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "nome": {
+                    "allowNull": false,
+                    "field": "nome",
+                    "seqType": "Sequelize.STRING(100)"
+                },
+                "email": {
+                    "allowNull": false,
+                    "field": "email",
+                    "seqType": "Sequelize.STRING(100)"
+                },
+                "senha": {
+                    "allowNull": false,
+                    "field": "senha",
+                    "seqType": "Sequelize.CHAR(60)"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "ativo": {
+                    "allowNull": false,
+                    "field": "ativo",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "image": {
+                    "allowNull": true,
+                    "field": "image",
+                    "seqType": "Sequelize.BLOB(long)"
+                },
+                "last_login": {
+                    "allowNull": true,
+                    "field": "last_login",
+                    "seqType": "Sequelize.DATE"
+                },
+                "esqueceu_senha": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "esqueceu_senha",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "tb_acl_grupos_id": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "1"
+                    },
+                    "references": {
+                        "model": "tb_acl_grupos",
+                        "key": "id"
+                    },
+                    "field": "tb_acl_grupos_id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tb_veterinarios": {
+            "tableName": "tb_veterinarios",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER(11)"
+                },
+                "nome": {
+                    "allowNull": false,
+                    "field": "nome",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "crmv": {
+                    "allowNull": true,
+                    "field": "crmv",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "email": {
+                    "allowNull": false,
+                    "field": "email",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "telefone": {
+                    "allowNull": false,
+                    "field": "telefone",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "codigo": {
+                    "allowNull": true,
+                    "field": "codigo",
+                    "seqType": "Sequelize.STRING(45)"
+                },
+                "excluido": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "field": "excluido",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "ativo": {
+                    "allowNull": false,
+                    "field": "ativo",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created": {
+                    "allowNull": false,
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated": {
+                    "allowNull": false,
+                    "field": "updated",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        }
+    },
+    "revision": 1
+}

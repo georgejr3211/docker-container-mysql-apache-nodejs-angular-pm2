@@ -2,7 +2,7 @@
   "apps": [
     {
       "name": "fairtek-server",
-      "script": "./fairtek-server/src/server.js",
+      "script": "./fairtek-server/index.js",
       "instances": 1,
       "exec_mode": "cluster",
       "env": {

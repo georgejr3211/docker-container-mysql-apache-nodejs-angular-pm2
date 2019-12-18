@@ -41,3 +41,9 @@ https://medium.com/@fotios.floros/linux-backup-script-1722cc9c2bf6
 
 <!-- OPEN TGZ -->
 tar -xzf filename.tgz
+
+<!-- ACESSAR MYSQL VIA TERMINAL -->
+docker exec -ti my-db mysql -u root -p
+
+<!-- REMOVE ALL IMAGE, CACHE, CONTAINERS, NETWORKS -->
+docker system prune -a

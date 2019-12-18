@@ -7,9 +7,14 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 
 RUN curl --silent --location https://deb.nodesource.com/setup_10.x | bash -
 
+# VIRTUAL HOST
+COPY apache2/sites-available/ /etc/apache2/sites-available
+
+# SCRIPT
 COPY script.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/script.sh
 
+# BACKUP
 COPY backup/backup.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/backup.sh
 
@@ -26,6 +31,7 @@ RUN apt-get install -y default-jre default-jdk
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get install -y tzdata;
 
+# APACHE
 ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
 ENV APACHE_RUN_DIR=/var/run

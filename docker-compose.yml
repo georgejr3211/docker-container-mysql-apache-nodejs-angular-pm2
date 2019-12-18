@@ -4,9 +4,10 @@ services:
     image: mysql:5.7
     restart: always
     container_name: my-db
+    command: --default-authentication-plugin=mysql_native_password
     env_file:
       - .docker/mysql.env
-    environment: 
+    environment:
       - TZ=America/Sao_Paulo
     ports:
       - 3306:3306
@@ -16,7 +17,7 @@ services:
       - my-db:/var/lib/mysql
   app:
     container_name: my-app
-    environment: 
+    environment:
       - TZ=America/Sao_Paulo
     build:
       context: .
@@ -29,7 +30,9 @@ services:
       - 3000:3000
     working_dir: "/var/www"
     volumes:
-      - ./www:/var/www
+      - ./www/fairtek-server:/var/www/fairtek-server
+      - ./www/fairtek-portal/dist:/var/www/fairtek-portal
+      - ./www/pm2.json:/var/www/pm2.json
     command: bash -c "script.sh"
 volumes:
   my-db: {}
