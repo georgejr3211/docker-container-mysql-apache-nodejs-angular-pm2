@@ -2,7 +2,6 @@ version: "3.3"
 services:
   db:
     image: mysql:5.7
-    restart: always
     container_name: my-db
     command: --default-authentication-plugin=mysql_native_password
     env_file:
@@ -22,7 +21,6 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile
-    restart: always
     links:
       - db
     ports:
@@ -31,8 +29,9 @@ services:
     working_dir: "/var/www"
     volumes:
       - ./www/fairtek-server:/var/www/fairtek-server
-      - ./www/fairtek-portal/dist:/var/www/fairtek-portal
+      - ./www/fairtek-portal:/var/www/fairtek-portal
       - ./www/pm2.json:/var/www/pm2.json
+      - ./apache2/sites-available:/etc/apache2/sites-available
     command: bash -c "script.sh"
 volumes:
   my-db: {}

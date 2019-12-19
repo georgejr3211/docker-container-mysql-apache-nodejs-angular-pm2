@@ -8,7 +8,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 RUN curl --silent --location https://deb.nodesource.com/setup_10.x | bash -
 
 # VIRTUAL HOST
-COPY apache2/sites-available/ /etc/apache2/sites-available
+# COPY apache2/sites-available/ /etc/apache2/sites-available
 
 # SCRIPT
 COPY script.sh /usr/local/bin
@@ -39,6 +39,6 @@ ENV APACHE_PID_FILE=/var/run/apache2.pid
 ENV APACHE_LOG_DIR=/var/log/apache2
 ENV APACHE_LOCK_DIR=/var/lock/apache2
 
-EXPOSE 80
+# EXPOSE 80
 
-CMD ["/usr/sbin/apache2", "-D", "FOREGROUND"]
+# CMD ["/usr/sbin/apache2", "-D", "FOREGROUND"]

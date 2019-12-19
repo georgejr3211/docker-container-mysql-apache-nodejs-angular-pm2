@@ -47,3 +47,6 @@ docker exec -ti my-db mysql -u root -p
 
 <!-- REMOVE ALL IMAGE, CACHE, CONTAINERS, NETWORKS -->
 docker system prune -a
+
+<!-- CONECTANDO AO MYSQL DENTRO DO UBUNTU -->
+mysql -h my-db -u root -proot
