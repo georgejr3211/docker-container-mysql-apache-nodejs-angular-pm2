@@ -1,0 +1,361 @@
+<!--INSERIR-->
+<div class="col-sm-12 sem-padding" *ngIf="inserirChip">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-header">
+                <i class="fa fa-plus"></i> Inserir novo chipe
+            </div>
+        </div>
+        <div class="card-body">
+            <form #formPost="ngForm" (ngSubmit)="postForm(formPost)">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Número de identificação">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                                <input autofocus id="chip" [disabled]="batchInsert" placement="top" tooltip="Número de identificação" name="chip"
+                                    ngModel class="form-control" placeholder="Número de identificação" *ngIf="chipRecebido == 0">
+                                <input autofocus id="chip" placement="top" tooltip="Número de identificação" name="chip"
+                                    [(ngModel)]="chipRecebido" class="form-control" *ngIf="chipRecebido != 0" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group input-switch col-sm-3">
+                        Gravação em Lote&nbsp;&nbsp;
+                        <label class="switch switch-3d switch-primary text-right">
+                            <input type="checkbox" [(ngModel)]="batchInsert"
+                                name="batch" id="batch" class="switch-input">
+                            <span class="switch-label"></span>
+                            <span class="switch-handle"></span>
+                        </label>
+                    </div> 
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"  placement="top" tooltip="Número de identificação Inicial">
+                                    <i class="fa fa-chip"></i>
+                                </span>
+                                <input autofocus id="chipInit" [disabled]="!batchInsert" placement="top" tooltip="Número de identificação Inicial" name="chipInit"
+                                    ngModel class="form-control" placeholder="Número de identificação Inicial" >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Número de identificação Final">
+                                    <i class="fa fa-chip"></i>
+                                </span>
+                                <input autofocus id="chipFim" [disabled]="!batchInsert" placement="top" tooltip="Número de identificação Final" name="chipFim"
+                                    ngModel class="form-control" placeholder="Número de identificação Final" >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="input-group input-switch" placement="bottom" tooltip="Ativo">
+                                <label class="switch switch-3d switch-primary" hidden>
+                                    <input type="checkbox" name="ativo" ngModel class="switch-input">
+                                    <span class="switch-label"></span>
+                                    <span class="switch-handle"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-actions">
+                    <button type="submit" class="btn btn-md btn-success" [disabled]="isBusyForm">
+                        Gravar
+                        <i class="fa fa-spin fa-spinner" *ngIf="isBusyForm"></i>
+                    </button>
+                    <button type="button" class="btn btn-md btn-default" (click)="acaoTelaInserir();">
+                        Cancelar
+                    </button>
+
+                </div>
+                <div class="form-group form-actions">
+                    <button type="button" (click)="cadChipAnimal(formPost);" class="btn btn-md btn-success"
+                        [disabled]="isBusyForm">
+                        Gravar e Inserir Animal
+                        <i class="fa fa-spin fa-spinner" *ngIf="isBusyForm"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--EDITAR-->
+<div class="col-sm-12 sem-padding" *ngIf="editarChip">
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-plus"></i> Editar chipe
+            <strong>{{this.GlobalService.getItem().chip}}</strong>
+        </div>
+        <div class="card-body">
+            <form #formPut="ngForm" (ngSubmit)="putForm(formPut)">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Número de identificação">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                                <input type="number" id="chip" placement="top" tooltip="Número de identificação"
+                                    name="chip" [ngModel]="this.GlobalService.getItem().chip" class="form-control"
+                                    placeholder="Número de identificação">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Data de ativação">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                <input class="form-control" placement="bottom" tooltip="Data de ativação" placeholder="Data de ativação" [bsConfig]="{dateInputFormat: dd/MM/yyyy}"
+                                    id="dt_at" name="dt_at" type="text" #dp="bsDatepicker" bsDatepicker [(bsValue)]="bsValue"
+                                    [ngModel]="this.GlobalService.getItem().dt_at">
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <!-- <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="input-group input-switch" placement="top" tooltip="Ativo">
+                                <label class="switch switch-3d switch-primary">
+                                    <input type="checkbox" name="ativo" [ngModel]="this.GlobalService.getItem().ativo" class="switch-input">
+                                    <span class="switch-label"></span>
+                                    <span class="switch-handle"></span>
+                                </label>
+                                &nbsp;&nbsp;Ativo
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="form-group form-actions">
+                    <button type="submit" class="btn btn-md btn-success" [disabled]="isBusyForm">
+                        Salvar
+                        <i class="fa fa-spin fa-spinner" *ngIf="isBusyForm"></i>
+                    </button>
+                    <button type="button" class="btn btn-md btn-default" (click)="acaotelaEditar()">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--MODAL DESATIVAÇÃO-->
+<ng-template #desativacao>
+    <div class="modal-header">
+        <h2 class="modal-title pull-left">Desativar chipe - {{this.GlobalService.getItem().chip }}</h2>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form #formModal="ngForm" (ngSubmit)="putFormDesativa(formModal)">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon" placement="top" tooltip="Número de identificação">
+                                <i class="fa fa-user"></i>
+                            </span>
+                            <input type="text" id="chip" placement="top" tooltip="Número de identificação" name="chip"
+                                [ngModel]="this.GlobalService.getItem().chip" class="form-control"
+                                placeholder="Número de identificação">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <div class="input-group">
+                        <span class="input-group-addon" placement="bottom" tooltip="Data de desativação">
+                            <i class="fa fa-calendar"></i>
+                        </span>
+                        <input class="form-control" placement="bottom" tooltip="Data de desativação"
+                            placeholder="Data de desativação" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" id="dt_de"
+                            name="dt_de" type="text" #dp="bsDatepicker" bsDatepicker [(bsValue)]="bsValue" ngModel>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10"></div>
+                <div class="col-sm-2 text-right">
+                    <button type="submit" class="btn btn-primary" (click)="modalRef.hide();">Confirmar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<!--MODAL CHIP EM USO-->
+<ng-template #chipUso>
+    <div class="modal-header">
+        <h2 class="modal-title pull-left">O chipe - {{this.GlobalService.getItem().chip }} está em uso, favor trocar o
+            CHIPE do animal primeiro!</h2>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-4">
+                <button type="button" class="btn btn-primary"
+                    (click)="modalRef.hide();openModalWithClass(trocaChipAnimal);getComboAnimal_Chip();getComboChip();">Trocar
+                    chipe do Animal</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10"></div>
+            <div class="col-sm-2 text-right">
+                <button type="submit" class="btn btn-primary" (click)="modalRef.hide();">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!--Modal troca chip Animal-->
+<ng-template #trocaChipAnimal>
+    <div class="modal-header">
+        <h2 class="modal-title pull-left">Trocar chipe animal - {{this.GlobalService.getItem().chip}}</h2>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form #formModalAnimal="ngForm" (ngSubmit)="putFormTrocaChipAnimal(formModalAnimal)">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon" placement="top" tooltip="Tatuagem">
+                                <i class="fa fa-power-off"></i>
+                            </span>
+                            <input type="text" id="tatuagem" name="tatuagem" placement="top" tooltip="Tatuagem" readonly
+                                [ngModel]="comboAnimal[0].tatuagem" class="form-control" placeholder="Tatuagem">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon" placement="top" tooltip="Brinco">
+                                <i class="fa fa-adjust"></i>
+                            </span>
+                            <input type="text" id="brinco" name="brinco" placement="top" tooltip="Brinco" readonly
+                                [ngModel]="comboAnimal[0].brinco" class="form-control" placeholder="Brinco">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <select name="chip" [ngModel]="this.GlobalService.getItem().chip" class="form-control"
+                            placement="top" tooltip="Chip">
+                            <option value="0">(Selecione o novo chipe)</option>
+                            <option *ngFor="let item of comboChips" value="{{item.id}}">{{item.chip}}</option>
+                        </select>
+                        <span *ngIf="comboChips == 0">
+                            <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Carregando...
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10"></div>
+                <div class="col-sm-2 text-right">
+                    <button type="submit" class="btn btn-primary" (click)="modalRef.hide()">Confirmar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+
+
+<!--Itens Cadastrados -->
+
+<div class="col-lg-12 sem-padding" *ngIf="listarChip">
+    <div class="card" *ngIf="read">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-6 col-lg-6 col-xl-3 padding-form" *ngIf="new">
+                    <button (click)="acaoTelaInserir()" class="btn btn-md btn-success"
+                        [disabled]="loading">Novo</button>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-4">
+                    <h3>Chipes</h3>
+                </div>
+                <div class="col-md-12 col-lg-12 col-xl-5">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-search"></i>
+                        </span>
+                        <input type="text" id="busca" name="busca" ngModel class="form-control" placeholder="Pesquisar"
+                            (keyup)='searchFilter($event)'>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div style="overflow-x:auto;">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Chipe</th>
+                            <th>Criado</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let item of itensFilter | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
+                            <td>
+                                <div placement="top" tooltip="Ativo" class="circleBase status1"
+                                    *ngIf="item.ativo === 1"></div>
+                                <div placement="top" tooltip="Disponível" class="circleBase status3"
+                                    *ngIf="item.ativo === 0"></div>
+                            </td>
+                            <td>{{item.chip}}</td>
+                            <td>{{item.created | date: 'dd/MM/yyyy - HH:mm'}}</td>
+                            <td align="right">
+                                <a *ngIf="edit" (click)="this.GlobalService.marcaItem(item);acaotelaEditar()"
+                                    placement="top" tooltip="Editar" class="icon-action">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </a>
+                                <!-- <a *ngIf="item.ativo === 1" (click)="this.GlobalService.marcaItem(item);openModalWithClass(chipUso)" (ngModelChange)="pegaAnimalChip(event)" placement="top" tooltip="Editar"
+                                class="icon-action">
+                                <i class="fa fa-pencil-square-o"></i> 
+                            </a> -->
+                                <a *ngIf="item.ativo === 0 && delete"
+                                    (click)="this.GlobalService.marcaItem(item);deleteItem()" placement="top"
+                                    tooltip="Excluir Chip" class="icon-action">
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
+                                <a *ngIf="item.ativo === 1 && delete"
+                                    (click)="this.GlobalService.marcaItem(item);openModalWithClass(chipUso)"
+                                    (ngModelChange)="pegaAnimalChip(event)" placement="top" tooltip="Liberar Chip"
+                                    class="icon-action">
+                                    <i class="icon-lock-open"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="loader" *ngIf="loading"></div>
+            <pagination-controls previousLabel="Anterior" nextLabel="Próxima" (pageChange)="page = $event"
+                class="pagination"></pagination-controls>
+
+        </div>
+    </div>
+</div>

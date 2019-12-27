@@ -1,0 +1,96 @@
+<div class="col-lg-12 sem-padding">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-sm-2 padding-form">
+          <i class="fa fa-align-justify"></i> Animais da Baia
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <select name="tb_baias_id" id="tb_baias_id" [(ngModel)]="selectBaia" class="form-control" placement="top"
+              tooltip="Baia" (change)="changeBaia()">
+              <option *ngFor="let item of comboBaias" value="{{item.id}}">{{item.nome}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="input-group">
+            <span class="input-group-addon">
+              <i class="fa fa-search"></i>
+            </span>
+            <input type="text" id="busca" name="busca" ngModel class="form-control" placeholder="Pesquisar"
+              (keyup)='searchFilter($event)'>
+          </div>
+        </div>
+        <!-- <div class="col-sm-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-search"></i>
+                        </span>
+                        <input type="text" id="busca" name="busca" ngModel class="form-control" placeholder="Pesquisar" (keyup)='searchFilter($event)'>
+                    </div>
+                </div> -->
+      </div>
+    </div>
+    <div class="loader" *ngIf="loading"></div>
+    <div class="card-body">
+      <div role="alert" class="alert alert-info alert-dismissible" *ngIf="itensFilter.length == 0">
+        <!---->
+        <button aria-label="Close" class="close" type="button">
+          <span aria-hidden="true">×</span>
+        </button>
+        Nenhum animal alimentado hoje.
+      </div>
+      <table class="table table-striped" *ngIf="itensFilter.length > 0">
+        <thead>
+          <tr>
+            <th>Brinco</th>
+            <th>Tatuagem</th>
+            <th>Chip</th>
+            <th>Dieta</th>
+            <th>Escore</th>
+            <th>Dia do <br>Animal</th>
+            <th>QA</th>
+            <th>QT</th>
+            <th>QR</th>
+            <th>Status <br> Alimentação</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let animal of itensFilter">
+            <!--| paginate: { itemsPerPage: itemsPerPage, currentPage: page}">-->
+            <td>{{animal.brinco}}</td>
+            <td>{{animal.tatuagem}}</td>
+            <td>{{animal.chip_num}}</td>
+            <td>{{animal.dieta_nome}}</td>
+            <td>{{animal.escore_nome}}</td>
+            <td>{{animal.dia_animal}}</td>
+            <td *ngIf="animal.qa_animal > animal.qt_animal">{{ animal.qt_animal*100}}g. *</td>
+            <td *ngIf="animal.qa_animal <= animal.qt_animal">{{ animal.qa_animal*100}}g.</td>
+            <td>{{ animal.qt_animal*100}}g.</td>
+            <td *ngIf="animal.qa_animal <= animal.qt_animal">{{ (animal.qt_animal-animal.qa_animal)*100}}g.</td>
+            <td *ngIf="animal.qa_animal > animal.qt_animal"> 0g.</td>
+            <!--<td>{{animal.qa_animal*100}}g.</td>
+            <td>{{animal.qt_animal*100}}g.</td>
+            <td>{{(animal.qt_animal - animal.qa_animal)*100}}g.</td>-->
+            <td class="text-center" *ngIf="animal.qa_animal >= animal.qt_animal || animal.qa_animal == 0"><i
+                [class]="animal.qa_animal >= animal.qt_animal ? 'fa fa-check' : 'fa fa-remove'"
+                [style.color]="animal.qa_animal >= animal.qt_animal ? '#00987e' : '#f86c6b'"></i>
+            </td>
+            <td class="text-center" *ngIf="animal.qa_animal < animal.qt_animal && animal.qa_animal > 0"><i
+                class="fa fa-circle" style="color:yellow"></i></td>
+
+            <td>
+              <a (click)="editAnimal(animal)" placement="top" tooltip="Editar" class="icon-action">
+                <i class="fa fa-external-link"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <pagination-controls previousLabel="Anterior" nextLabel="Próxima" (pageChange)="page = $event" class="pagination"></pagination-controls> -->
+      <span class="qtdTot" *ngIf="animais.length >= 0">Total animais: {{animais.length}}</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,321 @@
+<!--INSERIR-->
+<div class="col-sm-12 sem-padding" *ngIf="_ShowService.inserir">
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-plus"></i> Inserir nova dieta
+        </div>
+        <div class="card-body">
+            <form #formPost="ngForm" (ngSubmit)="postForm(formPost)" id="dietaN">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Nome">
+                                    <i class="fa fa-calendar-times-o"></i>
+                                </span>
+                                <input type="text" id="nome" name="nome" placement="top" maxlength="45" tooltip="Nome" ngModel class="form-control" placeholder="Nome">
+                                <input type="hidden" id="configs" name="configs" [(ngModel)]="config_dieta" class="form-control">
+                                <input type="hidden" id="qtd_dias" name="qtd_dias" [(ngModel)]="qtd_dias_default" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Código">
+                                    <i class="fa fa-power-off"></i>
+                                </span>
+                                <input type="text" id="codigo" name="codigo" placement="top" tooltip="Código" ngModel class="form-control" placeholder="Código">
+                                
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <select name="dietas_tipos" [ngModel]="selectDietasTipos" class="form-control" placement="top"
+                                tooltip="Tipo" (change)="getDiasTipo($event);">
+                                <option value="0">(Selecione o tipo da dieta)</option>
+                                <option *ngFor="let item of comboDietasTipos" value="{{item.id}}">{{item.nome}} -
+                                    {{item.qtd_dias}} dias</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="QTD dias">
+                                    <i class="fa fa-sort-numeric-desc"></i>
+                                </span>
+                                <input type="number" id="qtd_dias" name="qtd_dias" placement="top" tooltip="QTD dias" [(ngModel)]="qtd_dias_default" class="form-control" placeholder="QTD dias">
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="input-group input-switch">
+                                Status:&nbsp;&nbsp;
+                                <label class="switch switch-3d switch-primary">
+                                    <input type="checkbox" name="ativo" ngModel class="switch-input">
+                                    <span class="switch-label"></span>
+                                    <span class="switch-handle"></span>
+                                </label>
+                                &nbsp;&nbsp;Ativo
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-md btn-success" (click)="openModalWithClass(config)"
+                                [disabled]="!isBusyConfig">Configurar Dieta</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group form-actions">
+                    <button type="submit" class="btn btn-md btn-success" [disabled]="isBusyForm">
+                        Gravar
+                        <i class="fa fa-spin fa-spinner" *ngIf="isBusyForm"></i>
+                    </button>
+                    <button type="submit" class="btn btn-md btn-default" (click)="_ShowService.showInserir();cleanConfig()">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--EDITAR-->
+<div class="col-sm-12 sem-padding" *ngIf="_ShowService.editar">
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-plus"></i> Editar dieta
+            <strong>{{this.GlobalService.getItem().nome}}</strong>
+        </div>
+        <div class="card-body">
+            <form #formPut="ngForm" (ngSubmit)="putForm(formPut)">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Nome">
+                                    <i class="fa fa-paw"></i>
+                                </span>
+                                <input type="text" id="nome" name="nome" placement="top" tooltip="Nome" [ngModel]="this.GlobalService.getItem().nome"
+                                    class="form-control" placeholder="Nome">
+                                <input type="hidden" id="configs" name="configs" [(ngModel)]="config_dieta" class="form-control">
+                                <input type="hidden" id="qtd_dias" name="qtd_dias" [(ngModel)]="this.GlobalService.getItem().qtd_dias"
+                                    class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Código">
+                                    <i class="fa fa-power-off"></i>
+                                </span>
+                                <input type="text" id="codigo" name="codigo" placement="top" tooltip="Código" [ngModel]="this.GlobalService.getItem().codigo"
+                                    class="form-control" placeholder="Código">
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <select name="dietas_tipos" id="dietas_tipos" [ngModel]="this.GlobalService.getItem().tipo_dieta"
+                                class="form-control" placement="top" tooltip="Tipo" (change)="getDiasTipo($event);">
+                                <option value="0">(Selecione o tipo da dieta)</option>
+                                <option *ngFor="let item of comboDietasTipos" value="{{item.id}}">{{item.nome}} -
+                                    {{item.qtd_dias}} dias</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Motivo da Edição">
+                                    <i class="icon-folder"></i>
+                                </span>
+                                <input type="text" id="motivo_ed" name="motivo_ed" placement="top" ngModel tooltip="Motivo da Edição"
+                                    class="form-control" placeholder="Motivo da Edição">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-md btn-success" (click)="openModalWithClass(config)">Re-Configurar
+                                Dieta</button>
+                        </div>
+                    </div>
+                    <!-- <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="QTD dias">
+                                    <i class="fa fa-sort-numeric-desc"></i>
+                                </span>
+                                <input type="number" id="qtd_dias" name="qtd_dias" placement="top" tooltip="QTD dias" [ngModel]="this.GlobalService.getItem().qtd_dias" readonly class="form-control" placeholder="QTD dias">
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="input-group input-switch">
+                                Status:&nbsp;&nbsp;
+                                <label class="switch switch-3d switch-primary">
+                                    <input type="checkbox" readonly name="ativo" [ngModel]="this.GlobalService.getItem().ativo" class="switch-input">
+                                    <span class="switch-label"></span>
+                                    <span class="switch-handle"></span>
+                                </label>
+                                &nbsp;&nbsp;Ativo
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="form-group form-actions">
+                    <button type="submit" class="btn btn-md btn-success" [disabled]="isBusyForm">
+                        Salvar
+                        <i class="fa fa-spin fa-spinner" *ngIf="isBusyForm"></i>
+                    </button>
+
+                    <button type="submit" class="btn btn-md btn-default" (click)=_ShowService.showEditar();cleanConfig()>
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12 sem-padding" *ngIf="_ShowService.listar">
+    <div class="card" *ngIf="read">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-6 col-lg-6 col-xl-3 padding-form" *ngIf="new">
+                    <button (click)="_ShowService.showInserir()" class="btn btn-md btn-success" [disabled]="loading">Novo</button>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-4">
+                    <h3>Dietas</h3>
+                </div>
+                <div class="col-md-12 col-lg-12 col-xl-5">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-search"></i>
+                        </span>
+                        <input type="text" id="busca" name="busca" ngModel class="form-control" placeholder="Pesquisar"
+                            (keyup)='searchFilter($event)'>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div style="overflow-x:auto;">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <!-- <th>Status</th> -->
+                            <th>Nome</th>
+                            <th>Tipo</th>
+                            <th>Criado</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr *ngFor="let item of itensFilter | paginate: { itemsPerPage: itemsPerPage, currentPage: page}">
+                            <!-- <td>
+                            <div placement="top" tooltip="Ativo" class="circleBase status1" *ngIf="item.ativo === 1"></div>
+                            <div placement="top" tooltip="Desativado" class="circleBase status2" *ngIf="item.ativo === 0"></div>
+                        </td> -->
+                            <td>{{item.nome}}</td>
+                            <td>{{item.nome_tipo_dieta}}</td>
+                            <td>{{item.created | date: 'dd/MM/yyyy - HH:mm'}}</td>
+                            <td align="right">
+
+                                <!-- <a [routerLink]="'/animais/dietas/detalhes/'+item.id" placement="top" tooltip="Histórico" class="icon-action">
+                                <i class="fa fa-file-text-o"></i>
+                            </a> -->
+                                <!--<a [routerLink]="'/dietas/historico/'+item.id" placement="top" tooltip="Histórico" class="icon-action">
+                                    <i class="fa fa-file-text-o"></i>
+                                </a>-->
+                                <a *ngIf="edit" (click)="this.GlobalService.marcaItem(item);_ShowService.showEditar();getConfigDieta();getDiasTipo(item.tipo_dieta)"
+                                    placement="top" tooltip="Editar" class="icon-action">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </a>
+                                <a *ngIf="delete" (click)="this.GlobalService.marcaItem(item);deleteItem()" placement="top"
+                                    tooltip="Deletar" class="icon-action">
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="loader" *ngIf="loading"></div>
+            <pagination-controls previousLabel="Anterior" nextLabel="Próxima" (pageChange)="page = $event" class="pagination"></pagination-controls>
+
+        </div>
+    </div>
+</div>
+<!-- Modal de configuração de dieta -->
+<ng-template #config>
+    <div class="modal-header">
+        <h2 class="modal-title pull-left">Configurar Dieta</h2>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="row" *ngFor="let config of config_dieta, let i=index">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon" placement="top" tooltip="De">
+                            <i class="fa fa-calendar"></i>
+                        </span>
+                        <input class="form-control" placement="bottom" [(ngModel)]="config.inicio" placeholder="Dia inicial"
+                            max="120" min="0" type="number" readonly   >
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon" placement="top" tooltip="Até">
+                            <i class="fa fa-calendar"></i>
+                        </span>
+                        <input class="form-control" placeholder="Dia Final" (ngModelChange)="teste(i)" [(ngModel)]="config.final" max="120" min="1"
+                            type="number">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon" placement="top" tooltip="Qtd. Alimentação">
+                            <i class="fa fa-adjust"></i>
+                        </span>
+                        <input placement="top" type="number" min="0" step="100" tooltip="Gramas" placeholder="Qtd. ração (gramas)" [(ngModel)]="config.qt_racao"
+                            class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <button type="button" class="btn btn-danger" (click)="removerConfig(i)">Remover</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-1 text-left">
+                <button type="button" class="btn btn-primary" (click)="addConfig()" [disabled]="isBusyAdd">Adicionar</button>
+            </div>
+            <div class="col-sm-8 col-md-8"></div>
+            <div class="col-sm-2  col-md-3 text-right">
+                <button type="button" class="btn btn-primary" (click)="saveConfigs()">Salvar</button>
+                <button class="btn btn-default" (click)="modalRef.hide()">Fechar</button>
+            </div>
+        </div>
+    </div>
+</ng-template>

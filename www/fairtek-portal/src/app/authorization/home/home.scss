@@ -1,0 +1,106 @@
+.flaticon-money:before{
+    font-size:33px;
+}
+
+.zoom:hover{
+    transition-duration: 1s;
+    -ms-transform: scale(2,2); /* IE 9 */
+    -webkit-transform: scale(2,2); /* Safari */
+    transform: scale(2,2); /* Standard syntax */
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.g-color{
+   color: #007e69;
+}
+
+.progress-bar-purple {
+    background-color: purple !important;
+}
+
+.card-background{
+    background-color: #c2cfd6 !important;
+}
+
+.block{
+   display: block;
+   margin-bottom: 4%
+}
+
+.small3{
+    font-size: 60%
+}
+.small2{
+    font-size: 70%
+}
+
+.mb-none{
+    margin-bottom: 0px !important;
+}
+
+.mbt{
+    margin-top: 7px !important;
+    margin-bottom: 0px !important;
+}
+
+.page-loading {
+    background: rgba(51, 51, 51, 1.00);
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    z-index: -1;
+}
+
+.loading-icon {
+    position: absolute;
+    left: 50%;
+    top: 55%;
+    width: 38px;
+    height: 38px;
+    margin-left: -19px;
+    margin-top: -19px;
+}
+
+app-root:empty~.page-loading {
+    opacity: 1;
+    z-index: 1;
+}
+
+@media(min-width: 992px) and (max-width: 1199px) {
+    .card.pointer .small2 {
+        font-size: 57%;
+    }
+    .card.pointer .small3 {
+        font-size: 51%;
+    }
+    #dash1 .card.pointer {
+        height: 164px;
+    }
+    .tituloTotalAnimais {
+        font-size: 1.1rem;
+        margin-top: 5px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .card-body {
+        min-height: 166px;
+    }
+}
+.inpt-1000-days{
+    position: relative;
+    display: block;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    width: 100%;
+}

@@ -1,0 +1,194 @@
+<!--INSERIR-->
+<!-- <div class="col-sm-12 sem-padding" *ngIf="!exibeUpdate">
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-plus"></i> Dias da dieta
+            <strong>{{itemCarregado[0]?.nome}}</strong>
+        </div>
+        <div class="card-body">
+            <form #formPost="ngForm" (ngSubmit)="postForm(formPost)">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Dia">
+                                    <i class="fa fa-calendar-times-o"></i>
+                                </span>
+                                <input class="form-control" [bsConfig]="bsConfig" id="dia" name="dia" type="text" [minDate]="minDate" [maxDate]="maxDate"
+                                    #dp="bsDatepicker" bsDatepicker [(bsValue)]="bsValue" placement="bottom" tooltip="Dia" placeholder="Dia">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="QR">
+                                    <i class="fa fa-sort-numeric-desc"></i>
+                                </span>
+                                <input type="text" id="qr" name="qr" placement="top" tooltip="QR" ngModel class="form-control" placeholder="QR">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="QTD">
+                                    <i class="fa fa-sort-numeric-desc"></i>
+                                </span>
+                                <input type="text" id="qtd" name="qtd" placement="top" tooltip="QTD" ngModel class="form-control" placeholder="QTD">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <div class="input-group input-switch">
+                                Status:&nbsp;&nbsp;
+                                <label class="switch switch-3d switch-primary">
+                                    <input type="checkbox" name="ativo" ngModel class="switch-input">
+                                    <span class="switch-label"></span>
+                                    <span class="switch-handle"></span>
+                                </label>
+                                &nbsp;&nbsp;Ativo
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-actions">
+                    <button type="submit" class="btn btn-md btn-success" [disabled]="isBusyForm">
+                        Inserir
+                        <i class="fa fa-spin fa-spinner" *ngIf="isBusyForm"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>-->
+
+<!--EDITAR-->
+<!-- <div class="col-sm-12 sem-padding" *ngIf="exibeUpdate">
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-plus"></i> Editar dieta
+            <strong>dia {{this.GlobalService.getItem().dia}}</strong>
+        </div>
+        <div class="card-body">
+            <form #formPut="ngForm" (ngSubmit)="putForm(formPut)">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Dia">
+                                    <i class="fa fa-paw"></i>
+                                </span>
+                                <input type="text" id="dia" name="dia" placement="top" tooltip="Dia" [ngModel]="this.GlobalService.getItem().dia" class="form-control"
+                                    placeholder="Dia">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="QR">
+                                    <i class="fa fa-sort-numeric-desc"></i>
+                                </span>
+                                <input type="text" id="qr" name="qr" placement="top" tooltip="QR" [ngModel]="this.GlobalService.getItem().qr" class="form-control"
+                                    placeholder="QR">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="QTD">
+                                    <i class="fa fa-sort-numeric-desc"></i>
+                                </span>
+                                <input type="text" id="qtd" name="qtd" placement="top" tooltip="QTD" [ngModel]="this.GlobalService.getItem().qtd" class="form-control"
+                                    placeholder="QTD">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <div class="input-group input-switch">
+                                Status:&nbsp;&nbsp;
+                                <label class="switch switch-3d switch-primary">
+                                    <input type="checkbox" readonly name="ativo" [ngModel]="this.GlobalService.getItem().ativo" class="switch-input">
+                                    <span class="switch-label"></span>
+                                    <span class="switch-handle"></span>
+                                </label>
+                                &nbsp;&nbsp;Ativo
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-actions">
+                    <button type="submit" class="btn btn-md btn-success" [disabled]="isBusyForm">
+                        Salvar
+                        <i class="fa fa-spin fa-spinner" *ngIf="isBusyForm"></i>
+                    </button>
+
+                    <button type="submit" class="btn btn-md btn-default" (click)="exibeUpdate=false">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12 sem-padding">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-sm-6 padding-form">
+                    <i class="fa fa-align-justify"></i> Itens cadastrados
+                </div>
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-search"></i>
+                        </span>
+                        <input type="text" id="busca" name="busca" ngModel class="form-control" placeholder="Pesquisar" (keyup)='searchFilter($event)'>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Dia</th>
+                        <th>QR</th>
+                        <th>QTD</th>
+                        <th>Data de criação</th>
+                        <th>Status</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of itensFilter | paginate: { itemsPerPage: itemsPerPage, currentPage: page}">
+                        <td>{{item.dia}}</td>
+                        <td>{{item.qr}}</td>
+                        <td>{{item.qtd}}</td>
+                        <td>{{item.created | date: 'dd/MM/yyyy - HH:mm'}}</td>
+                        <td>
+                            <div placement="top" tooltip="Ativo" class="circleBase status1" *ngIf="item.ativo === 1"></div>
+                            <div placement="top" tooltip="Desativado" class="circleBase status2" *ngIf="item.ativo === 0"></div>
+                        </td>
+                        <td align="right">
+                            <a (click)="this.GlobalService.marcaItem(item);exibeUpdate=true" placement="top" tooltip="Editar" class="icon-action">
+                                <i class="fa fa-pencil-square-o"></i>
+                            </a>
+                            <a (click)="this.GlobalService.marcaItem(item);deleteItem()" placement="top" tooltip="Deletar" class="icon-action">
+                                <i class="fa fa-trash-o"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <pagination-controls previousLabel="Anterior" nextLabel="Próxima" (pageChange)="page = $event" class="pagination"></pagination-controls>
+
+        </div>
+    </div>
+</div> --> 

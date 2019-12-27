@@ -1,0 +1,49 @@
+<div class="col-lg-12 sem-padding">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-sm-6 padding-form">
+                    <i class="fa fa-align-justify"></i> Histórico de Edição
+                </div>
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-search"></i>
+                        </span>
+                        <input type="text" id="busca" name="busca" ngModel class="form-control" placeholder="Pesquisar" (keyup)='searchFilter($event)'>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div style="overflow-x:auto;">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+
+                            <th>Dieta</th>
+                            <th>Motivo</th>
+                            <th>Data de modificação</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of itensFilter | paginate: { itemsPerPage: itemsPerPage, currentPage: page}">
+                            <td>{{item.nome}}</td>
+                            <td>{{item.motivo}}</td>
+                            <td>{{item.created | date: 'dd/MM/yyyy - HH:mm'}}</td>
+                            <td>
+                                <div placement="top" tooltip="Ativo" class="circleBase status1" *ngIf="item.ativo === 1"></div>
+                                <div placement="top" tooltip="Desativado" class="circleBase status2" *ngIf="item.ativo === 0"></div>
+                            </td>
+                            <td align="right"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <pagination-controls previousLabel="Anterior" nextLabel="Próxima" (pageChange)="page = $event" class="pagination"></pagination-controls>
+
+        </div>
+    </div>
+</div>

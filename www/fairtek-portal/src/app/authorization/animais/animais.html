@@ -1,0 +1,297 @@
+<!--INSERIR-->
+<div class="col-sm-12 sem-padding scroll-hidden" *ngIf="inserirAnimal">
+  <div class="card">
+    <div class="card-header">
+      <i class="fa fa-plus"></i> Inserir novo animal
+    </div>
+    <div class="card-body">
+      <form #formPost="ngForm" (ngSubmit)="postForm(formPost)">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <ng-select name="chip" [items]="comboChip" [ngModel]="selectChip" placement="top" tooltip="Chip"
+                bindLabel="chip" bindValue="id" placeholder="Selecione um Chip" [closeOnSelect]
+                notFoundText="Nenhum Chip com essa numeração">
+              </ng-select>
+              <!-- <input name="numero" readonly placeholder="chipAnimal.num_chip"
+                                [ngModel]='chipAnimal.num_chip' class="form-control" placement="top" tooltip="Chip"
+                                *ngIf="chipAnimal.num_chip != 0"> -->
+              <input name="chip" hidden [ngModel]="chipAnimal.id_chip" *ngIf="chipAnimal.num_chip != 0">
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon" placement="top" tooltip="Tatuagem">
+                  <i class="fa fa-power-off"></i>
+                </span>
+                <input type="text" id="tatuagem" name="tatuagem" placement="top" tooltip="Tatuagem" ngModel
+                  class="form-control" placeholder="Tatuagem">
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon" placement="top" tooltip="Brinco">
+                  <i class="fa fa-adjust"></i>
+                </span>
+                <input type="text" id="brinco" name="brinco" placement="top" tooltip="Brinco" ngModel
+                  class="form-control" placeholder="Brinco">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-actions">
+          <button type="submit" class="btn btn-md btn-success" [disabled]="!isBusyForm">
+            Gravar
+          </button>
+          <button type="button" class="btn btn-md btn-default" (click)="telaInserirAnimal()">
+            Cancelar
+          </button>
+        </div>
+        <div class="form-group form-actions">
+          <button type="button" (click)="cadAnimalMovimentacao(formPost)" class="btn btn-md btn-success">
+            Inserir Animal
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--EDITAR-->
+<div class="col-sm-12 sem-padding scroll-hidden" *ngIf="editarAnimal">
+  <div class="card">
+    <div class="card-header">
+      <i class="fa fa-plus"></i> Editar animal
+      <strong>{{this.GlobalService.getItem().tatuagem}}</strong>
+    </div>
+    <div class="card-body">
+      <form #formPut="ngForm" (ngSubmit)="putForm(formPut)">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon" placement="top" tooltip="Tatuagem">
+                  <i class="fa fa-power-off"></i>
+                </span>
+                <input type="text" id="tatuagem" name="tatuagem" placement="top" tooltip="Tatuagem"
+                  [ngModel]="this.GlobalService.getItem().tatuagem" class="form-control" placeholder="Tatuagem">
+              </div>
+            </div>
+          </div>
+
+          <input type="hidden" id="id_animal" name="id_animal" [ngModel]="this.GlobalService.getItem().id"
+            class="form-control" placeholder="Brinco">
+
+          <div class="col-sm-4">
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon" placement="top" tooltip="Brinco">
+                  <i class="fa fa-adjust"></i>
+                </span>
+                <input type="text" id="brinco" name="brinco" placement="top" tooltip="Brinco"
+                  [ngModel]="this.GlobalService.getItem().brinco" class="form-control" placeholder="Brinco">
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <ng-select name="chip" [ngModel]="selectChip" placement="top" autofocus tooltip="Chip"
+                placeholder="Selecione um Chip" [closeOnSelect] notFoundText="Nenhum Chip com essa numeração">
+                <ng-option *ngFor="let item of comboChip" [value]="item.id">{{item.chip}}</ng-option>
+                <ng-option [value]="0">{{this.GlobalService.getItem().chip}}</ng-option>
+              </ng-select>
+
+              <!--<select name="chip" [ngModel]="selectChip" class="form-control" placement="top"
+                                tooltip="Chip">
+                                <option value="0">{{this.GlobalService.getItem().chip}}</option>
+                                <option *ngFor="let item of comboChip" value="{{item.id}}">{{item.chip}}</option>
+                            </select>-->
+            </div>
+          </div>
+
+        </div>
+
+        <div class="form-group form-actions">
+          <button type="submit" class="btn btn-md btn-success" [disabled]="!isBusyForm">
+            Salvar
+          </button>
+          <button class="btn btn-md btn-default" (click)="telaNewEditarAnimal();">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--Modal Desativação -->
+<ng-template #desativacao>
+  <div class="modal-header">
+    <h2 class="modal-title pull-left">Desativar animal - {{this.GlobalService.getItem().rfid }}</h2>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #formDesativaAnimal="ngForm" (ngSubmit)="putFormDesativa(formDesativaAnimal)">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon" placement="top" tooltip="Identificação">
+                <i class="fa fa-paw"></i>
+              </span>
+              <input type="text" id="rfid" name="rfid" placement="top" tooltip="Identificação" readonly
+                [ngModel]="this.GlobalService.getItem().rfid" class="form-control" placeholder="Identificação/Chip">
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon" placement="top" tooltip="Data da desativação">
+                <i class="fa fa-calendar"></i>
+              </span>
+              <input autocomplete="off" class="form-control" placement="bottom" tooltip="Data da desativação"
+                placeholder="Data da desativação" id="dt_de" name="dt_de" ngModel type="text" #dp="bsDatepicker"
+                bsDatepicker [(bsValue)]="bsValue2" required>
+              <!--<input class="form-control" placeholder="Data da desativação" [bsConfig]="bsConfig"
+                                id="dt_de" name="dt_de" ngModel type="text" #dp="bsDatepicker" bsDatepicker
+                                [(bsValue)]="bsValue2">-->
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon" placement="top" tooltip="Chip">
+                <i class="fa fa-paw"></i>
+              </span>
+              <input type="text" id="chip" name="chip" placement="top" tooltip="Chip" readonly
+                [ngModel]="this.GlobalService.getItem().chip" class="form-control" placeholder="Chip">
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <select name="motivo" [ngModel]="selectMotivo" class="form-control" placement="top" tooltip="Motivo">
+              <option value="0">(Selecione o motivo da desativação)</option>
+
+              <option *ngFor="let item of comboMotivo" value="{{item.id}}">{{item.motivo}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-10"></div>
+        <div class="col-sm-2 text-right">
+          <button type="submit" class="btn btn-primary btn-confirmar" (click)="modalRef.hide()">Confirmar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<!--Modal Desativação -->
+<ng-template #desativado>
+  <div class="modal-header">
+    <h2 class="modal-title pull-left">O animal {{this.GlobalService.getItem().rfid }}, já está desativado!</h2>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</ng-template>
+
+<!-- Itens cadastrados -->
+<div class="col-lg-12 sem-padding" *ngIf="listarAnimal">
+  <div class="card" *ngIf="read">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-md-6 col-lg-6 col-xl-3 padding-form" *ngIf="new">
+          <button (click)="telaInserirAnimal()" class="btn btn-md btn-success" [disabled]="loading">Novo</button>
+        </div>
+        <div class="col-md-6 col-lg-6 col-xl-4">
+          <h3>Animais</h3>
+        </div>
+        <div class="col-md-12 col-lg-12 col-xl-5">
+          <div class="input-group">
+            <span class="input-group-addon">
+              <i class="fa fa-search"></i>
+            </span>
+            <input type="text" id="busca" name="busca" ngModel class="form-control" placeholder="Pesquisar"
+              (keyup)='searchFilter($event)'>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div style="overflow-x:auto;">
+        <table class="table table-striped text-center">
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Setor</th>
+              <th>Brinco</th>
+              <th>Chip</th>
+              <th>Data de criação</th>
+              <th>Baia</th>
+              <!-- <th>Usuário</th> -->
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of itensFilter | paginate: { itemsPerPage: itemsPerPage, currentPage: page}"
+              class="text-center">
+              <td>
+                <div placement="top" tooltip="Ativo" class="circleBase status1"></div>
+              </td>
+              <td>
+                <div placement="top" tooltip="Gestação" class="badge badge-success"
+                  *ngIf="item.tb_setor_tipo_id === 2 && item.ativo === 1">Gestação
+                </div>
+                <div placement="top" tooltip="Área Externa" class="badge" *ngIf="item.tb_setor_tipo_id === 1">Área
+                  Externa
+                </div>
+                <div placement="top" tooltip="Área Externa" class="badge badge-maternity"
+                  *ngIf="item.tb_setor_tipo_id === 3">Maternidade
+                </div>
+              </td>
+              <td>{{item.brinco}}</td>
+              <td>{{item.chip}}</td>
+              <td>{{item.created | date: 'dd/MM/yyyy - HH:mm'}}</td>
+              <td>{{item.nome_baia}}</td>
+              <td></td> <!-- usuario -->
+
+              <td align="center">
+                <a [routerLink]="'/animais/detalhes/'+item.id" class="icon-action" placement="top" tooltip="Histórico">
+                  <i class="fa fa-file-text-o"></i>
+                </a>
+                <a *ngIf="edit" (click)="this.GlobalService.marcaItem(item);telaNewEditarAnimal()" placement="top"
+                  tooltip="Editar" class="icon-action">
+                  <i class="fa fa-pencil-square-o"></i>
+                </a>
+                <a (click)="this.GlobalService.marcaItem(item);openModalWithClass(desativacao)"
+                  *ngIf="item.ativo === 1 && delete && item.tb_setor_tipo_id === 1" placement="top" tooltip="Desativar"
+                  class="icon-action">
+                  <i class="fa fa-ban"></i>
+                </a>
+                <a (click)="this.GlobalService.marcaItem(item);openModalWithClass(desativacao)"
+                  *ngIf="item.ativo === 0 && delete && item.tb_setor_tipo_id === 1" placement="top" tooltip="Desativar"
+                  class="icon-action">
+                  <i class="fa fa-ban"></i>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="loader" *ngIf="loading"></div>
+      <pagination-controls previousLabel="Anterior" nextLabel="Próxima" (pageChange)="page = $event" class="pagination">
+      </pagination-controls>
+
+    </div>
+  </div>
+</div>

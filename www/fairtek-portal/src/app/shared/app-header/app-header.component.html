@@ -1,0 +1,125 @@
+<header class="app-header navbar">
+  <button class="navbar-toggler d-lg-none" type="button" appMobileSidebarToggler>
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="#"></a>
+  <button class="navbar-toggler d-md-down-none" type="button" appSidebarToggler>
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a style="color:#007e69; cursor: default;">{{nomeGranja}}</a>
+  <!--<ul class="nav navbar-nav d-md-down-none">
+    <li class="nav-item px-3">
+      <a class="nav-link" href="#">Dashboard</a>
+    </li>
+    <li class="nav-item px-3">
+      <a class="nav-link" href="#">Users</a>
+    </li>
+    <li class="nav-item px-3">
+      <a class="nav-link" href="#">Settings</a>
+    </li>
+  </ul>-->
+
+  <ul class="nav navbar-nav ml-auto">
+    <li>
+      <b id="timer" *ngIf="_session.seg <= 60">Tempo restante: {{_session.seg}} segundos</b>
+    </li>
+    <li>
+      <button class="button-go-back" (click)="this._history.goBack();" [disabled]="this._history.block" [ngClass]="this._history.block ? 'btn-block' : 'btn-unblock'">
+          <i class="icon-arrow-left-circle"></i>
+          Voltar página
+      </button>
+    </li>
+    <li class="nav-item dropdown" dropdown tooltip="Configurações" placement="bottom">
+      <div triggers="mouseenter:click">
+        <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+          dropdownToggle (click)="false">
+          <a class="nav-link" href="#">
+            <i class="icon-settings"></i>
+            <span class="badge badge-pill badge-danger" *ngIf="this._support.troca_senha > 0 && this.read_suporte">{{this._support.troca_senha}}</span>
+          </a>
+        </a>
+      </div>
+      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+        <div class="dropdown-header text-center" *ngIf="read_hardware">
+          <strong>Hardware</strong>
+        </div>
+        <a *ngIf="read_hardware && read_tiposNotificacao" class="dropdown-item" href="#/gestao/tipos-notificacao">
+          <i class="icon-chemistry"></i>Tipos notificação</a>
+        <a *ngIf="read_hardware && read_dosadores" class="dropdown-item" href="#/dosadores">
+          <i class="icon-list"></i>Dosadores</a>
+        <a *ngIf="read_hardware && read_calibracao" class="dropdown-item" href="#/calibracao">
+          <i class="icon-wrench"></i>Calibração</a>
+        <div class="dropdown-header text-center" *ngIf="read_sistema">
+          <strong>Sistema</strong>
+        </div>
+        <a *ngIf="read_sistema && read_produtor" class="dropdown-item" href="#/gestao/produtores">
+          <i class="icon-people"></i>Produtor</a>
+        <a *ngIf="read_sistema && read_usuarios" class="dropdown-item" href="#/gestao/usuarios">
+          <i class="icon-user-follow"></i>Usuários</a>
+        <a *ngIf="read_sistema && read_grupoUsuarios" class="dropdown-item" href="#/gestao/grupo-usuarios">
+          <i class="icon-docs"></i>Grupo de usuários</a>
+        <a *ngIf="read_sistema && read_grupoUsuarios" class="dropdown-item" href="#/gestao/suporte">
+          <i class="icon-bubbles"></i>Suporte <span class="badge badge-pill badge-danger" *ngIf="this._support.troca_senha > 0">{{this._support.troca_senha}}</span></a>
+        <div class="dropdown-header text-center">
+          <strong>Calendário</strong>
+        </div>
+        <a class="dropdown-item" href="#/calendario">
+          <i class="icon-calendar"></i>Calendário</a>
+      </div>
+    </li>
+    <!-- <li class="nav-item d-md-down-none" tooltip="Calendário" placement="bottom">
+      <a class="nav-link" href="#"><i class="icon-calendar"></i>
+      <input type = "date" name = "mydate" class = "form-control" placeholder="00-00-0000"></a>
+    </li> -->
+    <li class="nav-item d-md-down-none" tooltip="Tela Cheia" placement="bottom">
+      <a class="nav-link" (click)="fullscreen()">
+        <i class="icon-frame"></i>
+      </a>
+    </li>
+    <li class="nav-item" tooltip="Notificações" placement="bottom">
+      <a class="nav-link" [routerLink]="'/gestao/notificacoes'">
+        <i class="icon-bell"></i>
+        <span class="badge badge-pill badge-danger" *ngIf="this.GlobalService.qtdNotificacoes > 0">{{this.GlobalService.qtdNotificacoes}}</span>
+      </a>
+    </li>
+    <li class="nav-item" tooltip="Sair" placement="bottom">
+      <a class="nav-link" (click)="this.GlobalService.getLogout()">
+        <i class="icon-logout"></i></a>
+    </li>
+    <!-- <li class="nav-item dropdown" dropdown>
+      <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+        dropdownToggle (click)="false">
+        <img src="assets/img/avatars/11.png" class="img-avatar" alt="admin@bootstrapmaster.com" />
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+         <div class="dropdown-header text-center">
+          <strong>Perfil</strong>
+        </div>
+        <a class="dropdown-item" href="#">
+          <i class="fa fa-bell-o"></i> Atualizações
+          <span class="badge badge-info">42</span>
+        </a>
+        <a class="dropdown-item" href="#">
+          <i class="fa fa-envelope-o"></i> Mensagens
+          <span class="badge badge-success">42</span>
+        </a>
+        <a class="dropdown-item" href="#"><i class="fa fa-tasks"></i> Tarefas<span class="badge badge-danger">42</span></a>
+        <a class="dropdown-item" href="#"><i class="fa fa-comments"></i> Comentários<span class="badge badge-warning">42</span></a>-->
+        <!-- <div class="dropdown-header text-center"><strong>Configurações</strong></div> 
+        <a class="dropdown-item" href="#">
+          <i class="fa fa-user"></i> Meus dados</a>
+        <a class="dropdown-item" href="#">
+          <i class="fa fa-lock"></i> Alterar senha</a>
+        <a class="dropdown-item" href="#">
+          <i class="fa fa-usd"></i> Pagamentos</a>
+        <a class="dropdown-item" href="#"><i class="fa fa-file"></i> Projetos<span class="badge badge-primary">42</span></a>
+        <div class="divider"></div>
+        <a class="dropdown-item" href="#">
+          <i class="fa fa-shield"></i> Bloquear</a>
+        <a class="dropdown-item" (click)="this.GlobalService.getLogout()">
+          <i class="fa fa-share-square-o"></i> Sair</a>
+      </div>
+    </li> -->
+  </ul>
+</header>
+

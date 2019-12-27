@@ -1,0 +1,640 @@
+<!-- FORM INSERIR MOVIMENTAÇÃO DE ANIMAIS-->
+<div class="col-sm-12 sem-padding" *ngIf="inserirMovimentacoes">
+  <div class="card">
+    <div class="card-header">
+      <i class="fa fa-plus"></i> Movimentações na Gestação Coletiva/Área Externa
+    </div>
+    <div class="card-body">
+      <form #formPost="ngForm" (ngSubmit)="postForm(formPost)">
+        <!-- -->
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <ng-select name="tb_setor_tipo_id" [(ngModel)]="selectTipo" placement="top" autofocus
+                (ngModelChange)="getComboAnimal($event)" tooltip="Tipo de movimentação"
+                placeholder="Selecione a movimentação" [closeOnSelect] notFoundText="Nenhuma movimentação desse tipo">
+                <ng-option [value]="0">(Movimentação de Animal)</ng-option>
+                <ng-option [value]="2">Mover Para Gestação</ng-option>
+                <ng-option [value]="1">Mover Para Área Externa</ng-option>
+                <ng-option [value]="3">Mover Para Maternidade</ng-option>
+              </ng-select>
+
+              <!--<select name="tb_setor_tipo_id" [ngModel]="selectTipo" class="form-control" placement="top"
+                                tooltip="Tipo de movimentação" (change)="getComboAnimal($event)" *ngIf="animal_brinco == ''">
+                                <option value="0">(Movimentação de Animal)</option>
+                                <option value="2">Mover Para Gestação</option>
+                                <option value="1">Mover Para Área Externa</option>
+                            </select>-->
+              <!-- <input name="transferencia" readonly value="Mover Para Gestação" class="form-control"
+                                placement="top" tooltip="Tipo de movimentação" *ngIf="animal_brinco == ''"> -->
+              <input name="tb_setor_tipo_id" hidden [ngModel]='0' class="form-control" placement="top"
+                tooltip="Tipo de movimentação" *ngIf="animal_brinco != ''">
+            </div>
+          </div>
+
+          <!-- <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Brinco">
+                                    <i class="fa fa-adjust"></i>
+                                </span>
+                                <input type="text" id="brinco" name="brinco" placement="top" tooltip="Brinco"
+                                    class="form-control" placeholder="Brinco" [ngModel]="animal_brinco" disabled
+                                    *ngIf="animal_brinco != ''">
+                                <input type="text" id="brinco" name="brinco" placement="top" tooltip="Brinco"
+                                    class="form-control" placeholder="Brinco" [ngModel]="animal_brinco" disabled
+                                    *ngIf="animal_brinco == ''">
+                            </div>
+                        </div>
+                    </div> -->
+
+          <div class="col-sm-4">
+            <div class="form-group">
+              <ng-select name="animal" [items]="comboAnimais" [(ngModel)]="selectAnimais" placement="top"
+                tooltip="Animal" bindLabel="brinco" bindValue="id" placeholder="Selecione um Animal" [closeOnSelect]
+                notFoundText="Nenhum animal com esse brinco" (ngModelChange)="getComboSetor($event)"
+                *ngIf="animal_brinco == ''">
+              </ng-select>
+              <input name="animal_brinco" readonly [ngModel]='animal_brinco' class="form-control" placement="top"
+                tooltip="Brinco" disabled *ngIf="animal_brinco != ''">
+              <input name="animal" hidden [ngModel]='animal_id' class="form-control" placement="top" tooltip="Brinco"
+                *ngIf="animal_id != ''">
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon" placement="top" tooltip="Tatuagem">
+                  <i class="fa fa-power-off"></i>
+                </span>
+                <input type="text" id="tatuagem" name="tatuagem" placement="top" tooltip="Tatuagem" class="form-control"
+                  placeholder="Tatuagem" [ngModel]="tatuagem" disabled *ngIf="animal_tatuagem == ''">
+
+                <input type="text" id="tatuagem" name="tatuagem" placement="top" tooltip="Tatuagem" class="form-control"
+                  placeholder="Tatuagem" [ngModel]="animal_tatuagem" disabled *ngIf="animal_tatuagem != ''">
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-sm-4" *ngIf="this.tb_setorTeste != 1">
+            <div class="form-group">
+              <ng-select name="tb_escore_id" [ngModel]="selectEscores" placement="top" autofocus id="tb_escore_id"
+                tooltip="Escores" placeholder="Selecione o escore" [closeOnSelect]
+                notFoundText="Nenhum escore com esta identificação">
+                <ng-option *ngFor="let item of comboEscores" [value]="item.id">{{item.nome}}</ng-option>
+                <ng-option [value]="0">(Selecione o escore)</ng-option>
+              </ng-select>
+
+              <!--<select name="tb_escore_id" id="tb_escore_id" [ngModel]="selectEscores" class="form-control"
+                                placement="top" tooltip="Escores">
+                                <option value="0">(Selecione o escore)</option>
+                                <option *ngFor="let item of comboEscores" value="{{item.id}}">{{item.nome}} -
+                                    ({{item.peso}} gramas)</option>
+                            </select>-->
+            </div>
+          </div>
+          <div class="col-sm-4" *ngIf="this.tb_setorTeste != 1">
+            <div class="form-group">
+              <ng-select name="tb_dieta_id" [ngModel]="selectDieta" placement="top" autofocus id="tb_dieta_id"
+                tooltip="Tipo da Dieta" placeholder="Selecione a dieta" [closeOnSelect]
+                notFoundText="Nenhuma dieta com esta identificação">
+                <ng-option *ngFor="let item of comboDietas" [value]="item.id">{{item.nome}}</ng-option>
+                <ng-option [value]="0">(Selecione a dieta)</ng-option>
+              </ng-select>
+
+              <!--<select name="tb_dieta_id" id="tb_dieta_id" [ngModel]="selectDieta" class="form-control"
+                                placement="top" tooltip="Tipo da Dieta">
+                                <option value="0">(Selecione a dieta)</option>
+                                <option *ngFor="let item of comboDietas" value="{{item.id}}">{{item.nome}}</option>
+                            </select>-->
+            </div>
+          </div>
+          <div class="col-sm-4" *ngIf="this.tb_setorTeste != 1">
+            <div class="form-group">
+              <ng-select name="tb_tempo_dosagem" [ngModel]="selectEscores" placement="top" autofocus
+                id="tb_tempo_dosagem" tooltip="Tempo entre dosagem" placeholder="Selecione o tempo entre dosagem"
+                [closeOnSelect] notFoundText="Nenhum intervalo com esta identificação">
+                <ng-option [value]="0">(Selecione o tempo entre dosagem)</ng-option>
+                <ng-option [value]="5">5 - segundos</ng-option>
+                <ng-option [value]="25">25 - segundos</ng-option>
+                <ng-option [value]="35">35 - segundos</ng-option>
+                <ng-option [value]="45">45 - segundos</ng-option>
+                <ng-option [value]="50">50 - segundos</ng-option>
+                <ng-option [value]="55">55 - segundos</ng-option>
+                <ng-option [value]="60">60 - segundos</ng-option>
+                <ng-option [value]="70">70 - segundos</ng-option>
+                <ng-option [value]="80">80 - segundos</ng-option>
+                <ng-option [value]="90">90 - segundos</ng-option>
+                <ng-option [value]="100">100 - segundos</ng-option>
+              </ng-select>
+
+              <!--<select name="tb_tempo_dosagem" placement="top" tooltip="Tempo entre dosagem" [ngModel]="selectEscores"
+                                    class="form-control">
+                                    <option value="0">(Selecione o tempo entre dosagem)</option>
+                                    <option value="5">5 - segundos</option>
+                                    <option value="25">25 - segundos</option>
+                                    <option value="35">35 - segundos</option>
+                                    <option value="45">45 - segundos</option>
+                                    <option value="50">50 - segundos</option>
+                                    <option value="55">55 - segundos</option>
+                                    <option value="60">60 - segundos</option>
+                                </select>-->
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-4" *ngIf="this.tb_setorTeste != 1">
+            <div class="form-group">
+              <ng-select name="tb_baias_id" [ngModel]="selectBaias" placement="top" autofocus id="tb_baias_id"
+                (ngModelChange)="getNomeBaia($event)" tooltip="Baia" placeholder="Selecione a baia" [closeOnSelect]
+                notFoundText="Nenhuma baia com esta identificação">
+                <ng-option *ngFor="let item of comboBaiasSetor" [value]="item.id">{{item.nome}}</ng-option>
+                <ng-option [value]="0">(Selecione a baia)</ng-option>
+              </ng-select>
+
+              <!-- <select name="tb_baias_id" id="tb_baias_id" [ngModel]="selectBaias" class="form-control"
+                                placement="top" tooltip="Baia" (change)="getNomeBaia($event)">
+                                <option value="0">(Selecione a baia)</option>
+                                <option *ngFor="let item of comboBaias" value="{{item.id}}">{{item.nome}}</option>
+                            </select> -->
+            </div>
+          </div>
+          <div class="col-sm-4" *ngIf="this.tb_setorTeste != 1 && this.desativaDtInseminacao">
+            <div class="form-group">
+              <div class="input-group">
+                <!-- <span class="input-group-addon" placement="bottom" tooltip="Data da Inseminação"> -->
+                <span id="icon-calendar" class="input-group-addon" placement="bottom" tooltip="Data da Inseminação">
+                  <i class="fa fa-calendar"></i>
+                </span>
+
+                <calendar-1000 title_calendar="Data de Inseminação" format='true' class="inpt-1000-days" range="4"
+                  name="dt_inseminacao" id="dt_inseminacao" (getConfigureDates)="configureDates($event)">
+                </calendar-1000>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4" *ngIf="this.tb_setorTeste == 2">
+            <div class="form-group">
+              <div class="input-group input-switch" tooltip="Teste" placement="top">
+                <label class="switch switch-3d switch-primary">
+                  <input type="checkbox" readonly name="tipoAnimal" [ngModel]="selectTipoAnimal"
+                    (ngModelChange)="moverAnimalTeste($event)" class="switch-input">
+                  <span class="switch-label"></span>
+                  <span class="switch-handle"></span>
+                </label>
+                &nbsp;&nbsp;Teste
+              </div>
+            </div>
+          </div>
+          <!-- <div class="col-sm-4" *ngIf="this.selectSetor != 2">
+                        <div class="form-group">
+                            <ng-select name="tipoAnimal" [ngModel]="selectTipoAnimal" placement="top" autofocus
+                                (ngModelChange)="moverAnimalTeste($event)" id="tipoAnimal"
+                                tooltip="Selecione o tipo de animal a ser movimentado"
+                                placeholder="Selecione o tipo de animal a ser movimentado" [closeOnSelect]
+                                notFoundText="Nenhum tipo com esta identificação">
+                                <ng-option [value]="0">Animal Gestação</ng-option>
+                                <ng-option [value]="1">Animal Teste</ng-option>
+                            </ng-select>
+                        </div>
+                    </div> -->
+        </div>
+
+        <div class="form-group form-actions">
+          <button type="submit" class="btn btn-md btn-success" [disabled]="!isBusyForm" *ngIf="!animal_teste">
+            Mover animal
+          </button>
+          <button type="submit" class="btn btn-md btn-maternity" [disabled]="!isBusyForm" *ngIf="animal_teste">
+            Mover animal(Teste)
+          </button>
+          <button type="button" class="btn btn-md btn-default" (click)="telaInserirMovimentacoes()">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- FORM INSERIR MOVIMENTAÇÃO DE ANIMAIS EM GRUPO-->
+<div class="col-sm-12 sem-padding" *ngIf="this.grupo==true">
+  <div class="card">
+    <div class="card-header">
+      <i class="fa fa-plus"></i> Movimentações na Gestação Coletiva/Área Externa (Em Grupo)
+    </div>
+    <div class="card-body">
+      <form #formPostGrupo="ngForm" (ngSubmit)="postGrupoForm(formPostGrupo)">
+        <!-- -->
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <input type="text" id="tb_setor_tipo_id" name="tb_setor_tipo_id" placement="top"
+                tooltip="Tipo de movimentação" ngModel class="form-control" placeholder="Área Externa" disabled>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <ng-select name="tb_baias_id" [ngModel]="selectBaias" placement="top" autofocus id="tb_baias_id"
+                (ngModelChange)="getBaiaId($event)" tooltip="Baia" placeholder="Selecione a baia" [closeOnSelect]
+                notFoundText="Nenhuma baia com esta identificação">
+                <ng-option *ngFor="let item of comboBaias" [value]="item.id">{{item.nome}}</ng-option>
+                <ng-option [value]="0">(Selecione a baia)</ng-option>
+              </ng-select>
+
+              <!--<select name="tb_baias_id" id="tb_baias_id" [ngModel]="selectBaias" class="form-control"
+                                placement="top" tooltip="Baia" (change)="getBaiaId($event)">
+                                <option value="0">(Selecione a baia)</option>
+                                <option *ngFor="let item of comboBaias" value="{{item.id}}">{{item.nome}}</option>
+                            </select>-->
+            </div>
+          </div>
+        </div>
+
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Animal</th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let grupo of comboGrupoBaia">
+              <td *ngIf="comboGrupoBaia !== '0'">{{grupo.brinco}}</td>
+              <td *ngIf="comboGrupoBaia.length === 0">Não existe animais para transferência</td>
+              <td align="right">
+                <a (click)="this.GlobalService.marcaItem(grupo);removerAnimal(grupo)" placement="top" tooltip="Remover"
+                  class="icon-close">
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <input type="hidden" id="grupoAnimais" name="grupoAnimais" [(ngModel)]="comboGrupoBaia" class="form-control">
+
+        <div class="form-group form-actions row">
+          <div class="col-sm-9"></div>
+          <button type="submit" class="btn btn-md btn-success" [disabled]="!isBusyForm">
+            Mover Grupo
+          </button>
+          <button type="button" class="btn btn-md btn-default" (click)="hideGrupo()">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- FORM EDITAR MOVIMENTAÇÃO -->
+<div class="col-sm-12 sem-padding scroll-hidden" *ngIf="editarMovimentacoes">
+  <div class="card">
+    <div class="card-header">
+      <i class="fa fa-plus"></i> Editar animal
+      <strong>{{this.GlobalService.getItem().brinco}}</strong>
+    </div>
+    <div class="card-body">
+      <form #formPut="ngForm" (ngSubmit)="putForm(formPut)">
+        <div class="row">
+          <div class="col-sm-4" *ngIf="this.GlobalService.getItem().tb_setor_tipo_id == 2">
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon" placement="top" tooltip="Data de Inseminação">
+                  <i class="fa fa-calendar"></i>
+                </span>
+                <input type="text" id="dt_inseminacao" name="dt_inseminacao" placement="top"
+                  tooltip="Data de Inseminação" [ngModel]="this.GlobalService.getItem().dt_inseminacao"
+                  class="form-control" placeholder="Data Inseminação" [textMask]="{mask: datamask}" readonly>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon" placement="top" tooltip="Data de Movimentação">
+                  <i class="fa fa-calendar"></i>
+                </span>
+                <input type="text" id="dt_movimentacao" name="dt_movimentacao" placement="top"
+                  tooltip="Data de Movimentação" [ngModel]="this.GlobalService.getItem().dt_movimentacao"
+                  class="form-control" placeholder="Data Movimentação" [textMask]="{mask: datamask}" readonly>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+
+              <!-- <ng-select name="tb_baias_id" [ngModel]="this.GlobalService.getItem().tb_baias_id" *ngIf="comboBaias != 0" [closeOnSelect]
+                                placement="top" autofocus id="tb_baias_id" tooltip="Baia" placeholder="Selecione a baia" notFoundText="Nenhuma baia com esta identificação">
+                                    <ng-option *ngFor="let item of comboBaias" [value]="item.id">{{item.nome}}</ng-option>
+                                </ng-select> -->
+              <select name="tb_baia_id" [ngModel]="this.GlobalService.getItem().tb_baias_id" class="form-control"
+                disabled *ngIf="comboBaias != 0" placement="top" tooltip="Baias">
+                <option value="0">(Selecione a Baia)</option>
+                <option *ngFor="let item of comboBaias" value="{{item.id}}">{{item.nome}}</option>
+              </select>
+              <span *ngIf="comboBaias == 0">
+                <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Carregando...
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+
+              <!-- <ng-select name="tb_tempo_dosagem" [ngModel]="this.GlobalService.getItem().tb_tempo_dosagem"
+                                placement="top" autofocus id="tb_tempo_dosagem" tooltip="Tempo entre dosagem"
+                                placeholder="Selecione o tempo entre dosagem" [closeOnSelect]
+                                notFoundText="Nenhum intervalo com esta identificação">
+                                <ng-option [value]="0">(Selecione o tempo entre dosagem)</ng-option>
+                                <ng-option [value]="5">5 - segundos</ng-option>
+                                <ng-option [value]="25">25 - segundos</ng-option>
+                                <ng-option [value]="35">35 - segundos</ng-option>
+                                <ng-option [value]="45">45 - segundos</ng-option>
+                                <ng-option [value]="50">50 - segundos</ng-option>
+                                <ng-option [value]="55">55 - segundos</ng-option>
+                                <ng-option [value]="60">60 - segundos</ng-option>
+                                <ng-option [value]="70">70 - segundos</ng-option>
+                                <ng-option [value]="80">80 - segundos</ng-option>
+                                <ng-option [value]="90">90 - segundos</ng-option>
+                              <ng-option [value]="100">100 - segundos</ng-option>
+                            </ng-select> -->
+
+              <ng-select name="tb_tempo_dosagem" [ngModel]="this.GlobalService.getItem().tb_tempo_dosagem"
+                placement="top" autofocus [disabled]="this.GlobalService.getItem().setor_atual == 1 "
+                id="tb_tempo_dosagem" tooltip="Tempo entre dosagem" placeholder="Selecione o tempo entre dosagem"
+                [closeOnSelect] notFoundText="Nenhum intervalo com esta identificação">
+                <ng-option [value]="0">(Selecione o tempo entre dosagem)</ng-option>
+                <ng-option [value]="5">5 - segundos</ng-option>
+                <ng-option [value]="25">25 - segundos</ng-option>
+                <ng-option [value]="35">35 - segundos</ng-option>
+                <ng-option [value]="45">45 - segundos</ng-option>
+                <ng-option [value]="50">50 - segundos</ng-option>
+                <ng-option [value]="55">55 - segundos</ng-option>
+                <ng-option [value]="60">60 - segundos</ng-option>
+                <ng-option [value]="70">70 - segundos</ng-option>
+                <ng-option [value]="80">80 - segundos</ng-option>
+                <ng-option [value]="90">90 - segundos</ng-option>
+                <ng-option [value]="100">100 - segundos</ng-option>
+              </ng-select>
+
+              <!--<select name="tb_tempo_dosagem" placement="top" tooltip="Tempo entre dosagem" [ngModel]="this.GlobalService.getItem().tb_tempo_dosagem"
+                            class="form-control">
+                            <option value="0">(Selecione o tempo entre dosagem)</option>
+                            <option value="5">5 - segundos</option>
+                            <option value="25">25 - segundos</option>
+                            <option value="35">35 - segundos</option>
+                            <option value="45">45 - segundos</option>
+                            <option value="50">50 - segundos</option>
+                            <option value="55">55 - segundos</option>
+                            <option value="60">60 - segundos</option>
+                        </select>-->
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <div class="form-group">
+              <!-- <ng-select name="tb_dieta_id" [ngModel]="this.GlobalService.getItem().tb_dieta_id" placement="top"
+                              autofocus id="tb_dieta_id" tooltip="Dieta" placeholder="Selecione a dieta" [closeOnSelect]
+                              notFoundText="Nenhuma dieta com esta identificação" *ngIf="comboDietas != 0">
+                              <ng-option *ngFor="let item of comboDietas" [value]="item.id">{{item.nome}}</ng-option>
+                            </ng-select> -->
+              <ng-select name="tb_dieta_id" [ngModel]="this.GlobalService.getItem().tb_dieta_id" placement="top"
+                autofocus [disabled]="this.GlobalService.getItem().setor_atual == 1 " id="tb_dieta_id" tooltip="Dieta"
+                placeholder="Selecione a dieta" [closeOnSelect] notFoundText="Nenhuma dieta com esta identificação"
+                *ngIf="comboDietas != 0">
+                <ng-option *ngFor="let item of comboDietas" [value]="item.id">{{item.nome}}</ng-option>
+              </ng-select>
+
+              <!--<select name="tb_dieta_id" [ngModel]="this.GlobalService.getItem().tb_dieta_id" class="form-control"
+                                    *ngIf="comboDietas != 0" placement="top" tooltip="Dieta">
+                                    <option value="0">(Selecione a Dieta)</option>
+                                    <option *ngFor="let item of comboDietas" value="{{item.id}}">{{item.nome}}</option>
+                                </select>-->
+
+              <!-- <span *ngIf="comboDietas == 0">
+                                    <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Carregando...
+                                  </span>
+                                </div>
+                              </div>
+                              <div class="col-sm-4">
+                                <div class="form-group">
+                                  <ng-select name="tb_escore_id" [ngModel]="this.GlobalService.getItem().tb_escore_id" placement="top"
+                                    autofocus id="tb_escore_id" tooltip="Escores" placeholder="Selecione o escore" *ngIf="comboEscores != 0"
+                                    [closeOnSelect] notFoundText="Nenhum escore com esta identificação">
+                                    <ng-option *ngFor="let item of comboEscores" [value]="item.id">{{item.nome}}</ng-option>
+                                  </ng-select> -->
+
+              <span *ngIf="comboDietas == 0">
+                <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Carregando...
+              </span>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <ng-select name="tb_escore_id" [ngModel]="this.GlobalService.getItem().tb_escore_id" placement="top"
+                autofocus [disabled]="this.GlobalService.getItem().setor_atual == 1 " id="tb_escore_id"
+                tooltip="Escores" placeholder="Selecione o escore" *ngIf="comboEscores != 0" [closeOnSelect]
+                notFoundText="Nenhum escore com esta identificação">
+                <ng-option *ngFor="let item of comboEscores" [value]="item.id">{{item.nome}}</ng-option>
+              </ng-select>
+
+              <!--<select name="tb_escore_id" [ngModel]="this.GlobalService.getItem().tb_escore_id" class="form-control"
+                                *ngIf="comboEscores != 0" placement="top" tooltip="Escore">
+                                <option value="0">(Selecione o Escore)</option>
+                                <option *ngFor="let item of comboEscores" value="{{item.id}}">{{item.nome}}</option>
+                            </select>-->
+              <span *ngIf="comboEscores == 0">
+                <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Carregando...
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group form-actions">
+          <button type="submit" class="btn btn-md btn-success" [disabled]="!isBusyForm">
+            Salvar
+          </button>
+          <button class="btn btn-md btn-default" (click)="telaEditarMovimentacoes()">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- LISTA DE MOVIMENTAÇÃO DE ANIMAIS -->
+<div class="col-lg-12 sem-padding" *ngIf="listarMovimentacoes">
+  <div class="card" *ngIf="read">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-md-6 col-lg-6 col-xl-3 padding-form" *ngIf="new">
+          <button (click)="telaInserirMovimentacoes()" class="btn btn-md btn-success" [disabled]="loading">Novo</button>
+          <button type="button" class="btn btn-md btn-success" (click)="showGrupo()" [disabled]="loading">Movimentar
+            Grupo</button>
+        </div>
+        <div class="col-md-6 col-lg-6 col-xl-4">
+          <h3>Animais Movimentações</h3>
+        </div>
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-2">
+          <div class="form-group">
+            <select name="filtro_listagem" class="form-control" placement="top" tooltip="Filtro"
+              [(ngModel)]="filtro_listagem" (change)="this.getItens()" #selectAnimals>
+              <option value="0" selected>Todos Animais</option>
+              <option value="1">Animais Ativos</option>
+              <option value="2">Animais Inativos</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+          <div class="input-group">
+            <span class="input-group-addon">
+              <i class="fa fa-search"></i>
+            </span>
+            <input type="text" id="busca" name="busca" ngModel class="form-control" placeholder="Pesquisar"
+              (keyup)='searchFilter($event)'>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="card-body">
+      <div style="overflow-x:auto;">
+        <table class="table table-striped text-center">
+          <thead>
+            <tr>
+              <th>Brinco</th>
+              <th>Chip</th>
+              <th>Transferido para</th>
+              <th>Alojamento</th>
+              <th>Baia</th>
+              <th>Data Inseminação</th>
+              <th>Data Movimentação</th>
+              <th>Dieta</th>
+              <th>Usuário</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of itensFilter | paginate: { itemsPerPage: itemsPerPage, currentPage: page}"
+              class="text-center">
+              <td>{{item.brinco}}</td>
+              <td>{{item.chip}}</td>
+              <td>
+                <div placement="top" tooltip="Gestação" class="badge badge-success" *ngIf="item.tb_setor_tipo_id === 2">
+                  Gestação
+                </div>
+                <div placement="top" tooltip="Área Externa" class="badge" *ngIf="item.tb_setor_tipo_id === 1">Área
+                  Externa
+                </div>
+                <div placement="top" tooltip="Maternidade" class="badge badge-maternity"
+                  *ngIf="item.tb_setor_tipo_id === 3">Maternidade
+                </div>
+              </td>
+              <td>{{item.alojamento}}</td>
+              <td>
+                <div placement="top" tooltip="Baia" *ngIf="item.nome_baia === null || item.tb_setor_tipo_id == 1">-
+                </div>
+                <div placement="top" tooltip="Baia" *ngIf="item.nome_baia !== null && item.tb_setor_tipo_id == 2">
+                  {{item.nome_baia}}
+                </div>
+                <div placement="top" tooltip="Baia" *ngIf="item.nome_baia !== null && item.tb_setor_tipo_id == 3">
+                  {{item.nome_baia}}
+                </div>
+              </td>
+              <td>
+                <div placement="top" tooltip="Data de Inseminação" *ngIf="item.dt_inseminacao === null">
+                  -</div>
+                <div placement="top" tooltip="Data de Inseminação" *ngIf="item.dt_inseminacao !== ''">{{item.dt_inseminacao -->
+    <!-- </div> -->
+    <!-- </div> -->
+    <div class="card-body">
+      <div style="overflow-x:auto;">
+        <table class="table table-striped text-center">
+          <thead>
+            <tr>
+              <th>Brinco</th>
+              <th>Chip</th>
+              <th>Transferido para</th>
+              <th>Alojamento</th>
+              <th>Baia</th>
+              <th>Data Inseminação</th>
+              <th>Data Movimentação</th>
+              <th>Dieta</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of itensFilter | paginate: { itemsPerPage: itemsPerPage, currentPage: page}"
+              class="text-center">
+              <td>{{item.brinco}}</td>
+              <td>{{item.chip}}</td>
+              <td>
+                <div placement="top" tooltip="Gestação" class="badge badge-success" *ngIf="item.tb_setor_tipo_id === 2">
+                  Gestação
+                </div>
+                <div placement="top" tooltip="Área Externa" class="badge" *ngIf="item.tb_setor_tipo_id === 1">Área
+                  Externa
+                </div>
+                <div placement="top" tooltip="Maternidade" class="badge badge-maternity"
+                  *ngIf="item.tb_setor_tipo_id === 3">Maternidade
+                </div>
+              </td>
+              <td>{{item.alojamento}}</td>
+              <td>
+                <div placement="top" tooltip="Baia" *ngIf="item.nome_baia === null || item.tb_setor_tipo_id == 1">-
+                </div>
+                <div placement="top" tooltip="Baia" *ngIf="item.nome_baia !== null && item.tb_setor_tipo_id == 2">
+                  {{item.nome_baia}}
+                </div>
+                <div placement="top" tooltip="Baia" *ngIf="item.nome_baia !== null && item.tb_setor_tipo_id == 3">
+                  {{item.nome_baia}}
+                </div>
+              </td>
+              <td>
+                <div placement="top" tooltip="Data de Inseminação" *ngIf="item.dt_inseminacao === null">-</div>
+                <div placement="top" tooltip="Data de Inseminação" *ngIf="item.dt_inseminacao !== ''">
+                  {{item.dt_inseminacao | date: "dd/MM/yyyy"}}</div>
+              </td>
+              <td tooltip="Data de Movimentação">{{item.dt_movimentacao | date: "dd/MM/yyyy"}}</td>
+              <td>
+                <div placement="top" tooltip="Dieta" *ngIf="item.nome_dieta === null || item.tb_setor_tipo_id == 1">-
+                </div>
+                <div placement="top" tooltip="Dieta" *ngIf="item.nome_dieta !== null && item.tb_setor_tipo_id == 2">
+                  {{item.nome_dieta}}
+                </div>
+                <div placement="top" tooltip="Dieta" *ngIf="item.nome_dieta !== null && item.tb_setor_tipo_id == 3">
+                  {{item.nome_dieta}}
+                </div>
+              </td>
+              <!-- <td>{{item.usuario}}</td> -->
+              <td align="right">
+                <a [routerLink]="'/animais/detalhes/'+item.idAnimal" class="icon-action" placement="top"
+                  tooltip="Histórico">
+                  <i class="fa fa-file-text-o"></i>
+                </a>
+                <a *ngIf="(edit && item.tb_setor_tipo_id === 2 || edit && item.tb_setor_tipo_id === 3) && item.lastMov === 'true'"
+                  (click)="this.GlobalService.marcaItem(item);telaEditarMovimentacoes();change_click3($event)"
+                  placement="top" tooltip="Editar" class="icon-action">
+                  <i class="fa fa-pencil-square-o"></i>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="loader" *ngIf="loading"></div>
+
+      <pagination-controls previousLabel="Anterior" nextLabel="Próxima" (pageChange)="page = $event" class="pagination">
+      </pagination-controls>
+
+    </div>
+  </div>
+</div>

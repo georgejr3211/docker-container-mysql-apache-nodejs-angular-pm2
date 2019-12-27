@@ -1,0 +1,173 @@
+<!--INSERIR-->
+
+<div class="col-sm-12 sem-padding" *ngIf="_ShowService.inserir">
+
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-plus"></i> Inserir nova genéticas
+        </div>
+        <div class="card-body">
+            <form #formPost="ngForm" (ngSubmit)="postForm(formPost)">
+                <div class="row">
+                    <div class="col-sm-10">
+                        <div class="form-group">
+                            <div class="input-group">
+
+                                <span class="input-group-addon" placement="top" tooltip="Nome">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                                <input type="text" id="nome" name="nome" placement="top" tooltip="Nome" ngModel
+                                    class="form-control" placeholder="Nome">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="input-group input-switch" placement="top" tooltip="Ativo">
+                                Ativo&nbsp;&nbsp;
+                                <label class="switch switch-3d switch-primary">
+                                    <input type="checkbox" readonly name="ativo" ngModel class="switch-input">
+                                    <span class="switch-label"></span>
+                                    <span class="switch-handle"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="form-group form-actions">
+                    <button type="submit" class="btn btn-md btn-success" [disabled]="isBusyForm">
+                        Gravar
+                        <i class="fa fa-spin fa-spinner" *ngIf="isBusyForm"></i>
+                    </button>
+                    <button type="submit" class="btn btn-md btn-default" (click)="_ShowService.showInserir()">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--EDITAR-->
+<div class="col-sm-12 sem-padding" *ngIf="_ShowService.editar">
+    <div class="card">
+        <div class="card-header">
+
+            <i class="fa fa-plus"></i> Editar genéticas
+            <strong>{{this.GlobalService.getItem().nome}}</strong>
+
+        </div>
+        <div class="card-body">
+            <form #formPut="ngForm" (ngSubmit)="putForm(formPut)">
+                <div class="row">
+                    <div class="col-sm-10">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Nome">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                                <input type="text" id="nome" name="nome" placement="top" tooltip="Nome"
+                                    [ngModel]="this.GlobalService.getItem().nome" class="form-control"
+                                    placeholder="Nome">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="input-group input-switch" placement="top" tooltip="Ativo">
+                                Ativo&nbsp;&nbsp;
+                                <label class="switch switch-3d switch-primary">
+                                    <input type="checkbox" readonly name="ativo"
+                                        [ngModel]="this.GlobalService.getItem().ativo" class="switch-input">
+                                    <span class="switch-label"></span>
+                                    <span class="switch-handle"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-actions">
+                    <button type="submit" class="btn btn-md btn-success" [disabled]="isBusyForm">
+                        Salvar
+                        <i class="fa fa-spin fa-spinner" *ngIf="isBusyForm"></i>
+                    </button>
+                    <button type="submit" class="btn btn-md btn-default" (click)="_ShowService.showEditar()">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-lg-12 sem-padding" *ngIf="_ShowService.listar">
+    <div class="card" *ngIf="read">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-6 col-lg-6 col-xl-3 padding-form" *ngIf="new">
+                    <button (click)="_ShowService.showInserir()" class="btn btn-md btn-success" [disabled]="loading">Novo</button>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-4">
+                    <h3>Genéticas</h3>
+                </div>
+                <div class="col-md-12 col-lg-12 col-xl-5">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-search"></i>
+                        </span>
+                        <input type="text" id="busca" name="busca" ngModel class="form-control" placeholder="Pesquisar"
+                            (keyup)='searchFilter($event)'>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div style="overflow-x:auto;">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+
+                            <th>Status</th>
+                            <th>Nome</th>
+                            <th>Criado</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr
+                            *ngFor="let item of itensFilter | paginate: { itemsPerPage: itemsPerPage, currentPage: page}">
+                            <td>
+                                <div placement="top" tooltip="Ativo" class="circleBase status1"
+                                    *ngIf="item.ativo === 1"></div>
+                                <div placement="top" tooltip="Desativado" class="circleBase status2"
+                                    *ngIf="item.ativo === 0"></div>
+                            </td>
+                            <td>{{item.nome}}</td>
+                            <td>{{item.created | date: 'dd/MM/yyyy - HH:mm'}}</td>
+                            <td align="right">
+
+                                <a *ngIf="edit" (click)="this.GlobalService.marcaItem(item);_ShowService.showEditar()"
+                                    class="icon-action" placement="top" tooltip="Editar">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </a>
+                                <a *ngIf="delete" (click)="this.GlobalService.marcaItem(item);deleteItem()"
+                                    class="icon-action" placement="top" tooltip="Deletar">
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="loader" *ngIf="loading"></div>
+            <pagination-controls previousLabel="Anterior" nextLabel="Próxima" (pageChange)="page = $event"
+                class="pagination"></pagination-controls>
+
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,39 @@
+<div class="app flex-row align-items-center bg-pass">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-4">
+          <div class="card-group">
+            <div class="card p-4">
+              <div class="card-body">
+  
+                <div class="text-center">
+                  <img src="/assets/img/fairtek-logo.png" class="logo-login">
+                </div>
+  
+                <form #form="ngForm" (ngSubmit)="putPass(form)">
+                  <p class="text-muted">Você deve alterar a senha:</p>
+                  <div class="input-group mb-3">
+                    <span class="input-group-addon">
+                      <i class="icon-lock"></i>
+                    </span>
+                    <input type="password" name="passwd" ngModel class="form-control" placeholder="Nova Senha">
+                  </div>
+                  <div class="input-group mb-4">
+                    <span class="input-group-addon">
+                      <i class="icon-lock"></i>
+                    </span>
+                    <input type="password" name="conf_passwd" ngModel class="form-control" placeholder="Confirme a senha">
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <button type="button" type="submit" class="btn btn-primary px-4">Alterar</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

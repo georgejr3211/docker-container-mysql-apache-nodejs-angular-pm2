@@ -1,0 +1,33 @@
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-sm-7 text-right">
+                <h4>Dieta por Dias</h4>
+            </div>
+            <div class="col-sm-5 text-right">
+                <button class="btn btn-md btn-success" (click)="captureScreen()" [disabled]="isBusyList">
+                    Baixar PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- GRÁFICO -->
+    <div class="card-body">
+        <div class="loader" *ngIf="loading"></div>
+        <div class="chart-wrapper" style="height:500px;margin-top:40px;" *ngIf="show==1">
+            <canvas id="myChart" baseChart class="chart" [datasets]="mainChartData" [labels]="mainChartLabels"
+                [options]="mainChartOptions" [colors]="mainChartColours" [legend]="mainChartLegend"
+                [chartType]="mainChartType" (chartClick)="chartClicked($event)"></canvas>
+        </div>
+    </div>
+    <!-- RELATÓRIO -->
+    <div class="card-body">
+        <div class="col-sm-12">
+            <ngx-datatable *ngIf="show2==1" class="material striped" [columns]="columns" [columnMode]="'force'"
+                [scrollbarH]="true" [headerHeight]="50" [footerHeight]="50" [rows]='rows'>
+            </ngx-datatable>
+        </div>
+    </div>
+
+</div>

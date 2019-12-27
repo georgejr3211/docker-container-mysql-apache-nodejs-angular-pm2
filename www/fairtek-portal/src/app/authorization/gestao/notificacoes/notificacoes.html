@@ -1,0 +1,174 @@
+<div class="col-lg-12 sem-padding" *ngIf="_ShowService.listar">
+    <div class="card" *ngIf="read">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <select name="filtro" class="form-control" placement="top" tooltip="Filtro"
+                            [(ngModel)]="filtro">
+                            <option value="0">(Selecione o Filtro)</option>
+                            <option value="1">Filtrar p/ Tipo</option>
+                            <option value="2">Filtrar p/ Data</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6 text-center">
+                    <h3>Notificações</h3>
+                </div>
+                <div class="col-sm-3 pd-t6 text-center" *ngIf="edit">
+                    <button type="button" class="btn btn-md btn-success" (click)="marcarTodas()"
+                        [disabled]="loading">Marcar todas como Lida
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <!-- <div class="col-sm-2"></div> -->
+                <div class="col-sm-4" *ngIf="filtro==1">
+                    <div class="form-group">
+                        <select name="filtro_tipo" class="form-control" placement="top" tooltip="Tipo de Notificação"
+                            [(ngModel)]="filtro_tipo">
+                            <option value="0">(Selecione o Tipo das Notificações)</option>
+                            <option value="2">Novo Dosador</option>
+                            <option value="4">Configuração do Dosador</option>
+                            <option value="5">Brinco Desconhecido</option>
+                            <option value="7">Notificação de Reset de Dosador</option>
+                            <option value="9">Notificação de Atualização de Receita</option>
+                            <option value="11">Notificação de Atualização de Animais</option>
+                            <option value="13">Notificação de Atualização de Parametros do Dosador</option>
+                            <option value="16">Notificação de Alteração de Status da Ração</option>
+                            <option value="17">Notificação de Alteração de Status do Motor</option>
+                            <option value="18">Notificação de Alteração de Status da Antena</option>
+                            <option value="19">Notificação de Alteração de Status do Dosador</option>
+                            <option value="20">Notificação de Sistema Reiniciado</option>
+                            <option value="21">Erro ao realizar Backup diário automático</option>
+                            <option value="22">Backup automático realizado com sucesso</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-2 pd-t6 text-center" *ngIf="edit">
+                    <button type="button" class="btn btn-md btn-success" (click)="getNotificacaoTipo()"
+                        *ngIf="filtro==1">Buscar</button>
+                    <button type="button" class="btn btn-md btn-default" (click)="getItens()"
+                        *ngIf="filtro==1">Limpar</button>
+                </div>
+                <div class="col-sm-3" *ngIf="filtro==2">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </span>
+                        <input id="dt_inicial" name="dt_inicial" [(ngModel)]="dt_inicio" placeholder="Data Inicial"
+                            class="form-control" tooltip="Data Inicial" [bsConfig]="bsConfig" bsDatepicker>
+                    </div>
+                </div>
+                <div class="col-sm-3" *ngIf="filtro==2">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </span>
+                        <input id="dt_final" name="dt_final" bsDatepicker [(ngModel)]="dt_final" class="form-control"
+                            placeholder="Data Final" [bsConfig]="bsConfig" tooltip="Data Final">
+                    </div>
+                </div>
+                <div class="col-sm-2 pd-t6 text-center" *ngIf="edit">
+                    <button type="button" class="btn btn-md btn-success" (click)="getNotificacaoPeriodo()"
+                        *ngIf="filtro==2">Buscar</button>
+                    <button type="button" class="btn btn-md btn-default" (click)="getItens()"
+                        *ngIf="filtro==2">Limpar</button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div role="alert" class="alert alert-info alert-dismissible" *ngIf="itensFilter.length == 0">
+                <!---->
+                <button aria-label="Close" class="close" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+                Sem notificações disponíveis.
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Mensagem</th>
+                        <th>Data</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr *ngFor="let item of itensFilter | paginate: { itemsPerPage: itemsPerPage, currentPage: page}">
+                        <td>
+                            <i [class]="(item.status_notificacao == 'success' && item.status_notificacao != 'info') ? 'fa fa-check' : 'fa fa-exclamation-triangle'"
+                                [style.color]="(item.status_notificacao == 'success' && item.status_notificacao !== 'info') ? '#00987e' : '#f8df01'"></i>
+                        </td>
+                        <td>{{item.tipo}}</td>
+                        <td>{{item.created}}</td>
+                        <td align="right">
+                            <a *ngIf="item.tb_notificacoes_tipos_id === 5 && edit" tooltip="Cadastrar este Chip"
+                                placement="top" routerLink="/chips"
+                                (click)="_ShowService.showInserirChip(item.valor.tag_brinco)"> <i
+                                    class="fa fa-share"></i></a>
+                            <a *ngIf="read" (click)="this.GlobalService.marcaItem(item);openModalWithClass(detalhes)"
+                                class="icon-action" placement="top" tooltip="Ver Detalhes">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                            <a *ngIf="item.lida == 0 && edit" (click)="this.GlobalService.marcaItem(item);marcarLida()"
+                                class="icon-action" placement="top" tooltip="Marcar como Lida">
+                                <i class="fa fa-thumbs-up" style='color:#00987e'></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="loader" *ngIf="loading"></div>
+            <pagination-controls previousLabel="Anterior" nextLabel="Próxima" (pageChange)="page = $event"
+                class="pagination"></pagination-controls>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #detalhes>
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Nova Notificação</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="cont">
+            <h3 class="descTitleNoti">
+                <strong>Mensagem</strong>
+            </h3>
+            <p>{{this.GlobalService.getItem().tipo}}</p>
+            <br>
+            <h3 class="descTitleNoti">
+                <strong>Status</strong>
+            </h3>
+            <i [class]="(this.GlobalService.getItem().status_notificacao == 'success' && this.GlobalService.getItem().status_notificacao != 'info') ? 'fa fa-check' : 'fa fa-warning'"
+                [style.color]="(this.GlobalService.getItem().status_notificacao == 'success' && this.GlobalService.getItem().status_notificacao != 'info') ? '#00987e' : '#f8df01'"></i>
+            <br>
+            <br>
+            <h3 class="descTitleNoti">
+                <strong>Detalhes</strong>
+            </h3>
+            <br>
+            <p *ngIf="this.GlobalService.getItem().valor.mac != null">
+                <b>Dosador</b>: {{this.GlobalService.getItem().valor.mac}}</p>
+            <p *ngIf="this.GlobalService.getItem().valor.tag_brinco != null">
+                <b>Brinco</b>: {{this.GlobalService.getItem().valor.tag_brinco}}</p>
+            <p>
+                <b>Data - Horário</b>: {{this.GlobalService.getItem().created}}</p>
+        </div>
+    </div>
+    <div class="modal-footer" *ngIf="edit">
+        <button type="button" class="btn btn-warning" routerLink="/chips"
+            *ngIf="this.GlobalService.getItem().tb_notificacoes_tipos_id==5"
+            (click)="_ShowService.showInserirChip(this.GlobalService.getItem().valor.tag_brinco);modalRef.hide()">Cadastrar
+            este Chip</button>
+        <button type="button" class="btn btn-primary" *ngIf="this.GlobalService.getItem().lida != 1"
+            (click)="marcarLida();modalRef.hide()">
+            <i class="fa fa-check"></i>Marcar Como Lida
+        </button>
+    </div>
+</ng-template>

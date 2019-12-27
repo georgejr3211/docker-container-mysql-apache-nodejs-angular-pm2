@@ -1,0 +1,19 @@
+{
+    "sequelize": {
+        "use_fairtek": "USE `fairtek`$$",
+        "delimiter_inicio": "DELIMITER $$",
+        "delimiter_fim": "DELIMITER",
+        "fairtek": "`fairtek`",
+        "id": "`id`",
+        "nome": "`nome`",
+        "ativo": "`ativo`",
+        "excluido": "`excluido`",
+        "created": "`created`",
+        "updated": "`updated`",
+        "trigger_create_definer": "CREATE DEFINER=`fairtek`@`%` TRIGGER `fairtek`.",
+        "trigger_localhost_create_definer": "CREATE DEFINER=`fairtek`@`localhost` TRIGGER `fairtek`.",
+        "function_create_definer": "CREATE DEFINER=`fairtek`@`%` FUNCTION `dia_animal`(id_animal int) RETURNS int(11)",
+        "procedure_create_definer": "CREATE DEFINER=`fairtek`@`%` PROCEDURE",
+        "procedure_localhost_create_definer": "CREATE DEFINER=`fairtek`@`localhost` PROCEDURE"
+    }
+}

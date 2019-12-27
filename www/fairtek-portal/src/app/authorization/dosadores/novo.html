@@ -1,0 +1,376 @@
+<!-- INSERIR -->
+<!--<div class="col-sm-12 sem-padding" *ngIf="_ShowService.inserir">
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-plus"></i> Inserir novo dosador
+        </div>
+        <div class="card-body">
+            <form #formPost="ngForm" (ngSubmit)="postForm(formPost)">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Código">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                                <input type="text" id="codigo" placement="top" tooltip="Código" name="codigo" ngModel class="form-control" placeholder="Código">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <select name="baias_id" placement="top" tooltip="Baia" [ngModel]="selectBaia" class="form-control" *ngIf="comboBaia != 0">
+                                <option value="0">(Selecione a baia)</option>
+                                <option *ngFor="let item of comboBaia" value="{{item.id}}">{{item.nome}}</option>
+                            </select>
+                            <span *ngIf="comboBaia == 0">
+                                <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Carregando...
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="input-group input-switch">
+                                Ativo&nbsp;&nbsp;
+                                <label class="switch switch-3d switch-primary">
+                                    <input type="checkbox" name="ativo" ngModel class="switch-input">
+                                    <span class="switch-label"></span>
+                                    <span class="switch-handle"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="input-group input-switch">
+                                Ativo rede&nbsp;&nbsp;
+                                <label class="switch switch-3d switch-primary">
+                                    <input type="checkbox" name="ativo_rede" ngModel class="switch-input">
+                                    <span class="switch-label"></span>
+                                    <span class="switch-handle"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        Status:
+                        <span class="badge badge-info">status do dosador</span>
+                    </div>
+                </div>
+                <div class="form-group form-actions">
+                    <button type="submit" class="btn btn-md btn-success" [disabled]="isBusyForm">
+                        Inserir
+                        <i class="fa fa-spin fa-spinner" *ngIf="isBusyForm"></i>
+                    </button>
+                    <button type="submit" class="btn btn-md btn-default" (click)="_ShowService.showInserir()">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> -->
+
+<!--EDITAR-->
+<div class="col-sm-12 sem-padding" *ngIf="_ShowService.editar">
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-plus"></i> Editar dosador
+            <strong>{{this.GlobalService.getItem().nome}}</strong>
+        </div>
+        <div class="card-body">
+            <form #formPut="ngForm" (ngSubmit)="putForm(formPut)">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                                <input type="text" readonly id="codigo" name="codigo"
+                                    [ngModel]="this.GlobalService.getItem().codigo" class="form-control"
+                                    placeholder="Código">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <select name="baias_id" [ngModel]="this.GlobalService.getItem().tb_baias_id"
+                                class="form-control" *ngIf="comboBaia != 0">
+                                <option value="0">(selecione a baia)</option>
+                                <option *ngFor="let item of comboBaia" value="{{item.id}}">{{item.nome}}</option>
+                            </select>
+                            <span *ngIf="comboBaia == 0">
+                                <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Carregando...
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <span>Status:</span>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="input-group input-switch">
+                                Ativo&nbsp;&nbsp;
+                                <label class="switch switch-3d switch-primary">
+                                    <input type="checkbox" readonly name="ativo"
+                                        [ngModel]="this.GlobalService.getItem().ativo" class="switch-input">
+                                    <span class="switch-label"></span>
+                                    <span class="switch-handle"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="input-group input-switch">
+                                Ativo rede&nbsp;&nbsp;
+                                <label class="switch switch-3d switch-primary">
+                                    <input type="checkbox" readonly name="ativo_rede"
+                                        [ngModel]="this.GlobalService.getItem().ativo_rede" class="switch-input">
+                                    <span class="switch-label"></span>
+                                    <span class="switch-handle"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-actions">
+                    <button type="submit" class="btn btn-md btn-success" [disabled]="isBusyForm">
+                        Atualizar
+                        <i class="fa fa-spin fa-spinner" *ngIf="isBusyForm"></i>
+                    </button>
+
+                    <button type="submit" class="btn btn-md btn-default" (click)="_ShowService.showEditar()">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-plus"></i> Parâmetros do Dosador
+        </div>
+        <div class="card-body">
+            <form #formPutParametros="ngForm" (ngSubmit)="putFormParametros(formPutParametros)">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top"
+                                    tooltip="Tempo de início da primeira dosagem">
+                                    pTi
+                                </span>
+                                <input *ngIf="this.GlobalService.getItem().pTi"
+                                    (change)="this.GlobalService.getItem().pTi" type="number" id="pTi" name="pTi"
+                                    [ngModel]="this.GlobalService.getItem().pTi / 1000" tooltip="Valor em segundos"
+                                    placement="top" class="form-control" placeholder="pTi">
+
+                                <input *ngIf="!this.GlobalService.getItem().pTi" type="number" id="pTi" name="pTi"
+                                    [ngModel]="this.GlobalService.getItem().pTi" tooltip="Valor em segundos"
+                                    placement="top" class="form-control" placeholder="pTi">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-sm-3">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    pTd
+                                </span>
+                                <input *ngIf="this.GlobalService.getItem().pTd" type="number" id="pTd" name="pTd" [ngModel]="this.GlobalService.getItem().pTd / 1000" tooltip="Valor em segundos"
+                                    placement="top" class="form-control" placeholder="pTd">
+                                <input *ngIf="!this.GlobalService.getItem().pTd" type="number" id="pTd" name="pTd" [ngModel]="this.GlobalService.getItem().pTd" tooltip="Valor em segundos"
+                                    placement="top" class="form-control" placeholder="pTd">
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top"
+                                    tooltip="Tempo de acionamento do dosador">
+                                    pTa
+                                </span>
+                                <input *ngIf="this.GlobalService.getItem().pTa" type="number" id="pTa" name="pTa"
+                                    [ngModel]="this.GlobalService.getItem().pTa / 1000" tooltip="Valor em segundos"
+                                    placement="top" class="form-control" placeholder="pTa">
+
+                                <input *ngIf="!this.GlobalService.getItem().pTa" type="number" id="pTa" name="pTa"
+                                    [ngModel]="this.GlobalService.getItem().pTa" tooltip="Valor em segundos"
+                                    placement="top" class="form-control" placeholder="pTa">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Tempo de pausa">
+                                    pTp
+                                </span>
+                                <input *ngIf="this.GlobalService.getItem().pTp" type="number" id="pTp" name="pTp"
+                                    [ngModel]="this.GlobalService.getItem().pTp / 1000" tooltip="Valor em segundos"
+                                    placement="top" class="form-control" placeholder="pTp">
+
+                                <input *ngIf="!this.GlobalService.getItem().pTp" type="number" id="pTp" name="pTp"
+                                    [ngModel]="this.GlobalService.getItem().pTp" tooltip="Valor em segundos"
+                                    placement="top" class="form-control" placeholder="pTp">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top"
+                                    tooltip="Tempo de reversão do acionamento">
+                                    pTr
+                                </span>
+                                <input *ngIf="this.GlobalService.getItem().pTr" type="number" id="pTr" name="pTr"
+                                    [ngModel]="this.GlobalService.getItem().pTr / 1000" tooltip="Valor em segundos"
+                                    placement="top" class="form-control" placeholder="pTr">
+
+                                <input *ngIf="!this.GlobalService.getItem().pTr" type="number" id="pTr" name="pTr"
+                                    [ngModel]="this.GlobalService.getItem().pTr" tooltip="Valor em segundos"
+                                    placement="top" class="form-control" placeholder="pTr">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top"
+                                    tooltip="Tempo de saída do animal na detecção">
+                                    pTs
+                                </span>
+                                <input *ngIf="this.GlobalService.getItem().pTs" type="number" id="pTs" name="pTs"
+                                    [ngModel]="this.GlobalService.getItem().pTs / 1000" tooltip="Valor em segundos"
+                                    placement="top" class="form-control" placeholder="pTs">
+
+                                <input *ngIf="!this.GlobalService.getItem().pTs" type="number" id="pTs" name="pTs"
+                                    [ngModel]="this.GlobalService.getItem().pTs" tooltip="Valor em segundos"
+                                    placement="top" class="form-control" placeholder="pTs">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    pTar
+                                </span>
+                                <input *ngIf="this.GlobalService.getItem().pTar" type="number" id="pTar" name="pTar" [ngModel]="this.GlobalService.getItem().pTar / 1000" tooltip="Valor em segundos"
+                                    placement="top" class="form-control" placeholder="pTar">
+                                <input *ngIf="!this.GlobalService.getItem().pTar" type="number" id="pTar" name="pTar" [ngModel]="this.GlobalService.getItem().pTar" tooltip="Valor em segundos"
+                                    placement="top" class="form-control" placeholder="pTar">
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="form-group form-actions">
+                    <button type="submit" class="btn btn-md btn-success" [disabled]="isBusyForm">
+                        Atualizar parâmetros
+                        <i class="fa fa-spin fa-spinner" *ngIf="isBusyForm"></i>
+                    </button>
+                    <button type="button" class="btn btn-md btn-warning" (click)="setDefautParametros()">
+                        Carregar parâmetros pré-definidos
+                        <i class="fa fa-refresh"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12 sem-padding" *ngIf="_ShowService.listar">
+    <div class="card" *ngIf="read">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-6 col-lg-6 col-xl-4 padding-form mb-2" *ngIf="new">
+                    <button (click)="abrirRede()" class="btn btn-md btn-success">
+                        <i class="fa fa-wifi"></i> Abrir Rede
+                    </button>
+                </div>
+                <!-- <div class="col-sm-3 padding-form">
+                    <button (click)="_ShowService.showInserir()" class="btn btn-md btn-success">Novo</button>
+                </div> -->
+                <div class="col-md-6 col-lg-6 col-xl-4">
+                    <h3>Dosadores</h3>
+                </div>
+                <div class="col-md-12 col-lg-12 col-xl-4">
+                    <div class="input-group">
+                        <!-- <a class="input-group-addon" tooltip="Abrir Rede" placement="top" (click)="abrirRede()">
+                            <i class="fa fa-wifi"></i>
+                        </a> -->
+                        <span class="input-group-addon">
+                            <i class="fa fa-search"></i>
+                        </span>
+                        <input type="text" id="busca" name="busca" ngModel class="form-control" placeholder="Pesquisar"
+                            (keyup)='searchFilter($event)'>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div style="overflow-x:auto;">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Rede</th>
+                            <th>Número do Dosador</th>
+                            <th>Número da Baia</th>
+                            <th>Criado</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let item of itensFilter | paginate: { itemsPerPage: itemsPerPage, currentPage: page}">
+                            <td>
+                                <div placement="top" tooltip="Ativo" class="circleBase status1"
+                                    *ngIf="item.ativo === 1"></div>
+                                <div placement="top" tooltip="Desativado" class="circleBase status2"
+                                    *ngIf="item.ativo === 0"></div>
+                            </td>
+                            <td>
+                                <div placement="top" tooltip="Ativo" class="circleBase status1"
+                                    *ngIf="item.ativo_rede === 1"></div>
+                                <div placement="top" tooltip="Desativado" class="circleBase status2"
+                                    *ngIf="item.ativo_rede === 0"></div>
+                            </td>
+                            <td>{{item.codigo}}</td>
+                            <td>{{item.nome_baia}}</td>
+                            <td>{{item.created | date: 'dd/MM/yyyy - HH:mm'}}</td>
+                            <td align="right">
+                                <a href="#/gestao/registros" class="icon-action" placement="top" tooltip="Registros">
+                                    <i class="icon-docs"></i>
+                                </a>
+                                <a *ngIf="edit"
+                                    (click)="this.GlobalService.marcaItem(item);_ShowService.showEditar();setDefautParametros($event)"
+                                    placement="top" tooltip="Editar" class="icon-action">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </a>
+                                <a *ngIf="delete" (click)="this.GlobalService.marcaItem(item);deleteItem()"
+                                    placement="top" tooltip="Deletar" class="icon-action">
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="loader" *ngIf="loading"></div>
+            <pagination-controls previousLabel="Anterior" nextLabel="Próxima" (pageChange)="page = $event"
+                class="pagination"></pagination-controls>
+
+        </div>
+    </div>
+</div>

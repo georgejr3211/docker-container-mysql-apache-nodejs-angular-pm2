@@ -1,0 +1,700 @@
+<div class="row" id="dash1">
+    <div class="col-sm-12 col-md-6 col-lg-3" (click)="showAnimais()">
+        <div class="card pointer" data-placement="bottom">
+            <div class="card-body">
+                <div class="loader" *ngIf="loadingAnimais"></div>
+                <div class="h2 text-center text-muted text-uppercase mb-4">
+                    <small class="small2">Animais</small>
+                </div>
+                <div class="row text-center">
+                    <div class="col-sm-6 h4 mb-0 d-inline  g-color" *ngIf="!loadingAnimais">
+                        {{ dashboard.total_animais_gestacao }}</div>
+                    <div class="col-sm-6 h4 mb-0 d-inline " *ngIf="!loadingAnimais">{{ dashboard.total_animais }}</div>
+                    <small class="col-sm-6 text-uppercase font-weight-bold g-color small3"
+                        *ngIf="!loadingAnimais">Gestação</small>
+                    <small class="col-sm-6 text-muted text-uppercase font-weight-bold small3"
+                        *ngIf="!loadingAnimais">Total</small>
+                </div>
+                <div class="progress mt-3 mb-0">
+                    <progressbar max="{{ dashboard.total_animais }}" value="{{ dashboard.total_animais_gestacao }}"
+                        type="{{animais}}" [striped]="true" [animate]="true" *ngIf="!loadingAnimais">
+                        <i>{{ dashboard.total_animais_gestacao }} / {{ dashboard.total_animais }}</i>
+                    </progressbar>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/.col-->
+    <div class="col-sm-12 col-md-6 col-lg-3" (click)="showAnimaisAlimentados()">
+        <div class="card pointer" data-placement="bottom">
+            <div class="card-body">
+                <div class="loader" *ngIf="loadingAlimentados"></div>
+                <div class="h2  text-center text-muted text-uppercase mb-4">
+                    <small class="small2">Alimentados</small>
+                </div>
+
+                <div class="row text-center">
+                    <div class="col-sm-6 h4 mb-0 d-inline g-color" *ngIf="!loadingAlimentados">{{ alimentadosHJ }}</div>
+                    <div class="col-sm-6 h4 mb-0 d-inline" *ngIf="!loadingAlimentados">{{ naoAlimentadosHJ }}</div>
+                    <small class="col-sm-6 text-uppercase font-weight-bold g-color small3"
+                        *ngIf="!loadingAlimentados">Alimen.</small>
+                    <small class="col-sm-6 text-muted text-uppercase font-weight-bold small3"
+                        *ngIf="!loadingAlimentados">Não Alimen.</small>
+                </div>
+
+                <div class="progress mt-3 mb-0">
+                    <progressbar max="{{ dashboard.total_galpoes }}" value="{{ dashboard.total_galpoes_ativos }}"
+                        type="{{galpoes}}" [striped]="true" [animate]="true" *ngIf="!loadingAlimentados">
+                        <i>{{ alimentadosHJ }} / {{ dashboard.total_animais_gestacao }}</i>
+                    </progressbar>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/.col-->
+    <div class="col-sm-12 col-md-6 col-lg-3" (click)="showDosadores()">
+        <div class="card pointer" data-placement="bottom">
+            <div class="card-body">
+                <div class="loader" *ngIf="loadingDosadores"></div>
+                <div class="h2 text-center text-muted text-uppercase mb-4">
+                    <small class="small2">Dosadores</small>
+                </div>
+                <div class="row text-center">
+                    <div class="col-sm-6 h4 mb-0 d-inline g-color">{{ dashboard.total_dosadores_ativos }}</div>
+                    <div class="col-sm-6 h4 mb-0 d-inline">{{ dashboard.total_dosadores }}</div>
+                    <small class="col-sm-6 text-uppercase font-weight-bold g-color small3">Ativos</small>
+                    <small class="col-sm-6 text-muted text-uppercase font-weight-bold small3">Total</small>
+                </div>
+                <div class="progress mt-3 mb-0">
+                    <progressbar max="{{ dashboard.total_dosadores_ativos }}" value="{{ dashboard.total_dosadores }}"
+                        type="{{dosadores}}" [striped]="true" [animate]="true">
+                        <i>{{ dashboard.total_dosadores_ativos }} / {{ dashboard.total_dosadores }}</i>
+                    </progressbar>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/.col-->
+    <div class="col-sm-12 col-md-6 col-lg-3" (click)="showBaias()">
+        <div class="card pointer" data-placement="bottom">
+            <div class="card-body">
+                <div class="loader" *ngIf="loadingBaias"></div>
+                <div class="h2 text-center text-muted text-uppercase mb-4">
+                    <small class="small2">Baias</small>
+                </div>
+                <div class="row text-center">
+                    <div class="col-sm-6 h4 mb-0 d-inline g-color">{{ dashboard.total_baias_ativos }}</div>
+                    <div class="col-sm-6 h4 mb-0 d-inline">{{ dashboard.total_baias }}</div>
+                    <small class="col-sm-6 text-uppercase font-weight-bold g-color small3">Ativos</small>
+                    <small class="col-sm-6 text-muted text-uppercase font-weight-bold small3">Total</small>
+                </div>
+                <div class="progress mt-3 mb-0">
+                    <progressbar max="{{ dashboard.total_baias }}" value="{{ dashboard.total_baias_ativos }}"
+                        type="{{baias}}" [striped]="true" [animate]="true">
+                        <i>{{ dashboard.total_baias_ativos }} / {{ dashboard.total_baias }}</i>
+                    </progressbar>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/.col-->
+</div>
+<!--/.row-->
+<div class="row" *ngIf="show_animais">
+    <div class="col-sm-12 col-md-12 col-lg-6 text-center">
+        <div class="card">
+            <div class="col-sm-12 col-md-12 col-lg-12" [routerLink]="'/animais-movimentacoes'"
+                [queryParams]="{ show_animais: this.show_animais, show_animais_alimentados: this.show_animais_alimentados, show_dosadores: this.show_dosadores, show_baias: this.show_baias }">
+                <canvas baseChart [data]="pieDataAnimaisTotal" [labels]="pieLabelsAnimaisTotal" [colors]="pieChartColor"
+                    [chartType]="pieChartType" (chartHover)="animaisTotalH($event)"
+                    (chartClick)="animaisTotalC($event)"></canvas>
+            </div>
+            <div class="loader" *ngIf="loadingAnimais"></div>
+            <div class="col-sm-12 col-md-12 col-lg-12" [routerLink]="'/animais-movimentacoes'"
+                [queryParams]="{ show_animais: this.show_animais, show_animais_alimentados: this.show_animais_alimentados, show_dosadores: this.show_dosadores, show_baias: this.show_baias }">
+                <h4>Total de animais: {{ dashboard.total_animais }} </h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-12 col-lg-6 text-center">
+        <div class="card">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <canvas baseChart [data]="pieDataAnimaisAlimentado" [labels]="pieLabelsAnimaisAlimentado"
+                    [colors]="pieChartColor" [chartType]="pieChartType" (chartHover)="animaisAlimentadoH($event)"
+                    (chartClick)="animaisAlimentadoC($event)"></canvas>
+            </div>
+            <div class="loader" *ngIf="loadingAlimentados"></div>
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h4 class="tituloTotalAnimais">Total de animais na gestação: {{ dashboard.total_animais_gestacao }}
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-12 col-lg-12 text-center">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-12 text-center text-muted text-uppercase">
+                        <h4 class="mb-none">% de Animais Alimentados nos últimos dias</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div style="display: block" *ngIf="showGraph3 == 1">
+                    <canvas baseChart [datasets]="barChartData3" [labels]="barChartLabels3" [colors]="lineChartColors3"
+                        [options]="barChartOptions3" [legend]="barChartLegend" [chartType]="barChartType"
+                        (chartHover)="chartHovered3($event)" (chartClick)="chartClicked3($event)">
+                    </canvas>
+                </div>
+            </div>
+            <div class="loader" *ngIf="loadingAnimais"></div>
+        </div>
+    </div>
+</div>
+
+<!--/.row-->
+<div class="row" *ngIf="show_dosadores">
+    <div class="col-sm-12 text-center">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-12 text-center text-muted text-uppercase">
+                        <h2 class="mb-none">Dosadores x Baia</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 mb-3">
+                        <div class="input-group">
+                            <span id="icon-calendar" class="input-group-addon" placement="bottom" tooltip="Data da Inseminação">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                            <calendar-1000 title_calendar="Data de Pesquisa" format = 'true' class="inpt-1000-days" range="4" name="dt_pesquisa" id="dt_pesquisa" (getConfigureDates)="getDosadorBaiaRel($event.dt_inseminacao)"></calendar-1000>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="card">
+                    <div class="card-body">
+                        <div style="overflow-x:auto;">
+                            <table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
+                                <thead>
+                                    <tr>
+                                        <th>Baia</th>
+                                        <th>Dosador</th>
+                                        <th>D</th>
+                                        <th>D-1</th>
+                                        <th>D-2</th>
+                                        <th>D-3</th>
+                                        <th>D-4</th>
+                                        <th>D-5</th>
+                                        <th>D-6</th>        
+                                    </tr>
+                                </thead>
+        
+                                <tbody *ngIf="loadingNaoAlimentados == false">
+                                    <tr *ngFor="let animal of dosador_baia_rel | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
+                                        <td>{{ animal.baia }}</td>
+                                        <td>{{ animal.dosador }}</td>
+                                        <td *ngIf = 'animal.d  != null' >{{ animal.d}} (Kg.)</td>
+                                        <td *ngIf = 'animal.d  == null' >-</td>
+                                        <td *ngIf = 'animal.d1 != null' >{{ animal.d1}} (Kg.)</td>
+                                        <td *ngIf = 'animal.d1 == null' >-</td>
+                                        <td *ngIf = 'animal.d2 != null' >{{ animal.d2}} (Kg.)</td>
+                                        <td *ngIf = 'animal.d2 == null' >-</td>
+                                        <td *ngIf = 'animal.d3 != null' >{{ animal.d3}} (Kg.)</td>
+                                        <td *ngIf = 'animal.d3 == null' >-</td>
+                                        <td *ngIf = 'animal.d4 != null' >{{ animal.d4}} (Kg.)</td>
+                                        <td *ngIf = 'animal.d4 == null' >-</td>
+                                        <td *ngIf = 'animal.d5 != null' >{{ animal.d5}} (Kg.)</td>
+                                        <td *ngIf = 'animal.d5 == null' >-</td>
+                                        <td *ngIf = 'animal.d6 != null' >{{ animal.d6}} (Kg.)</td>
+                                        <td *ngIf = 'animal.d6 == null' >-</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+        
+                        </div>
+                        <pagination-controls previousLabel="Anterior" nextLabel="Próxima" (pageChange)="page = $event"
+                            class="pagination"></pagination-controls>
+                        <div class="loader" *ngIf="loadingNaoAlimentados == true"></div>
+        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--/.row-->
+<div class="row" *ngIf="show_baias">
+    <div class="col-sm-12 text-center">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-12 text-center text-muted text-uppercase">
+                        <h2 class="mb-none">Animais x Baia</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div style="display: block" *ngIf="showGraph == 1">
+                        <!-- <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+                            [colors]="lineChartColors" [legend]="barChartLegend" [chartType]="barChartType"
+                            (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                        </canvas> -->
+                    <!-- <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [colors]="lineChartColors"
+                        [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType"
+                        (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas> -->
+                    <ngx-charts-bar-horizontal-stacked
+                        [view]="horizontalView"
+                        [scheme]="colorScheme"
+                        [results]="barChartData"
+                        [gradient]="gradient"
+                        [xAxis]="showXAxis"
+                        [yAxis]="showYAxis"
+                        [legend]="showLegend"
+                        [showXAxisLabel]="showXAxisLabel"
+                        [showYAxisLabel]="showYAxisLabel"
+                        [xAxisLabel]="xAxisLabel"
+                        [yAxisLabel]="yAxisLabel">
+                    </ngx-charts-bar-horizontal-stacked>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--/.row-->
+<div class="row" *ngIf="show_animais_alimentados">
+    <div class="col-sm-12 text-center">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-12 text-center text-muted text-uppercase">
+                        <h4 class="mb-none"><i class="fa fa-plus"></i> Acumulado de animais alimentados no dia</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GRÁFICO -->
+            <div class="card-body" *ngIf="data.length" style="overflow-x:scroll">
+                <div class="loader" *ngIf="loadingAcumuAlimentados == true"></div>
+                <!-- <div class="chart-wrapper" style="height:500px;margin-top:40px;" *ngIf="show==1">
+                    <canvas id="myChart" baseChart class="chart" [datasets]="mainChartData" [labels]="mainChartLabels"
+                        [options]="mainChartOptions" [colors]="mainChartColours" [legend]="mainChartLegend"
+                        [chartType]="mainChartType" (chartClick)="chartAnimaisAlimentadosGraficosC($event)"></canvas>
+                </div> -->
+                <ngx-charts-bar-vertical-stacked
+                    [view]="view"
+                    [scheme]="colorScheme"
+                    [results]="data"
+                    [animations]="animations"
+                    [gradient]="true"
+                    [tooltipDisabled]="tooltipDisabled"
+                    [xAxis]="showXAxis"
+                    [yAxis]="showYAxis"
+                    [legend]="showLegend"
+                    [legendTitle]="legendTitle"
+                    [legendPosition]="legendPosition"
+                    (legendLabelClick)="onLegendLabelClick($event)"
+                    [showGridLines]="showGridLines"
+                    [barPadding]="barPadding"
+                    [roundDomains]="roundDomains"
+                    [yScaleMax]="100"
+                    [noBarWhenZero]="noBarWhenZero"
+                    [showDataLabel]="showDataLabel"
+                    [trimXAxisTicks]="trimXAxisTicks"
+                    [trimYAxisTicks]="trimYAxisTicks"
+                    [rotateXAxisTicks]="rotateXAxisTicks">
+                </ngx-charts-bar-vertical-stacked>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-4 text-muted text-uppercase">
+                        <h4 class="mbt">Animais Alimentados</h4>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            <input type="text" id="busca" name="busca" ngModel class="form-control"
+                                placeholder="Pesquisa por Chip, Brinco, Baia ou Dosador" (keyup)='searchFilter($event)'>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="icon-list"></i>
+                            </span>
+                            <select name="filtro" id="filtro" class="form-control" [ngModel]="selectFiltro"
+                                (change)="getFiltro($event)">
+                                <option value="1">Todos Alimentados</option>
+                                <option value="2">Parcialmente Alimentados</option>
+                                <option value="3">Completamente Alimentados</option>
+                                <option value="4">Não Alimentados</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div style="overflow-x:auto;">
+                    <table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
+                        <thead>
+                            <tr>
+                                <th>Brinco</th>
+                                <th>Chip</th>
+                                <th>Dia do <br> Animal</th>
+                                <th>Dieta</th>
+                                <th>Baia</th>
+                                <th>Dosador</th>
+                                <th>Hora</th>
+                                <th>QA</th>
+                                <th>QT</th>
+                                <th>QR</th>
+                                <th>Status Alimentação</th>
+                                <th>Ações</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody *ngIf="loadingNaoAlimentados == false">
+                            <tr *ngFor="let animal of dashboard_animais_alimentados | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
+                                <td>{{ animal.brinco }}</td>
+                                <td>{{ animal.chip_num }}</td>
+                                <td *ngIf="animal.dia != null">{{ animal.dia}}</td>
+                                <td *ngIf="animal.dia == null">{{ animal.ultimo_dia}}</td>
+                                <td>{{ animal.nome_dieta }}</td>
+                                <td *ngIf="animal.nome_baia != null">{{ animal.nome_baia}}</td>
+                                <td *ngIf="animal.dosador != null">{{ animal.dosador}}</td>
+                                <td *ngIf="animal.dosador == null">-</td>
+                                <td *ngIf="animal.hora_ulti_aliment != null">
+                                    {{animal.hora_ulti_aliment | date: 'HH:mm'}}</td>
+                                <td *ngIf="animal.hora_ulti_aliment == null">-</td>
+                                <td *ngIf="animal.nome_baia == null">{{ animal.baia_nome }}</td>
+                                <td *ngIf="animal.qa > animal.qt">{{ animal.qt*100}}g. *</td>
+                                <td *ngIf="animal.qa <= animal.qt">{{ animal.qa*100}}g.</td>
+                                <td>{{ animal.qt*100}}g.</td>
+                                <td *ngIf="animal.qa <= animal.qt">{{ (animal.qt-animal.qa)*100}}g.</td>
+                                <td *ngIf="animal.qa > animal.qt"> 0g.</td>
+                                <!-- <td class="text-center">
+                                    <i [class]="animal.qa == animal.qt ? 'fa fa-check' : 'fa fa-circle'" [style.color]="animal.qa == animal.qt ? '#00987e' : '#ffff00'"></i>
+                                </td> -->
+                                <td class="text-center" *ngIf="animal.qa >= animal.qt || animal.qa == 0"><i
+                                        [class]="(animal.qa >= animal.qt && animal.qa > 0) ? 'fa fa-check' : 'fa fa-remove'"
+                                        [style.color]="(animal.qa >= animal.qt && animal.qa > 0) ? '#00987e' : '#f86c6b'"></i>
+                                </td>
+                                <td class="text-center" *ngIf="animal.qa < animal.qt && animal.qa > 0"><i
+                                        class="fa fa-circle" style="color:yellow"></i></td>
+                                <td>
+                                    <a [routerLink]="'/animais/detalhes/'+animal.tb_animais_id" [queryParams]="{ show_animais: this.show_animais, show_animais_alimentados: this.show_animais_alimentados, show_dosadores: this.show_dosadores, show_baias: this.show_baias }" placement="top"
+                                        tooltip="Editar" class="icon-action">
+                                        <i class="fa fa-external-link"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <pagination-controls previousLabel="Anterior" nextLabel="Próxima" (pageChange)="page = $event"
+                    class="pagination"></pagination-controls>
+                <div class="loader" *ngIf="loadingNaoAlimentados == true"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="row">
+
+  <div class="col-md-3"></div>
+
+  <div class="col-md-3">
+    <div class="card" data-placement="bottom" title="Total de Dosadores Inativos">
+      <div class="card-body">
+        <div class="h1 text-muted text-right mb-4">
+          <i class="icon-grid"></i>
+        </div>
+        <div class="h4 mb-0">{{ dashboard.total_dosadores_inativos }}</div>
+        <small class="text-muted text-uppercase font-weight-bold">Dosadores Inativos</small>
+        <div class="progress progress-xs mt-3 mb-0">
+          <div class="progress-bar" role="progressbar" style="width: 25%; background-color:#8e1c2b;" aria-valuenow="25" aria-valuemin="0"
+            aria-valuemax="100"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card" data-placement="bottom" title="Total de Animais em Gestão Coletiva">
+      <div class="card-body">
+        <div class="h1 text-muted text-right mb-4">
+          <i class="icon-grid"></i>
+        </div>
+        <div class="h4 mb-0">{{ dashboard.total_animais_gestacao }}</div>
+        <small class="text-muted text-uppercase font-weight-bold">Animais em Gestação</small>
+        <div class="progress progress-xs mt-3 mb-0">
+          <div class="progress-bar" role="progressbar" style="width: 25%;background-color:#f39734" aria-valuenow="25" aria-valuemin="0"
+            aria-valuemax="100"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3"></div>
+
+</div> -->
+
+
+<!-- <div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-5">
+                <h4 class="card-title mb-0">Traffic</h4>
+                <div class="small text-muted">November 2015</div>
+            </div>
+            
+</div>
+
+<div class="chart-wrapper" style="height:300px;margin-top:40px;">
+    <canvas baseChart class="chart" [datasets]="mainChartData" [labels]="mainChartLabels" [options]="mainChartOptions" [colors]="mainChartColours"
+        [legend]="mainChartLegend" [chartType]="mainChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+</div>
+</div>
+<div class="card-footer">
+    <ul>
+        <li>
+            <div class="text-muted">Visits</div>
+            <strong>29.703 Users (40%)</strong>
+            <div class="progress progress-xs mt-2">
+                <div class="progress-bar bg-fairtek-verde" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="d-none d-md-table-cell">
+            <div class="text-muted">New Users</div>
+            <strong>22.123 Users (80%)</strong>
+            <div class="progress progress-xs mt-2">
+                <div class="progress-bar bg-fairtek-preto" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+    </ul>
+</div>
+</div> -->
+<!-- <div class="row">
+
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        Animais não alimentados últimas 24 hrs
+      </div>
+      <div class="card-body">
+        <div role="alert" class="alert alert-info alert-dismissible" *ngIf="dashboard.animais_nao_alimentados_24_hrs.length == 0">
+          
+          <button aria-label="Close" class="close" type="button">
+            <span aria-hidden="true">×</span>
+          </button>
+          Nenhum animal alimentado nas últimas 24 hrs
+        </div>
+        <div *ngIf="dashboard.animais_nao_alimentados_24_hrs.length > 0 ">
+          <table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
+
+            <thead>
+              <tr>
+                <th>#Id</th>
+                <th>Tatuagem</th>
+                <th>Brinco</th>
+                <th>Nº Baia</th>
+                <th>Nome Baia</th>
+                <th>Nome Galpão</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let animal of dashboard.animais_nao_alimentados_24_hrs" style="background-color:#EF9A9A!important">
+                <td>{{ animal.id }}</td>
+                <td>{{ animal.tatuagem }}</td>
+                <td>{{ animal.brinco }}</td>
+                <td>{{ animal.baia_id }}</td>
+                <td>{{ animal.baia_nome }}</td>
+                <td>{{ animal.galpao_nome }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div> -->
+<!-- <input class="form-control" placeholder="Datepicker" bsDatepicker #dp="bsDatepicker"> -->
+<!--<table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
+    <thead class="thead-light">
+        <tr>
+            <th>User</th>
+            <th>Usage</th>
+            <th>Activity</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <div>Yiorgos Avraamu</div>
+                <div class="small text-muted">
+                    <span>New</span> | Registered: Jan 1, 2015
+                </div>
+            </td>
+            <td>
+                <div class="clearfix">
+                    <div class="float-left">
+                        <strong>50%</strong>
+                    </div>
+                    <div class="float-right">
+                        <small class="text-muted">Jun 11, 2015 - Jul 10, 2015</small>
+                    </div>
+                </div>
+                <div class="progress progress-xs">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </td>
+            <td>
+                <div class="small text-muted">Last login</div>
+                <strong>10 sec ago</strong>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>Yiorgos Avraamu</div>
+                <div class="small text-muted">
+                    <span>New</span> | Registered: Jan 1, 2015
+                </div>
+            </td>
+            <td>
+                <div class="clearfix">
+                    <div class="float-left">
+                        <strong>50%</strong>
+                    </div>
+                    <div class="float-right">
+                        <small class="text-muted">Jun 11, 2015 - Jul 10, 2015</small>
+                    </div>
+                </div>
+                <div class="progress progress-xs">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </td>
+            <td>
+                <div class="small text-muted">Last login</div>
+                <strong>10 sec ago</strong>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>Yiorgos Avraamu</div>
+                <div class="small text-muted">
+                    <span>New</span> | Registered: Jan 1, 2015
+                </div>
+            </td>
+            <td>
+                <div class="clearfix">
+                    <div class="float-left">
+                        <strong>50%</strong>
+                    </div>
+                    <div class="float-right">
+                        <small class="text-muted">Jun 11, 2015 - Jul 10, 2015</small>
+                    </div>
+                </div>
+                <div class="progress progress-xs">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </td>
+            <td>
+                <div class="small text-muted">Last login</div>
+                <strong>10 sec ago</strong>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>Yiorgos Avraamu</div>
+                <div class="small text-muted">
+                    <span>New</span> | Registered: Jan 1, 2015
+                </div>
+            </td>
+            <td>
+                <div class="clearfix">
+                    <div class="float-left">
+                        <strong>50%</strong>
+                    </div>
+                    <div class="float-right">
+                        <small class="text-muted">Jun 11, 2015 - Jul 10, 2015</small>
+                    </div>
+                </div>
+                <div class="progress progress-xs">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </td>
+            <td>
+                <div class="small text-muted">Last login</div>
+                <strong>10 sec ago</strong>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>Yiorgos Avraamu</div>
+                <div class="small text-muted">
+                    <span>New</span> | Registered: Jan 1, 2015
+                </div>
+            </td>
+            <td>
+                <div class="clearfix">
+                    <div class="float-left">
+                        <strong>50%</strong>
+                    </div>
+                    <div class="float-right">
+                        <small class="text-muted">Jun 11, 2015 - Jul 10, 2015</small>
+                    </div>
+                </div>
+                <div class="progress progress-xs">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </td>
+            <td>
+                <div class="small text-muted">Last login</div>
+                <strong>10 sec ago</strong>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>Yiorgos Avraamu</div>
+                <div class="small text-muted">
+                    <span>New</span> | Registered: Jan 1, 2015
+                </div>
+            </td>
+            <td>
+                <div class="clearfix">
+                    <div class="float-left">
+                        <strong>50%</strong>
+                    </div>
+                    <div class="float-right">
+                        <small class="text-muted">Jun 11, 2015 - Jul 10, 2015</small>
+                    </div>
+                </div>
+                <div class="progress progress-xs">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </td>
+            <td>
+                <div class="small text-muted">Last login</div>
+                <strong>10 sec ago</strong>
+            </td>
+        </tr>
+    </tbody>
+</table>-->

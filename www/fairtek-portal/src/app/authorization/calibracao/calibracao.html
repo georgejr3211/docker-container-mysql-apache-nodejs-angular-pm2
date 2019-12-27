@@ -1,0 +1,236 @@
+<!--INSERIR-->
+<div class="col-sm-12 sem-padding" *ngIf="showInserir">
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-plus"></i> Realizar nova calibração
+        </div>
+        <div class="card-body">
+            <form #formPost="ngForm" (ngSubmit)="postForm(formPost)">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <select name="chip" [ngModel]="selectChip" class="form-control" placement="top"
+                                tooltip="Chip">
+                                <option value="0">(Selecione o chip do animal)</option>
+                                <option *ngFor="let item of comboChip" value="{{item.id}}">{{item.chip}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-actions">
+                    <button type="submit" class="btn btn-md btn-success">
+                        Gravar
+                    </button>
+                    <button type="submit" class="btn btn-md btn-default" (click)="fShowLista()">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Calibração-->
+<div class="col-lg-12 sem-padding" *ngIf="novaCalibracao">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-header">
+                <i class="fa fa-plus"></i> Realizar Calibração
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-12" *ngIf="cadChip">
+                    <div role="alert" class="alert alert-warning alert-dismissible">
+                        <h3>Atenção!</h3>
+                        Selecione um chip, para iniciar a calibração dos dosadores!
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="cadChip">
+                <div class="col-sm-12">
+                    <form #formPost="ngForm" (ngSubmit)="postForm(formPost)">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <ng-select name="chip" [items]="comboChip" [ngModel]="selectChip"
+                                    (change)="chipChanged($event)" bindLabel="chip" bindValue="id"
+                                    placeholder="Selecione um Chip" [closeOnSelect]
+                                    notFoundText="Nenhum Chip com essa numeração">
+                                </ng-select>
+                            </div>
+                            <div class="col-sm-3">
+                                <ng-select name="baia" [items]="comboBaias" [ngModel]="selectBaias" bindLabel="nome"
+                                    bindValue="id" placeholder="Selecione uma baia" [closeOnSelect]
+                                    notFoundText="Nenhuma baia com esse nome">
+                                </ng-select>
+                            </div>
+                            <div class="col-sm-3">
+                                <ng-select name="setor" [items]="comboSetor" [ngModel]="selectSetor" bindLabel="nome"
+                                    bindValue="id" placeholder="Selecione uma setor" [closeOnSelect]
+                                    notFoundText="Nenhum setor com esse nome">
+                                </ng-select>
+                            </div>
+                            <br />
+                            <div class="col-sm-3">
+                                <button type="submit" class="btn btn-md btn-success" [disabled]="!buttonCalcular"
+                                    (click)="fLiberaCalculo()">
+                                    Cadastrar calibração <i class="fa fa-spin fa-spinner" *ngIf="!buttonCalcular"></i>
+                                </button>
+                                <button type="button" class="btn btn-md btn-default" (click)="sLista(); getItens();">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="cadCalculo">
+                <div class="col-sm-12">
+                    <div role="alert" class="alert alert-warning alert-dismissible">
+                        <h3>Atenção!</h3>
+                        Siga os seguintes passos para realizar a calibração dos dosadores:<br>
+                        1 - Use o chip {{name}} para realizar as dosagens.<br>
+                        2 - Ao final das dosagens, pese a ração liberada e retire o chip do dosador.<br>
+                        3 - Ao final das dosagens, o botão 'Calcular' será liberado. Insira o valor da pesagem e em
+                        seguida clique no botão 'Calcular'.<br>
+                        4 - Espere as mensagens de estado estarem todas com <i class="fa fa-check"></i> <br>
+                        5 - Clique no botão 'Finalizar Calibração'.<br>
+                    </div>
+                </div>
+
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon" placement="top" tooltip="Peso ração (gramas)">
+                                <i class="fa fa-adjust"></i>
+                            </span>
+                            <input type="number" id="vPESO" name="vPESO" placement="top" tooltip="Peso ração (gramas)"
+                                min="100" [(ngModel)]="vPESO" class="form-control" placeholder="Peso ração (gramas)">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <h2 *ngIf="!recebeuQA">Aguarde...</h2>
+                    <button type="button" class="btn btn-md btn-success" *ngIf="recebeuQA" (click)="fCalcula();">
+                        Calcular
+                    </button>
+                </div>
+
+                <div class="col-sm-12">
+                    <div role="alert"
+                        [class]="status1 == 0 ? 'alert alert-danger alert-dismissible' : 'alert alert-info alert-dismissible'">
+                        Verificando se todas as 10 dosagens foram liberadas.
+                        <i [class]="recebeuQA == 0 ? 'fa fa-spin fa-spinner' : 'fa fa-check'"
+                            [style.color]="recebeuQA == 0 ? '#f86c6b' : '#00987e' "></i>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div role="alert"
+                        [class]="status2 == 0 ? 'alert alert-danger alert-dismissible' : 'alert alert-info alert-dismissible'">
+                        Insira o peso da ração, retire o chip do dosador e clique no botão "Calcular" para proseguir
+                        com a calibração.
+                        <i [class]="status2 == 0 ? 'fa fa-spin fa-spinner' : 'fa fa-check'"
+                            [style.color]="status2 == 0 ? '#f86c6b' : '#00987e' "></i>
+                    </div>
+                </div>
+                <div class="col-sm-12" *ngIf="!status3">
+                    <div role="alert" class="alert alert-danger alert-dismissible">
+                        Configurando o novo tempo de abertura do dosador... <i class="fa fa-spin fa-spinner"
+                            style="color: #f86c6b"></i>
+                    </div>
+                </div>
+                <div class="col-sm-12" *ngIf="status3">
+                    <div role="alert" class="alert alert-info alert-dismissible">
+                        Dosadores configurados com sucesso! <i class="fa fa-check"></i>
+                    </div>
+                </div>
+                <div class="col-sm-12" *ngIf="!status4">
+                    <div role="alert" class="alert alert-danger alert-dismissible">
+                        Registrando a calibração... <i class="fa fa-spin fa-spinner" style="color: #f86c6b"></i>
+                    </div>
+                </div>
+                <div class="col-sm-12" *ngIf="status4">
+                    <div role="alert" class="alert alert-info alert-dismissible">
+                        Calibração registrada com sucesso! <i class="fa fa-check"></i>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div role="alert"
+                        [class]="status5 == 0 ? 'alert alert-danger alert-dismissible' : 'alert alert-info alert-dismissible'">
+                        Clique no botão 'Finalizar Calibração' para finalizar esta calibração!
+                        <i [class]="status5 == 0 ? 'fa fa-spin fa-spinner' : 'fa fa-check'"
+                            [style.color]="status5 == 0 ? '#f86c6b' : '#00987e'"></i>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 text-right">
+                    <button type="button" class="btn btn-md btn-success" [disabled]="!status4" (click)="sLista()">
+                        Finalizar Calibração <i class="fa fa-spin fa-spinner" *ngIf="!status4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Itens Cadastrados-->
+<div class="col-lg-12 sem-padding" *ngIf="showLista">
+    <div class="card" *ngIf="read">
+        <div class="card-header">
+            <div class="row">
+                <div [class]="statusCalibracao === true ? 'col-md-6 col-lg-6 col-xl-5 padding-form' : 'col-md-6 col-lg-6 col-xl-4 padding-form'"
+                    *ngIf="new">
+                    <button (click)="fDesativaAnimal();sNovaCalibracao();getComboBaia();getComboSetor()"
+                        class="btn btn-md btn-success" [disabled]="loading">Realizar nova calibração
+                    </button>
+                    <button *ngIf="statusCalibracao" (click)="sCalculo();fLiberaCalculo()"
+                        class="btn btn-md btn-info font-white" [disabled]="loading">Continuar calibração
+                    </button>
+                </div>
+                <div
+                    [class]="statusCalibracao === true ? 'col-md-6 col-lg-6 col-xl-3 text-left' : 'col-md-6 col-lg-6 col-xl-4'">
+                    <h3>Calibração</h3>
+                </div>
+                <div
+                    [class]="statusCalibracao === true ? 'col-md-12 col-lg-12 col-xl-4 text-center' : 'col-md-12 col-lg-12 col-xl-4'">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-search"></i>
+                        </span>
+                        <input type="text" id="busca" name="busca" ngModel class="form-control" placeholder="Pesquisar"
+                            (keyup)='searchFilter($event)'>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div style="overflow-x:auto;">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Chip</th>
+                            <th>Peso</th>
+                            <th>Antigo Tempo</th>
+                            <th>Novo Tempo</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let item of itensFilter | paginate: { itemsPerPage: itemsPerPage, currentPage: page}">
+                            <td>{{item.num_chip}}</td>
+                            <td>{{item.peso}}</td>
+                            <td>{{item.pta_antigo}}</td>
+                            <td>{{item.pta_novo}}</td>
+                            <td>{{item.created}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="loader" *ngIf="loading"></div>
+            <pagination-controls previousLabel="Anterior" nextLabel="Próxima" (pageChange)="page = $event"
+                class="pagination"></pagination-controls>
+        </div>
+    </div>
+</div>

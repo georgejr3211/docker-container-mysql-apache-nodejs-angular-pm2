@@ -1,0 +1,74 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-7 text-right">
+                        <h4>Animais x Baia</h4>
+                    </div>
+                    <div class="col-sm-5 text-right">
+                        <button class="btn btn-md btn-success " (click)="captureScreen()" [disabled]="isBusyForm">Baixar
+                            PDF</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="loader" *ngIf="loading"></div>
+                <div style="display: block" *ngIf="showGraph == 1">
+                    <canvas id="contentToConvert" baseChart [datasets]="barChartData" [labels]="barChartLabels"
+                        [colors]="lineChartColors" [options]="barChartOptions" [legend]="barChartLegend"
+                        [chartType]="barChartType" (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)"></canvas>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h4>Quantidade de Animais por Baia</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            <input type="text" id="busca" name="busca" ngModel class="form-control"
+                                placeholder="Pesquisa por Baia" (keyup)='searchFilter($event)'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div style="overflow-x:auto;">
+                    <table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
+                        <thead>
+                            <tr>
+                                <th class="column-order" (click)="orderByColumn('nome')">Baia</th>
+                                <th class="column-order" (click)="orderByColumn('total')">Total(m²)</th>
+                                <th class="column-order" (click)="orderByColumn('femea')">Qtd. Sugerida de Animais</th>
+                                <th class="column-order" (click)="orderByColumn('qtd')">Qtd. Animais</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let baia of itensFilter" class="text-left">
+                                <td>{{ baia.nome }}</td>
+                                <td>{{ baia.total }} m²</td>
+                                <td>{{ baia.femea}} und.</td>
+                                <td>{{ baia.qtd }} und.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="loader" *ngIf="loading"></div>
+            </div>
+        </div>
+    </div>
+</div>

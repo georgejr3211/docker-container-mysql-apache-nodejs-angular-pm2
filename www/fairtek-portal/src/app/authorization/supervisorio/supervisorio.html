@@ -1,0 +1,124 @@
+<div class="row" *ngIf="read">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-sm-12 text-center">
+            <h3>Supervisório</h3>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <select name="fazenda_id" [(ngModel)]="fazenda_id" class="form-control" (ngModelChange)="selectFazenda()"
+                *ngIf="fazenda_id != 0" disabled>
+                <option value="0">Selecione a Fazenda</option>
+                <option *ngFor="let item of fazendas" [ngValue]="item.tb_fazendas_id"
+                  [selected]="fazenda_id == item.tb_fazendas_id">{{item.nome}}</option>
+              </select>
+              <!--               <span *ngIf="fazendas.length == 0">
+                <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Carregando...
+              </span> -->
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <select name="granja_id" [(ngModel)]="granja_id" class="form-control" (ngModelChange)="selectGranja();"
+                *ngIf="granja_id != 0" disabled>
+                <option value="0">Selecione a Granja</option>
+                <option *ngFor="let item of granjas" [ngValue]="item.id" [selected]="granja_id == item.id">{{item.nome}}
+                </option>
+              </select>
+              <!--                             <span *ngIf="granjas.length == 0">
+                                <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Carregando...
+                            </span> -->
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <select name="galpao_id" [(ngModel)]="galpao_id" class="form-control" (ngModelChange)="selectGalpao()"
+                *ngIf="galpoes.length != 0">
+                <option value="0">Selecione o Galpão</option>
+                <option *ngFor="let item of galpoes" [ngValue]="item.id" [selected]="galpao_id == item.id">{{item.nome}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <!-- <div class="col-md-3">
+                        <div class="form-group">
+                            <select name="baia_id" [(ngModel)]="baia_id" class="form-control" (ngModelChange)="selectBaia()" *ngIf="baias.length != 0">
+                                <option value="0">Selecione a Baia</option>
+                                <option *ngFor="let item of baias" [ngValue]="item.id" [selected]="baia_id == item.id">{{item.nome}}</option>
+                            </select>
+                            <span *ngIf="baias.length == 0">
+                                <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Carregando...
+                            </span>
+                        </div>
+                    </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="header-supervisorio" style="background-color:#fff; height:55px; padding:0px!important;">
+
+</div> -->
+<br>
+<div class="loader" *ngIf="loading"></div>
+<div class="row" *ngIf="baias.length != 0 && read">
+  <div class="col-lg-6" *ngFor="let baia of baias">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-align-justify"></i> {{baia.nome}}
+        <strong></strong>
+        <a *ngIf="read" class="float-right" [routerLink]="['/animais-baia']"
+          [queryParams]="{baia_id: baia.id, read: this.read}" style="text-decoration:none; ">
+          <i class="flaticon-money" style="color:#00987e"></i>
+        </a>
+      </div>
+      <div class="card-body">
+        <div style="overflow-x:auto;">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Cód Dosador</th>
+                <th>St Dosador</th>
+                <th>St Ração</th>
+                <th>Ativo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let dosador of baia.dosadores">
+                <th>{{dosador.codigo}}</th>
+                <th>
+                  <i [class]="dosador.status_dosador == 0 ? 'fa fa-check' : 'fa fa-remove'" [style.color]="dosador.status_dosador == 0 ? '#00987e' : '#f86c6b'"></i>
+                </th>
+                <th *ngIf="dosador.status_dosador == 0">
+                  <i [class]="dosador.status_racao == 0 ? 'fa fa-check' : 'fa fa-remove'" [style.color]="dosador.status_racao == 0 ? '#00987e' : '#f86c6b'"></i>
+                </th>
+                <th *ngIf="dosador.status_dosador != 0">
+                    <i [class]="dosador.status_dosador != 0 ? 'fa fa-remove' : 'fa fa-remove'"
+                    [style.color]="dosador.status_racao == 0 ? '#f86c6b' : '#f86c6b'"></i>
+                </th>
+                <th *ngIf="dosador.status_dosador == 0">
+                  <i [class]="dosador.ativo == 1 ? 'fa fa-check' : 'fa fa-remove'"
+                    [style.color]="dosador.ativo == 1 ? '#00987e' : '#f86c6b'"></i>
+                </th>
+                <th *ngIf="dosador.status_dosador != 0">
+                    <i [class]="dosador.status_dosador != 0 ? 'fa fa-remove' : 'fa fa-remove'"
+                    [style.color]="dosador.status_antena == 0 ? '#f86c6b' : '#f86c6b'"></i>
+                </th>
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>

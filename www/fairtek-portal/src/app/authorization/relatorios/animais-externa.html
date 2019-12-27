@@ -1,0 +1,92 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row ">
+                    <div class="col-sm-12 text-center">
+                        <h4>Animais na Área Externa</h4>
+                    </div>
+
+                    <div class="col-sm-6 mb-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-list"></i>
+                            </span>
+                            <select name="filtro" id="filtro" class="form-control" [(ngModel)]="filtro">
+                                <option value="0"> Selecione um filtro</option>
+                                <option value="1"> Buscar por Período</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 mb-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            <input type="text" id="busca" name="busca" ngModel class="form-control"
+                                placeholder="Pesquisar" (keyup)='searchFilter($event)'>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 mtpx-7">
+                        <button class="btn btn-md btn-success " (click)="getNomeGranja()" [disabled]="loading">Baixar PDF</button>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-6" *ngIf="filtro==1">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                            <input id="dt_inicial" name="dt_inicial" [(ngModel)]="dt_inicio" placeholder="Data Inicial"
+                                class="form-control" [bsConfig]="bsConfig" tooltip="Data Inicial" bsDatepicker>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 mb-2" *ngIf="filtro==1">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                            <input id="dt_final" name="dt_final" bsDatepicker [(ngModel)]="dt_final"
+                                class="form-control" placeholder="Data Final" [bsConfig]="bsConfig"
+                                tooltip="Data Final">
+                        </div>
+                    </div>
+                    <div class="col-sm-3 mt-1 text-right">
+                        <button type="submit" class="btn btn-md btn-success" (click)="getFiltroPeriodo()"
+                            *ngIf="filtro==1">
+                            Buscar
+                        </button>
+                        <button type="submit" class="btn btn-md btn-default" (click)="getAnimaisBaia()"
+                            *ngIf="filtro==1">
+                            Limpar
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div style="overflow-x:auto;">
+                    <table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
+                        <thead>
+                            <tr>
+                                <th class="column-order" (click)="orderByColumn('brinco')">Brinco</th>
+                                <th class="column-order" (click)="orderByColumn('tatuagem')">Tatuagem</th>
+                                <th class="column-order" (click)="orderByColumn('chip')">Chip</th>
+                                <th class="column-order" (click)="orderByColumn('movimentacao')">Data de movimentação</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let animal of itensFilter" class="text-left">
+                                <td>{{ animal.brinco }}</td>
+                                <td>{{ animal.tatuagem }}</td>
+                                <td>{{ animal.chip}}</td>
+                                <td>{{ animal.movimentacao }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="loader" *ngIf="loading"></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,315 @@
+<!--INSERIR-->
+<!-- <div class="col-sm-12 sem-padding" *ngIf="novoB">
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-plus"></i>Novo Backup Local
+        </div>
+        <div class="card-body">
+            <form #formPost="ngForm" (ngSubmit)="backupLocal(formPost)" id="backup_local">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Nome">
+                                    <i class="fa fa-calendar-times-o"></i>
+                                </span>
+                                <input type="text" id="nome" name="nome" placement="top" tooltip="Nome" ngModel class="form-control"
+                                    placeholder="Nome">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-actions">
+                    <button type="submit" class="btn btn-md btn-success" [disabled]="isBusyForm">
+                        Gravar
+                        <i class="fa fa-spin fa-spinner" *ngIf="isBusyForm"></i>
+                    </button>
+                    <button type="submit" class="btn btn-md btn-default" (click)="showNewScreen();">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> -->
+
+
+<!-- Itens cadastrados -->
+<div class="col-lg-12 sem-padding" *ngIf="showList">
+    <div class="card" *ngIf="read">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-sm-6 padding-form">
+                    <button *ngIf="new" (click)="openModalWithClass(authBackup, null)" class="btn btn-md btn-success"
+                        [disabled]="alert == 2 || loading">Novo
+                        Backup </button>
+                    <button *ngIf="restore_rule" (click)="showRecoverScreen()" class="btn btn-md btn-success"
+                        [disabled]="loading">Restaurar Backup
+                    </button>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-search"></i>
+                        </span>
+                        <input type="text" id="busca" name="busca" ngModel class="form-control" placeholder="Pesquisar"
+                            (keyup)='searchFilter($event)'>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="row">
+                <div class="col-sm-6 padding-form">
+                    <button type="submit" class="btn btn-md btn-default" (click) = "configBackup()" style="margin-top:5px"[disabled]="alert != 2"> Configurar Local </button>
+                    <button type="submit" class="btn btn-md btn-danger" (click) = "removeLocal()" style="margin-top:5px"[disabled]="alert == 2"> Remover Local </button>
+                </div>
+            </div> -->
+        </div>
+        <div class="card-body">
+            <div role="alert" class="alert alert-info alert-dismissible" *ngIf="alert == 1">
+                <button aria-label="Close" class="close" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+                Nenhum backup foi realizado.
+            </div>
+            <div role="alert" class="alert alert-danger alert-dismissible" *ngIf="alert == 2">
+                <button aria-label="Close" class="close" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+                O Local Storage deve ser configurado.
+            </div>
+            <div style="overflow-x:auto;" *ngIf="alert == 0">
+                <table class="table table-striped text-center">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Tamanho</th>
+                            <th>Data</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of itensFilter | paginate: { itemsPerPage: itemsPerPage, currentPage: page}"
+                            class="text-center">
+                            <td>{{item.name}}</td>
+                            <td>{{item.size | number:'1.1-1'}}Mb</td>
+                            <td>{{item.created | date: 'dd/MM/yyyy - HH:mm'}}</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="loader" *ngIf="loading"></div>
+            <pagination-controls previousLabel="Anterior" nextLabel="Próxima" (pageChange)="page = $event"
+                class="pagination">
+            </pagination-controls>
+        </div>
+    </div>
+</div>
+
+
+<!--RECUPERAÇÃO-->
+<div class="col-sm-12 sem-padding" *ngIf="recuperar">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-6 col-sm-6">
+                    <i class="fa fa-plus"></i>&nbsp; Recuperar Backup
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-search"></i>
+                        </span>
+                        <input type="text" id="busca" name="busca" ngModel class="form-control" placeholder="Pesquisar"
+                            (keyup)='searchFilter($event)'>
+                    </div>
+                </div>
+                <button type="submit" style="float: right;" class="btn btn-md btn-default"
+                    (click)="showRecoverScreen();">
+                    Cancelar
+                </button>
+            </div>
+
+
+        </div>
+        <div class="col-sm-12">
+            <div role="alert" class="alert alert-warning alert-dismissible">
+                <h3>Instruções!</h3>
+                Informações relacionadas a restauração de backup's:<br>
+                1 - A restauração de backup irá sobrescrever os dados existentes (CASO NÃO HAJA BACKUP DOS DADOS
+                ATUAIS
+                OS MESMOS SERÃO PERDIDOS).<br>
+                2 - Digite e confirme a senha do usuário logado.<br>
+                3 - Só é permitida a restauração de arquivos de backup que estejam na mesma versão do sistema
+                {{versao_sist}}.<br>
+                4 - Os arquivos para restauração devem estar na nomenclatura correta, sendo: ddmmaaaa-HH:MM_v.v.v<br>
+                5 - Certifique-se de que o arquivo que esteja importando seja da mesma versão do sistema utilizado.<br>
+                6 - Após a restauração será feito logoff automático e deverá ser realizado o novo login com o usuário
+                referente a versão restaurada.<br>
+                7 - Clique no botão 'Importar'.<br>
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- <form #formPost="ngForm"  (ngSubmit)="restoreBackup(formPost)" id="backup_local">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Nome">
+                                    <i class="fa fa-calendar-times-o"></i>
+                                </span>
+                                <input type="file" id="arquivo" name="arquivo" placement="top" tooltip="Arquivo" (change)="funcaozinha($event)" class="form-control" placeholder="Selecione o Arquivo de backup.">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-actions">
+                    <button type="submit" class="btn btn-md btn-success" [disabled]="isBusyForm">
+                        Importar
+                        <i class="fa fa-spin fa-spinner" *ngIf="isBusyForm"></i>
+                    </button>
+                    <button type="submit" class="btn btn-md btn-default" (click)="showRecoverScreen()">
+                        Cancelar
+                    </button>
+                </div>
+            </form> -->
+            <div style="overflow-x:auto;">
+                <table class="table table-striped text-center">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Tamanho</th>
+                            <th>Data</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of itensFilterDirectory | paginate: { itemsPerPage: itemsPerPage, currentPage: page}"
+                            class="text-center">
+                            <td>{{item.name}}</td>
+                            <td>{{item.size | number:'1.1-1'}}Mb</td>
+                            <td>{{item.created | date: 'dd/MM/yyyy - HH:mm'}}</td>
+                            <td><a (click)="openModalWithClass(auth, item.name);" placement="top" tooltip="Restaurar"
+                                    class="icon-action">
+                                    <i class="icon-cloud-download"></i>
+                                </a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="loader" *ngIf="loading"></div>
+            <pagination-controls previousLabel="Anterior" nextLabel="Próxima" (pageChange)="page = $event"
+                class="pagination"></pagination-controls>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Restauração de Backup -->
+<ng-template #auth>
+    <div class="modal-header">
+        <h2 class="modal-title text-center">Verificação de Segurança</h2>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modal.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div role="alert" class="alert alert-danger alert-dismissible">
+                    <h3>Atenção!</h3>
+                    Informações relacionadas a restauração de backup's:<br>
+                    1 - A restauração de backup irá sobrescrever os dados existentes (CASO NÃO HAJA BACKUP DOS DADOS
+                    ATUAIS
+                    OS MESMOS SERÃO PERDIDOS).<br>
+                    2 - Apenas usuários Administradores poderão restaurar o backup.<br>
+                    3 - Só é permitida a restauração de arquivos de backup que estejam na mesma versão do sistema
+                    {{versao_sist}}.<br>
+                    4 - Certifique-se de que o arquivo que esteja importando seja da mesma versão.<br>
+                    5 - Clique no botão 'Importar'.<br>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4"></div>
+            <div class="input-group col-sm-6 col-md-4">
+                <span class="input-group-addon">
+                    <i class="fa fa-lock"></i>
+                </span>
+                <input type="password" id="passwd" name="passwd" [(ngModel)]="passwd" class="form-control"
+                    placeholder="Digite a Senha">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-md-4"></div>
+            <div class="input-group col-sm-6 col-md-4">
+                <span class="input-group-addon">
+                    <i class="fa fa-lock"></i>
+                </span>
+                <input type="password" id="conf_passwd" name="conf_passwd" [(ngModel)]="conf_passwd"
+                    class="form-control" placeholder="Confirme a Senha">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <div class="col-sm-12  col-md-12 text-center">
+                <button type="button" class="btn btn-primary" (click)="restoreBackup()">Importar Dados</button>
+                <button class="btn btn-default" (click)="modal.hide()">Fechar</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- Modal de Novo Backup LOCAL -->
+<ng-template #authBackup>
+    <div class="modal-header">
+        <h2 class="modal-title text-center">Novo Backup - Disco removível</h2>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modal.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div role="alert" class="alert alert-danger alert-dismissible">
+                    <h3>Instruções!</h3>
+                    Informações relacionadas a novo backup em disco removível:<br>
+                    1 - O novo backup será salvo no disco removível, já configurado automaticamente pelo sistema e com
+                    o nome padrão.<br>
+                    3 - Para realizar a restauração do backup realizado o mesmo deverá ser colocado na pasta dump_days
+                    do servidor.<br>
+                    4 - OS ARQUIVOS NÃO DEVEM SER RENOMEADOS OU ALTERADOS.<br>
+                    5 - Para realizar o backup, digite a senha do usuário logado e confirme.<br>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4"></div>
+            <div class="input-group col-sm-6 col-md-4">
+                <span class="input-group-addon">
+                    <i class="fa fa-lock"></i>
+                </span>
+                <input type="password" id="passwd" name="passwd" [(ngModel)]="passwd" class="form-control"
+                    placeholder="Digite a Senha">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-md-4"></div>
+            <div class="input-group col-sm-6 col-md-4">
+                <span class="input-group-addon">
+                    <i class="fa fa-lock"></i>
+                </span>
+                <input type="password" id="conf_passwd" name="conf_passwd" [(ngModel)]="conf_passwd"
+                    class="form-control" placeholder="Confirme a Senha">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <div class="col-sm-12  col-md-12 text-center">
+                <button type="button" class="btn btn-primary" (click)="backupLocal()">Realizar Backup</button>
+                <button class="btn btn-default" (click)="modal.hide()">Fechar</button>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,187 @@
+<!--Transferência Simples-->
+<div class="col-sm-12 sem-padding scroll-hidden" *ngIf="showAnimal">
+    <div class="card" *ngIf="new">
+        <div class="card-header">
+            <i class="fa fa-plus"></i> Realizar transferência simples
+        </div>
+        <div class="card-body">
+            <form #formPost="ngForm" (ngSubmit)="postForm(formPost)">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <ng-select name="animal_id" [items]="comboAnimais" [ngModel]="selectAnimais" bindLabel="animal_brinco"
+                            bindValue="animal_id" placeholder="Selecione um Brinco" [closeOnSelect]
+                            notFoundText="Nenhum Animal com esse brinco" (change)="getDadosAnimal($event); getComboBaiasTransferencia($event)">
+                        </ng-select>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Tatuagem">
+                                    <i class="fa fa-power-off"></i>
+                                </span>
+                                <input id="simplesTatuagem" name="simplesTatuagem" placement="top" tooltip="Tatuagem"
+                                    class="form-control" placeholder="Tatuagem" [(ngModel)]="simplesTatuagem" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Chip">
+                                    <i class="fa fa-adjust"></i>
+                                </span>
+                                <input id="simplesChip" name="simplesChip" placement="top" tooltip="Chip"
+                                    class="form-control" placeholder="Chip" [(ngModel)]="simplesChip" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Baia Atual">
+                                    <i class="icon-grid"></i>
+                                </span>
+                                <input id="antiga_baia" name="antiga_baia" placement="top" tooltip="Baia Atual"
+                                    class="form-control" placeholder="Baia Atual" [(ngModel)]="simplesBaia" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <ng-select [disabled]="!newBaia" name="nova_baia" [items]="comboBaiasTransferencia" [ngModel]="selectBaiasTransferencia" bindLabel="baia_nome"
+                            bindValue="baia_id" placeholder="Selecione a nova Baia" [closeOnSelect]
+                            notFoundText="Nenhuma Baia com esse código">
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-md btn-success" [disabled]="isBusyForm">
+                        Gravar
+                        <i class="fa fa-spin fa-spinner" *ngIf="isBusyForm"></i>
+                    </button>
+                    <button type="button" class="btn btn-md btn-default" (click)="showTransferenciaLista(); cleanDadosAnimal()">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Tranferência em Grupo-->
+<div class="col-sm-12 sem-padding" *ngIf="showGrupo">
+    <div class="card" *ngIf="new">
+        <div class="card-header">
+            <i class="fa fa-plus"></i> Realizar transferência em grupo
+        </div>
+        <div class="card-body">
+            <form #formPostGrupo="ngForm" (ngSubmit)="postGrupoForm(formPostGrupo)">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <ng-select name="nova_baia" [items]="comboBaiasGeral" [ngModel]="selectBaiasTransferencia" bindLabel="baia_nome"
+                                bindValue="animal_baia" placeholder="Selecione a baia atual" [closeOnSelect]
+                                notFoundText="Nenhuma baia com esse código" (change)="getComboBaiasTransferencia($event)">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <ng-select name="nova_baia" [items]="comboBaiasTransferencia" [ngModel]="selectBaiasTransferencia" bindLabel="baia_nome"
+                                bindValue="baia_id" placeholder="Selecione a nova baia" [closeOnSelect]
+                                notFoundText="Nenhuma baia com esse código">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Animal</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let grupo of comboGrupoBaia">
+                            <td *ngIf="comboGrupoBaia !== '0'">{{grupo.animal_brinco}}</td>
+                            <td *ngIf="comboGrupoBaia.length === 0">Não existe animais para transferência</td>
+                            <td align="right">
+                                <a (click)="this.GlobalService.marcaItem(grupo.animal_brinco);removerAnimal(grupo)" placement="top"
+                                    tooltip="Remover" class="icon-close">
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <input type="hidden" id="grupoAnimais" name="grupoAnimais" [(ngModel)]="comboGrupoBaia"
+                    class="form-control">
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-md btn-success" [disabled]="isBusyForm">
+                        Transferir Grupo
+                    </button>
+                    <button type="button" class="btn btn-md btn-default" (click)="showTransferenciaLista()">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Itens List -->
+<div class="col-lg-12 sem-padding" *ngIf="showLista">
+    <div class="card" *ngIf="read">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 padding-form">
+                    <button *ngIf="new" (click)="showTransferenciaAnimal()" class="btn btn-md btn-success">Transferir
+                        Animal</button>
+                    <button *ngIf="new" type="button" class="btn btn-md btn-success" (click)="showTransferenciaGrupo(); getComboBaiasGeral(); cleanComboGrupo()">Transferir
+                        Grupo</button>
+                </div>
+                <div class="col-sm-6  col-md-6 col-lg-6 col-xl-4">
+                    <h3>Transferências de baias</h3>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-search"></i>
+                        </span>
+                        <input type="text" id="busca" name="busca" ngModel class="form-control" placeholder="Pesquisar"
+                            (keyup)='searchFilter($event)'>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div style="overflow-x:auto;">
+                <table class="table table-striped text-center">
+                    <thead>
+                        <tr>
+                            <th>Brinco</th>
+                            <th>Tatuagem</th>
+                            <th>Chip</th>
+                            <th>Antiga Baia</th>
+                            <th>Nova Baia</th>
+                            <th>Data Transferência</th>
+                            <th>Usuário</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of itensFilter | paginate: { itemsPerPage: itemsPerPage, currentPage: page}"
+                            class="text-center">
+                            <td>{{item.brinco}}</td>
+                            <td>{{item.tatuagem}}</td>
+                            <td>{{item.chip}}</td>
+                            <td>{{item.antiga_baia}}</td>
+                            <td>{{item.nova_baia}}</td>
+                            <td>{{item.data_transferencia}}</td>
+                            <td>{{item.usuario}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <pagination-controls previousLabel="Anterior" nextLabel="Próxima" (pageChange)="page = $event"
+                class="pagination"></pagination-controls>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,135 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-sm-12 text-center">
+            <h4>Animais Alimentados (Parcial e Totalmente)</h4>
+          </div>
+          <div class="col-sm-5 mb-2">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="fa fa-search"></i>
+              </span>
+              <input type="text" id="busca" name="busca" ngModel class="form-control"
+                placeholder="Pesquisa por Chip, Brinco, Baia ou Dosador" (keyup)='searchFilter($event)'>
+            </div>
+          </div>
+          <div class="col-sm-5">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="icon-list"></i>
+              </span>
+              <select name="filtro" id="filtro" class="form-control" [ngModel]="selectFiltro"
+                (change)="getFiltro($event)">
+                <option value="1" selected>Todos</option>
+                <option value="2">Parcialmente Alimentados</option>
+                <option value="3">Completamente Alimentados</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-2 mt-px">
+            <button class="btn btn-md btn-success " (click)="getNomeGranja()" [disabled]="isBusyForm">Baixar
+              PDF</button>
+          </div>
+        </div>
+        <!--<div class="card-body">          
+          <div style="overflow-x:auto;">
+            <table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
+  
+              <thead>
+                <tr>
+                  <th>Baia</th> 
+                  <th>Brinco</th>
+                  <th>Chip</th>
+                  <th>Dia do Animal</th>
+                  <th>Dieta</th>
+                  <th>Baia</th>
+                  <th>Hora Alim.</th>
+                  <th>Dosador</th>
+                  <th>QA</th>
+                  <th>QT</th>
+                  <th>QR</th>
+                  <th>Status Alimentação</th>
+                  
+                </tr>
+              </thead>
+  
+              <tbody>
+                <tr *ngFor="let animal of dashboard" [routerLink]="'/animais/detalhes/'+animal.tb_animais_id">
+                  <td>{{ animal.brinco }}</td>
+                  <td>{{ animal.chip_num }}</td>
+                  <td>{{ animal.dia }}</td>
+                  <td>{{ animal.nome_dieta }}</td>
+                  <td>{{ animal.nome_baia }}</td>
+                  <td>{{ animal.hora_alimentado }}</td>
+                  <td>{{animal.dosador_num | slice:-4}}</td>
+                  <td>{{ animal.qa*100 }}g.</td>
+                  <td>{{ animal.qt*100 }}g.</td>
+                  <td>{{ (animal.qt-animal.qa)*100 }}g.</td>
+                  <td class="text-center" *ngIf="animal.qa >= animal.qt || animal.qr < 0"><i class ="fa fa-check" style="color:#00987e"></i></td>
+                  <td class="text-center" *ngIf="animal.qa > 0 && animal.qa < animal.qt"><i class="fa fa-circle" style="color:yellow"></i></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>-->
+      </div>
+      <div class="card-body">
+        <div *ngIf="dashboard.length > 0 " style="overflow-x:auto;">
+          <table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
+            <thead>
+              <tr>
+                <!-- <th>Baia</th> -->
+                <th class="column-order" (click)="orderByColumn('brinco')">Brinco</th>
+                <th class="column-order" (click)="orderByColumn('chip_num')">Chip</th>
+                <th class="column-order" (click)="orderByColumn('dia')">Dia do <br> Animal</th>
+                <th class="column-order" (click)="orderByColumn('nome_dieta')">Dieta</th>
+                <th class="column-order" (click)="orderByColumn('nome_baia')">Baia</th>
+                <th class="column-order" (click)="orderByColumn('hora_alimentado')">Hora Alim.</th>
+                <th class="column-order" (click)="orderByColumn('dosador_num')">Dosador</th>
+                <th class="column-order" (click)="orderByColumn('qa')">QA</th>
+                <th class="column-order" (click)="orderByColumn('qt')">QT</th>
+                <th>QR</th>
+                <th>Status <br> Alimentação</th>
+                <th>Ações</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let animal of dashboard">
+                <td>{{ animal.brinco }}</td>
+                <td>{{ animal.chip_num }}</td>
+                <td>{{ animal.dia }}</td>
+                <td>{{ animal.nome_dieta }}</td>
+                <td>{{ animal.nome_baia }}</td>
+                <td>{{ animal.hora_alimentado }}</td>
+                <td>{{animal.dosador_num | slice:-4}}</td>
+                <td *ngIf="animal.qa > animal.qt">{{ animal.qt*100}}g. *</td>
+                <td *ngIf="animal.qa <= animal.qt">{{ animal.qa*100}}g.</td>
+                <td>{{ animal.qt*100}}g.</td>
+                <td *ngIf="animal.qa <= animal.qt">{{ (animal.qt-animal.qa)*100}}g.</td>
+                <td *ngIf="animal.qa > animal.qt"> 0g.</td>
+                <!--<td>{{ animal.qa*100 }}g.</td>
+                <td>{{ animal.qt*100 }}g.</td>
+                <td>{{ (animal.qt-animal.qa)*100 }}g.</td>-->
+                <td class="text-center" *ngIf="animal.qa >= animal.qt || animal.qr < 0"><i class="fa fa-check"
+                    style="color:#00987e"></i>
+                </td>
+                <td class="text-center" *ngIf="animal.qa > 0 && animal.qa < animal.qt"><i class="fa fa-circle"
+                    style="color:yellow"></i>
+                </td>
+                <td>
+                  <a  [routerLink]="'/animais/detalhes/'+animal.tb_animais_id" placement="top" tooltip="Editar" class="icon-action">
+                    <i class="fa fa-external-link"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="loader" *ngIf="loading"></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,107 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-12 mb-2 text-center">
+                        <h4>Animais na Gestação</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-list"></i>
+                            </span>
+                            <select name="filtro" id="filtro" class="form-control" [(ngModel)]="filtro">
+                                <option value="0"> Selecione um filtro</option>
+                                <option value="1"> Buscar por Período</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            <input type="text" id="busca" name="busca" ngModel class="form-control"
+                                tooltip="Pesquisa Livre" placeholder="Pesquisar" (keyup)='searchFilter($event)'>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 mtpx-7">
+                        <button class="btn btn-md btn-success " (click)="getNomeGranja()" [disabled]="isBusyList">
+                            Baixar PDF
+                        </button>
+                    </div>
+                </div>
+                <div class="row pesquisa">
+                    <div class="col-sm-6 mb-2" *ngIf="filtro==1">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                            <input id="dt_inicial" name="dt_inicial" [(ngModel)]="dt_inicio" placeholder="Data Inicial"
+                                class="form-control" tooltip="Data Inicial" [bsConfig]="bsConfig" bsDatepicker>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 mb-2" *ngIf="filtro==1">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                            <input id="dt_final" name="dt_final" bsDatepicker [(ngModel)]="dt_final"
+                                class="form-control" placeholder="Data Final" [bsConfig]="bsConfig"
+                                tooltip="Data Final">
+                        </div>
+                    </div>
+                    <div class="col-sm-3 mt-1 text-right">
+                        <button type="submit" class="btn btn-md btn-success" (click)="getFiltroPeriodo()"
+                            *ngIf="filtro==1">
+                            Buscar
+                        </button>
+                        <button type="submit" class="btn btn-md btn-default" (click)="getAnimaisGestacao()"
+                            *ngIf="filtro==1">Limpar
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div style="overflow-x:auto;">
+                    <table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
+                        <thead>
+                            <tr class="text-center">
+                                <th class="column-order" (click)="orderByColumn('brinco')"  >Brinco</th>
+                                <th class="column-order" (click)="orderByColumn('tatuagem')"  >Tatuagem</th>
+                                <th class="column-order" (click)="orderByColumn('chip_num')"  >Chip</th>
+                                <th class="column-order" (click)="orderByColumn('baia')"  >Baia</th>
+                                <th class="column-order" (click)="orderByColumn('dt_movimentacao')"  >Data da Movimentação</th>
+                                <th class="column-order" (click)="orderByColumn('dt_inseminacao')"  >Data da Inseminação</th>
+                                <th class="column-order" (click)="orderByColumn('dia_atual')"  >Dia da Gestação</th>
+                                <th class="column-order" (click)="orderByColumn('dieta')"  >Dieta</th>
+                                <th class="column-order" (click)="orderByColumn('escore')"  >Escore</th>
+                                <th class="column-order" (click)="orderByColumn('qt_animal')"  >QT.</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let animal of itens | paginate:{itemsPerPage: itemsPerPage, currentPage: page} "
+                                class="text-center">
+                                <td>{{ animal.brinco }}</td>
+                                <td>{{ animal.tatuagem }}</td>
+                                <td>{{ animal.chip_num }}</td>
+                                <td>{{ animal.baia }}</td>
+                                <td>{{ animal.dt_movimentacao }}</td>
+                                <td>{{ animal.dt_inseminacao }}</td>
+                                <td>{{ animal.dia_atual }}</td>
+                                <td>{{ animal.dieta }}</td>
+                                <td>{{ animal.escore }}</td>
+                                <td>{{ animal.qt_animal }} g.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="loader" *ngIf="loading"></div>
+                    <pagination-controls previousLabel="Anterior" nextLabel="Próxima" (pageChange)="page = $event"
+                        class="pagination"></pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

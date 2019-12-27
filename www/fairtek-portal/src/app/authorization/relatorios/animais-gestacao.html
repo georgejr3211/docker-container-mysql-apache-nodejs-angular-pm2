@@ -1,0 +1,72 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-8 text-right">
+                        <h4>Animais por dias de Gestação</h4>
+                    </div>
+                    <div class="col-sm-4 text-right">
+                        <button class="btn btn-md btn-success " (click)="captureScreen()" [disabled]="isBusyForm">Baixar
+                            PDF</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div style="display: block" *ngIf="showGraph == 1">
+                    <canvas id="contentToConvert" baseChart [datasets]="barChartData" [labels]="barChartLabels"
+                        [colors]="lineChartColors" [options]="barChartOptions" [legend]="barChartLegend"
+                        [chartType]="barChartType" (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)">
+                    </canvas>
+                </div>
+                <div class="loader" *ngIf="loading"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6 text-center">
+                        <h4>Quantidade de Animais por dias de Gestação</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            <input type="text" id="busca" name="busca" ngModel class="form-control"
+                                placeholder="Pesquisa por Dia" (keyup)='searchFilter($event)'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div style="overflow-x:auto;">
+                    <table class="table table-striped text-center">
+                        <thead>
+                            <tr class="text-center">
+                                <th class="column-order" (click)="orderByColumn('dia')" >Dia</th>
+                                <th class="column-order" (click)="orderByColumn('qtd')" >Qtd. Animais</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let dias of relatorio | paginate:{itemsPerPage: itemsPerPage, currentPage: page} "
+                                class="text-center">
+                                <td>{{ dias.dia }}</td>
+                                <td>{{ dias.qtd }} und.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="loader" *ngIf="loading"></div>
+                    <pagination-controls previousLabel="Anterior" nextLabel="Próxima" (pageChange)="page = $event"
+                        class="pagination"></pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

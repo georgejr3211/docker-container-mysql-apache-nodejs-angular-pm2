@@ -1,0 +1,219 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <h4>Histórico Semanal</h4>
+                    </div>
+                    <div class="col-sm-4 mb-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            <input type="text" id="busca" name="busca" ngModel class="form-control"
+                                placeholder="Pesquisar" (keyup)='searchFilter($event)'>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 mb-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="icon-list"></i>
+                            </span>
+                            <select name="filtro_porcentagem" id="filtro_porcentagem" class="form-control"
+                                [(ngModel)]="filtro_porcentagem" (change)="atualizaFiltro()">
+                                <option value="1" selected> Inteiro</option>
+                                <option value="2"> Percentual</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="icon-list"></i>
+                            </span>
+                            <select name="filtro" id="filtro" class="form-control" [(ngModel)]="filtro">
+                                <option value="1"> Alimentados 100%</option>
+                                <option value="2"> Alimentados parcialmente</option>
+                                <option value="3"> Não Alimentados</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 text-center mtpx-7">                        
+                            <button type="submit" class="btn btn-md btn-success" (click)="atualizaFiltro()"
+                                [disabled]="loading">Atualizar
+                            </button>
+                            <button class="btn btn-md btn-success " (click)="exportAsPDF()" [disabled]="loading">
+                                Baixar PDF
+                            </button>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div style="overflow-x:auto;">
+                    <table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Baia</th>
+                                <th class="text-center">Data Entrada</th>
+                                <!-- <th>Matrizes na baia</th> -->
+                                <th class="text-center">{{this.dia[0]}}</th>
+                                <th class="text-center">{{this.dia[1]}}</th>
+                                <th class="text-center">{{this.dia[2]}}</th>
+                                <th class="text-center">{{this.dia[3]}}</th>
+                                <th class="text-center">{{this.dia[4]}}</th>
+                                <th class="text-center">{{this.dia[5]}}</th>
+                                <th class="text-center">{{this.dia[6]}}</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <!-- <div *ngIf="filtro_porcentagem_t">
+                                <tr *ngFor="let historico of itensFilter">
+                                    <td>{{ historico.nome_baia }}</td>
+                                    <td>{{ historico.data_entrada }}</td>
+                                    <td>{{ historico.qtd_animal }}</td>
+                                    <td *ngIf="historico.dia0 != null">{{ historico.dia0 }}</td>
+                                    <td *ngIf="historico.dia1 != null">{{ historico.dia1 }}</td>
+                                    <td *ngIf="historico.dia2 != null">{{ historico.dia2 }}</td>
+                                    <td *ngIf="historico.dia3 != null">{{ historico.dia3 }}</td>
+                                    <td *ngIf="historico.dia4 != null">{{ historico.dia4 }}</td>
+                                    <td *ngIf="historico.dia5 != null">{{ historico.dia5 }}</td>
+                                    <td *ngIf="historico.dia6 != null">{{ historico.dia6 }}</td>
+
+                                    <td *ngIf="historico.dia0 == null">0</td>
+                                    <td *ngIf="historico.dia1 == null">0</td>
+                                    <td *ngIf="historico.dia2 == null">0</td>
+                                    <td *ngIf="historico.dia3 == null">0</td>
+                                    <td *ngIf="historico.dia4 == null">0</td>
+                                    <td *ngIf="historico.dia5 == null">0</td>
+                                    <td *ngIf="historico.dia6 == null">0</td>
+                                </tr>
+                            </div>
+
+                            <div *ngIf="filtro_porcentagem_f">
+                                <tr *ngFor="let historico of itensFilter2">
+                                    <td>{{ historico.nome_baia }}</td>
+                                    <td>{{ historico.data_entrada }}</td>
+                                    <td>{{ historico.qtd_animal }}</td>
+                                    <td *ngIf="historico.dia0 != null">{{ historico.dia0 }}%</td>
+                                    <td *ngIf="historico.dia1 != null">{{ historico.dia1 }}%</td>
+                                    <td *ngIf="historico.dia2 != null">{{ historico.dia2 }}%</td>
+                                    <td *ngIf="historico.dia3 != null">{{ historico.dia3 }}%</td>
+                                    <td *ngIf="historico.dia4 != null">{{ historico.dia4 }}%</td>
+                                    <td *ngIf="historico.dia5 != null">{{ historico.dia5 }}%</td>
+                                    <td *ngIf="historico.dia6 != null">{{ historico.dia6 }}%</td>
+
+                                    <td *ngIf="historico.dia0 == null">0%</td>
+                                    <td *ngIf="historico.dia1 == null">0%</td>
+                                    <td *ngIf="historico.dia2 == null">0%</td>
+                                    <td *ngIf="historico.dia3 == null">0%</td>
+                                    <td *ngIf="historico.dia4 == null">0%</td>
+                                    <td *ngIf="historico.dia5 == null">0%</td>
+                                    <td *ngIf="historico.dia6 == null">0%</td>
+                                </tr>
+                            </div> -->
+                            <tr *ngFor="let item of itensFilter">
+                                <td class="text-center">{{ item.nome_baia }}</td>
+                                <td class="text-center">{{ item.data_entrada }}</td>
+                                <!-- <td>{{ item.qtd_animal }}</td> -->
+                                <!-- ALIMENTADOS 100% -->
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 1 && item.dia0 != null" tooltip="{{
+                                    item.dia0 }} Totalmente Alimentados / {{ item.dia0_apto }} Aptos a se alimentar">{{
+                                    item.dia0 }} / {{ item.dia0_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 1 && item.dia1 != null" tooltip="{{
+                                    item.dia1 }} Totalmente Alimentados / {{ item.dia1_apto }} Aptos a se alimentar">{{
+                                    item.dia1 }} / {{ item.dia1_apto }}</td> 
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 1 && item.dia2 != null" tooltip="{{
+                                    item.dia2 }} Totalmente Alimentados / {{ item.dia2_apto }} Aptos a se alimentar">{{
+                                    item.dia2 }} / {{ item.dia2_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 1 && item.dia3 != null" tooltip="{{
+                                    item.dia3 }} Totalmente Alimentados / {{ item.dia3_apto }} Aptos a se alimentar">{{
+                                    item.dia3 }} / {{ item.dia3_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 1 && item.dia4 != null" tooltip="{{
+                                    item.dia4 }} Totalmente Alimentados / {{ item.dia4_apto }} Aptos a se alimentar">{{
+                                    item.dia4 }} / {{ item.dia4_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 1 && item.dia5 != null" tooltip="{{
+                                    item.dia5 }} Totalmente Alimentados / {{ item.dia5_apto }} Aptos a se alimentar">{{
+                                    item.dia5 }} / {{ item.dia5_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 1 && item.dia6 != null" tooltip="{{
+                                    item.dia6 }} Totalmente Alimentados / {{ item.dia6_apto }} Aptos a se alimentar">{{
+                                    item.dia6 }} / {{ item.dia6_apto }}</td>
+
+                                <!-- ALIMENTADOS PARCIALMENTE -->
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 1 && item.dia0_parcial != null" tooltip="{{
+                                    item.dia0_parcial }} Parcialmente Alimentados / {{ item.dia0_apto }} Aptos a se alimentar">{{
+                                    item.dia0_parcial }} / {{ item.dia0_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 1 && item.dia1_parcial != null" tooltip="{{
+                                    item.dia1_parcial }} Parcialmente Alimentados / {{ item.dia1_apto }} Aptos a se alimentar">{{
+                                    item.dia1_parcial }} / {{ item.dia1_apto }}</td> 
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 1 && item.dia2_parcial != null" tooltip="{{
+                                    item.dia2_parcial }} Parcialmente Alimentados / {{ item.dia2_apto }} Aptos a se alimentar">{{
+                                    item.dia2_parcial }} / {{ item.dia2_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 1 && item.dia3_parcial != null" tooltip="{{
+                                    item.dia3_parcial }} Parcialmente Alimentados / {{ item.dia3_apto }}Aptos a se alimentar">{{
+                                    item.dia3_parcial }} / {{ item.dia3_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 1 && item.dia4_parcial != null" tooltip="{{
+                                    item.dia4_parcial }} Parcialmente Alimentados / {{ item.dia4_apto }} Aptos a se alimentar">{{
+                                    item.dia4_parcial }} / {{ item.dia4_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 1 && item.dia5_parcial != null" tooltip="{{
+                                    item.dia5_parcial }} Parcialmente Alimentados / Aptos a se alimentar">{{
+                                    item.dia5_parcial }} / {{ item.dia5_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 1 && item.dia6_parcial != null" tooltip="{{
+                                    item.dia6_parcial }} Parcialmente Alimentados / {{ item.dia6_apto }} Aptos a se alimentar">{{
+                                    item.dia6_parcial }} / {{ item.dia6_apto }}</td>
+
+                                <!-- NAO ALIMENTADOS -->
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 1 && item.dia0_nao_alimentado != null" tooltip="{{
+                                    item.dia0_nao_alimentado }} Não Alimentados / {{ item.dia0_apto }} Aptos a se alimentar">{{
+                                    item.dia0_nao_alimentado }} / {{ item.dia0_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 1 && item.dia1_nao_alimentado != null" tooltip="{{
+                                    item.dia1_nao_alimentado }} Não Alimentados / {{ item.dia1_apto }} Aptos a se alimentar">{{
+                                    item.dia1_nao_alimentado }} / {{ item.dia1_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 1 && item.dia2_nao_alimentado != null" tooltip="{{
+                                    item.dia2_nao_alimentado }} Não Alimentados / {{ item.dia2_apto }} Aptos a se alimentar">{{
+                                    item.dia2_nao_alimentado }} / {{ item.dia2_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 1 && item.dia3_nao_alimentado != null" tooltip="{{
+                                    item.dia3_nao_alimentado }} Não Alimentados / {{ item.dia3_apto }} Aptos a se alimentar">{{
+                                    item.dia3_nao_alimentado }} / {{ item.dia3_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 1 && item.dia4_nao_alimentado != null" tooltip="{{
+                                    item.dia4_nao_alimentado }} Não Alimentados / {{ item.dia4_apto }} Aptos a se alimentar">{{
+                                    item.dia4_nao_alimentado }} / {{ item.dia4_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 1 && item.dia5_nao_alimentado != null" tooltip="{{
+                                    item.dia5_nao_alimentado }} Não Alimentados / {{ item.dia5_apto }} Aptos a se alimentar">{{
+                                    item.dia5_nao_alimentado }} / {{ item.dia5_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 1 && item.dia6_nao_alimentado != null" tooltip="{{
+                                    item.dia6_nao_alimentado }} Não Alimentados / {{ item.dia6_apto }} Aptos a se alimentar">{{
+                                    item.dia6_nao_alimentado }} / {{ item.dia6_apto }}</td>
+
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 2 && filtro_porcentagem == 2" tooltip="{{
+                                    item.dia0 }} Não Alimentados / {{ item.dia0_apto }} Aptos a se alimentar">{{
+                                    item.dia0 }} / {{ item.dia0_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 2 && filtro_porcentagem == 2" tooltip="{{
+                                    item.dia1 }} Não Alimentados / {{ item.dia1_apto }} Aptos a se alimentar">{{
+                                    item.dia1 }} / {{ item.dia1_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 2 && filtro_porcentagem == 2" tooltip="{{
+                                    item.dia2 }} Não Alimentados / {{ item.dia2_apto }} Aptos a se alimentar">{{
+                                    item.dia2 }} / {{ item.dia2_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 2 && filtro_porcentagem == 2" tooltip="{{
+                                    item.dia3 }} Não Alimentados / {{ item.dia3_apto }} Aptos a se alimentar">{{
+                                    item.dia3 }} / {{ item.dia3_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 2 && filtro_porcentagem == 2" tooltip="{{
+                                    item.dia4 }} Não Alimentados / {{ item.dia4_apto }} Aptos a se alimentar">{{
+                                    item.dia4 }} / {{ item.dia4_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 2 && filtro_porcentagem == 2" tooltip="{{
+                                    item.dia5 }} Não Alimentados / {{ item.dia5_apto }} Aptos a se alimentar">{{
+                                    item.dia5 }} / {{ item.dia5_apto }}</td>
+                                <td class="text-center" *ngIf="filtro_porcentagem_atualiza == 2 && filtro_porcentagem == 2" tooltip="{{
+                                    item.dia6 }} Não Alimentados / {{ item.dia6_apto }} Aptos a se alimentar">{{
+                                    item.dia6 }} / {{ item.dia6_apto }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="loader" *ngIf="loading"></div>
+            </div>
+        </div>
+    </div>
+</div>

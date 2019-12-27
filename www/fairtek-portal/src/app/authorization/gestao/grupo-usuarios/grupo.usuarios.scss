@@ -1,0 +1,58 @@
+.titleMenu{
+    font-size: 22px;
+    height: 25px;
+    color: aliceblue;
+    margin-left: 5px;
+    text-shadow: .5px .5px grey;
+
+}
+.titleSubMenu{
+    font-size: 17px;
+    margin-top: 30px;
+    border-bottom: solid 0.5px #007e69; 
+}
+
+.cardMenu{
+    margin-top: 10px!important;
+    height: 200px;
+    text-align: center
+}
+
+.cardContainerMenus{
+    padding-left: 1%;
+}
+
+.permisson-list{
+    list-style: none;
+    
+}
+
+.permisson-list li{
+    margin: 5px;
+}
+.permisson-list li div{
+    display: block;
+    float: center!important;
+}
+
+.cardTitle{
+    vertical-align: center;
+    width: 100%;
+    background: rgba(0, 77, 64, 0.5);
+    height: 32px;
+    margin-top:80px;
+    border: solid .5px grey;
+
+
+}
+.title1 {
+    margin-top: 50px;
+    text-align: center;
+    float: center;
+}
+
+@media(max-width: 1100px) {
+    .cardContainerMenus{
+        padding-left: 0%!important;
+    }
+}

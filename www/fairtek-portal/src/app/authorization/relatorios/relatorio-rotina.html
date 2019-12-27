@@ -1,0 +1,160 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-sm-12 text-center">
+            <h4>Não Alimentados</h4>
+          </div>
+          <div class="col-sm-6 mb-2">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="fa fa-search"></i>
+              </span>
+              <input type="text" id="busca" name="busca" ngModel class="form-control"
+                placeholder="Pesquisa por Chip, Brinco ou Baia" (keyup)='searchFilter($event)'>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="icon-list"></i>
+              </span>
+              <select name="filtro" id="filtro" class="form-control" [(ngModel)]="selectFiltro"
+                (change)="getFiltro($event)">
+                <option value="2" selected> + 2 dias sem alimentar</option>
+                <option value="1"> + 1 dia sem alimentar</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-2 mtpx-7">
+            <button class="btn btn-md btn-success " (click)="getNomeGranja()" [disabled]="loading">Baixar PDF</button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <!-- <div role="alert" class="alert alert-info alert-dismissible"> *ngIf="dashboard.animais_nao_alimentados_24_hrs.length == 0"-->
+        <!--
+            <button aria-label="Close" class="close" type="button">
+              <span aria-hidden="true">×</span>
+            </button>
+            Nenhum animal alimentado nas últimas 24 hrs
+          </div>-->
+        <div *ngIf="selectFiltro == 1" style="overflow-x:auto;">
+          <table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
+            <thead>
+              <tr>
+                <th class="column-order" (click)="orderByColumn('brinco')">Brinco</th>
+                <th class="column-order" (click)="orderByColumn('chip_num')" >Chip</th>
+                <th class="column-order" (click)="orderByColumn('ultimo_dia')" >Dia do Animal</th>
+                <th class="column-order" (click)="orderByColumn('nome_dieta')" >Dieta</th>
+                <th class="column-order" (click)="orderByColumn('baia_nome')" >Baia Origem</th>
+                <th class="column-order" (click)="orderByColumn('tempo_entre_dosagem')" >Temp. Dosagem</th>
+                <th>Hoje</th>
+                <th>Ontem</th>
+                <!--<th>Anteontem</th>-->
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let animal of dashboard.animais_nao_alimentados_24_hrs">
+                <td>{{ animal.brinco }}</td>
+                <td>{{ animal.chip_num }}</td>
+                <td>{{ animal.ultimo_dia}}</td>
+                <td>{{ animal.nome_dieta }}</td>
+                <td>{{ animal.baia_nome }} </td>
+                <td *ngIf="animal.tempo_entre_dosagem === '-'">{{ animal.tempo_entre_dosagem }}</td>
+                <td *ngIf="animal.tempo_entre_dosagem != '-'">{{ animal.tempo_entre_dosagem }}s</td>
+                <td class="text-center" *ngIf="animal.hoje == 'Completamente' || animal.hoje == 'Parcialmente'"><i
+                    [class]="animal.hoje == 'Completamente' ? 'fa fa-check' : 'fa fa-circle'"
+                    [style.color]="animal.hoje == 'Completamente' ? '#00987e' : '#ffff00'"></i></td>
+                <td class="text-center" *ngIf="(animal.hoje != 'Completamente' && animal.hoje != 'Parcialmente') "><i
+                    [class]="animal.hoje == 'Sem_direito' ? 'fa fa-circle' : 'fa fa-remove'"
+                    [style.color]="animal.hoje == 'Sem_direito' ? '#7B7B7B' : '#f86c6b'"></i></td>
+
+                <td class="text-center" *ngIf="animal.ontem == 'Completamente' || animal.ontem == 'Parcialmente'"><i
+                    [class]="animal.ontem == 'Completamente' ? 'fa fa-check' : 'fa fa-circle'"
+                    [style.color]="animal.ontem == 'Completamente' ? '#00987e' : '#ffff00'"></i></td>
+                <td class="text-center" *ngIf="(animal.ontem != 'Completamente' && animal.ontem != 'Parcialmente') "><i
+                    [class]="animal.ontem == 'Sem_direito' ? 'fa fa-circle' : 'fa fa-remove'"
+                    [style.color]="animal.ontem == 'Sem_direito' ? '#7B7B7B' : '#f86c6b'"></i></td>
+                <td>
+                  <a [routerLink]="'/animais/detalhes/'+animal.id" placement="top" tooltip="Editar" class="icon-action">
+                    <i class="fa fa-external-link"></i>
+                  </a></td>
+
+                <!--<td class="text-center"
+                  *ngIf="animal.anteontem == 'Completamente' || animal.anteontem == 'Parcialmente'"><i
+                    [class]="animal.anteontem == 'Completamente' ? 'fa fa-check' : 'fa fa-circle'"
+                    [style.color]="animal.anteontem == 'Completamente' ? '#00987e' : '#ffff00'"></i></td>
+                <td class="text-center"
+                  *ngIf="(animal.anteontem != 'Completamente' && animal.anteontem != 'Parcialmente') "><i
+                    [class]="animal.anteontem == 'Sem_direito' ? 'fa fa-circle' : 'fa fa-remove'"
+                    [style.color]="animal.anteontem == 'Sem_direito' ? '#7B7B7B' : '#f86c6b'"></i></td>-->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf=" selectFiltro == 2 " style="overflow-x:auto;">
+          <table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
+            <thead>
+              <tr>
+                <th (click)="orderByColumn('brinco')">Brinco</th>
+                <th (click)="orderByColumn('chip_num')" >Chip</th>
+                <th (click)="orderByColumn('ultimo_dia')" >Dia do Animal</th>
+                <th (click)="orderByColumn('nome_dieta')" >Dieta</th>
+                <th (click)="orderByColumn('baia_nome')" >Baia Origem</th>
+                <th (click)="orderByColumn('tempo_entre_dosagem')" >Temp. Dosagem</th>
+                <th>Hoje</th>
+                <th>Ontem</th>
+                <th>Anteontem</th>
+                <th>Ações</th>
+
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let animal of dashboard.animais_nao_alimentados_48_hrs">
+                <td>{{ animal.brinco }}</td>
+                <td>{{ animal.chip_num }}</td>
+                <td>{{ animal.ultimo_dia}}</td>
+                <td>{{ animal.nome_dieta }}</td>
+                <td>{{ animal.baia_nome }} </td>
+                <td *ngIf="animal.tempo_entre_dosagem === '-'">{{ animal.tempo_entre_dosagem }}</td>
+                <td *ngIf="animal.tempo_entre_dosagem != '-'">{{ animal.tempo_entre_dosagem }}s</td>
+                <td class="text-center" *ngIf="animal.hoje == 'Completamente' || animal.hoje == 'Parcialmente'"><i
+                    [class]="animal.hoje == 'Completamente' ? 'fa fa-check' : 'fa fa-circle'"
+                    [style.color]="animal.hoje == 'Completamente' ? '#00987e' : '#ffff00'"></i></td>
+                <td class="text-center" *ngIf="(animal.hoje != 'Completamente' && animal.hoje != 'Parcialmente') "><i
+                    [class]="animal.hoje == 'Sem_direito' ? 'fa fa-circle' : 'fa fa-remove'"
+                    [style.color]="animal.hoje == 'Sem_direito' ? '#7B7B7B' : '#f86c6b'"></i></td>
+
+                <td class="text-center" *ngIf="animal.ontem == 'Completamente' || animal.ontem == 'Parcialmente'"><i
+                    [class]="animal.ontem == 'Completamente' ? 'fa fa-check' : 'fa fa-circle'"
+                    [style.color]="animal.ontem == 'Completamente' ? '#00987e' : '#ffff00'"></i></td>
+                <td class="text-center" *ngIf="(animal.ontem != 'Completamente' && animal.ontem != 'Parcialmente') "><i
+                    [class]="animal.ontem == 'Sem_direito' ? 'fa fa-circle' : 'fa fa-remove'"
+                    [style.color]="animal.ontem == 'Sem_direito' ? '#7B7B7B' : '#f86c6b'"></i></td>
+
+                <td class="text-center"
+                  *ngIf="animal.anteontem == 'Completamente' || animal.anteontem == 'Parcialmente'"><i
+                    [class]="animal.anteontem == 'Completamente' ? 'fa fa-check' : 'fa fa-circle'"
+                    [style.color]="animal.anteontem == 'Completamente' ? '#00987e' : '#ffff00'"></i></td>
+                <td class="text-center"
+                  *ngIf="(animal.anteontem != 'Completamente' && animal.anteontem != 'Parcialmente') "><i
+                    [class]="animal.anteontem == 'Sem_direito' ? 'fa fa-circle' : 'fa fa-remove'"
+                    [style.color]="animal.anteontem == 'Sem_direito' ? '#7B7B7B' : '#f86c6b'"></i></td>
+                <td>
+                  <a [routerLink]="'/animais/detalhes/'+animal.id" placement="top" tooltip="Editar" class="icon-action">
+                    <i class="fa fa-external-link"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="loader" *ngIf="loading"></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="app flex-row align-items-center bg-login">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <div class="card-group">
+          <div class="card p-4">
+            <div class="card-body">
+              <form #formPut="ngForm" (ngSubmit)="putForm(formPut)">
+                <div class="text-center">
+                  <img src="/assets/img/sowtek.png" class="logo-login img-sowtek">
+                </div>
+
+                <p class="text-muted">Recuperar senha de acesso:</p>
+                <div class="input-group mb-3">
+                  <span class="input-group-addon">
+                    <i class="icon-user"></i>
+                  </span>
+                  <input type="text" id="usuario" name="email" ngModel class="form-control" placeholder="Digite seu e-mail">
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <button type="submit" class="btn btn-primary px-4">Recuperar</button>
+                  </div>
+                  <div class="col-6 text-right">
+                    <a routerLink="/no-auth/login" class="btn btn-link px-0">Voltar para Login</a>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

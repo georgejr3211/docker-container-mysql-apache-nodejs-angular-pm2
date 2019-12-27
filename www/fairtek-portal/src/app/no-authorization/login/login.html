@@ -1,0 +1,52 @@
+<div class="app flex-row align-items-center bg-login">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-sm-4 col-md-6 col-lg-4">
+        <div class="card-group">
+          <div class="card bb-card login-p4">
+            <div class="card-body c-top-p0">
+
+              <div class="text-center">
+                <img src="/assets/img/sowtek.png" class="logo-login img-sowtek">
+              </div>
+
+              <form #form="ngForm" (ngSubmit)="getLogin(form)">
+                <p class="text-muted"><strong>Informe seus dados para entrar:</strong></p>
+                <div class="input-group mb-3">
+                  <span class="input-group-addon">
+                    <i class="icon-user"></i>
+                  </span>
+                  <input type="email" name="email" ngModel class="form-control" placeholder="E-mail">
+                </div>
+                <div class="input-group mb-4">
+                  <span class="input-group-addon">
+                    <i class="icon-lock"></i>
+                  </span>
+                  <input type="password" name="senha" ngModel class="form-control" placeholder="************">
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <button type="button" type="submit" class="btn btn-primary px-4">Login</button>
+                  </div>
+                  <div class="col-6 text-right">
+                    <a routerLink="/no-auth/recovery" class="btn btn-link px-0">Esqueceu a senha?</a>
+                  </div>
+                </div>
+              </form>
+
+            </div>
+           
+          </div>
+        </div>
+        <div class="row bottom c-green text-center">
+          <div class="col-sm-12 col-md-7">
+            <strong>Tecnologia com Sabedoria.</strong>
+          </div>
+          <div class="col-sm-12 col-md-5">
+            <img src="/assets/img/fairtek-logo-light.png" class="img-fairtek-logo">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

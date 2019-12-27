@@ -1,0 +1,398 @@
+<!--INSERIR-->
+<div class="col-sm-12 sem-padding" *ngIf="_ShowService.inserir">
+    <div class="card">
+        <div class="card-header">
+            <tabset #Tabs>
+                <!--Granja-->
+                <tab heading="Inserir Nova Granja">
+                    <div class="card-body">
+                        <form #formPost="ngForm" (ngSubmit)="postForm(formPost)">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" placement="top" tooltip="Nome">
+                                                <i class="fa fa-user"></i>
+                                            </span>
+                                            <input type="text" id="nome" name="nome" placement="top" tooltip="Nome" ngModel class="form-control" placeholder="Nome">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <select name="fazenda_granja" placement="top" tooltip="Fazenda" [ngModel]="selectFazendas" class="form-control" *ngIf="comboFazendas != 0">
+                                            <option value="0">(Selecione a fazenda)</option>
+                                            <option *ngFor="let item of comboFazendas" value="{{item.id}}">{{item.nome}}</option>
+                                        </select>
+                                        <span *ngIf="comboFazendas == 0">
+                                            <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Carregando...
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" placement="top" tooltip="Localização">
+                                                <i class="fa fa-map-marker"></i>
+                                            </span>
+                                            <input type="text" id="localizacao" name="localizacao" placement="top" tooltip="Localização" ngModel class="form-control"
+                                                placeholder="Localização (Latitude, Longitude)">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-8">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" placement="top" tooltip="Endereço">
+                                                <i class="fa fa-map-marker"></i>
+                                            </span>
+                                            <input type="text" id="endereco" placement="top" tooltip="Endereço" name="endereco" ngModel class="form-control" placeholder="Endereço">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <select name="produtores_id" placement="top" tooltip="Produtor da granja" [ngModel]="selectProdutores" class="form-control"
+                                            *ngIf="comboProdutores != 0">
+                                            <option value="0">(Selecione o produtor da granja)</option>
+                                            <option *ngFor="let item of comboProdutores" value="{{item.id}}">{{item.nome}}</option>
+                                        </select>
+                                        <span *ngIf="comboProdutores == 0">
+                                            <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Carregando...
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <select name="veterinarios_id" placement="top" tooltip="Veterinário responsável" [ngModel]="selectVeterinarios" class="form-control"
+                                            *ngIf="comboVeterinarios != 0">
+                                            <option value="0">(Selecione o veterinário responsável)</option>
+                                            <option *ngFor="let item of comboVeterinarios" value="{{item.id}}">{{item.nome}}</option>
+                                        </select>
+                                        <span *ngIf="comboVeterinarios == 0">
+                                            <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Carregando...
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <select name="nutricionistas_id" placement="top" tooltip="Nutricionista responsável" [ngModel]="selectNutricionistas" class="form-control"
+                                            *ngIf="comboNutricionistas != 0">
+                                            <option value="0">(Selecione o nutricionista responsável)</option>
+                                            <option *ngFor="let item of comboNutricionistas" value="{{item.id}}">{{item.nome}}</option>
+                                        </select>
+                                        <span *ngIf="comboNutricionistas == 0">
+                                            <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Carregando...
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <select name="gerentes_id" placement="top" tooltip="Gerente responsável" [ngModel]="selectGerentes" class="form-control"
+                                            *ngIf="comboGerentes != 0">
+                                            <option value="0">(Selecione o gerente responsável)</option>
+                                            <option *ngFor="let item of comboGerentes" value="{{item.id}}">{{item.nome}}</option>
+                                        </select>
+                                        <span *ngIf="comboGerentes == 0">
+                                            <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Carregando...
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <select name="operadores_id" placement="top" tooltip="Operador responsável" [ngModel]="selectOperadores" class="form-control"
+                                            *ngIf="comboOperadores != 0">
+                                            <option value="0">(Selecione o operador responsável)</option>
+                                            <option *ngFor="let item of comboOperadores" value="{{item.id}}">{{item.nome}}</option>
+                                        </select>
+                                        <span *ngIf="comboOperadores == 0">
+                                            <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Carregando...
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <select name="modulo_de_producao" placement="top" tooltip="Módulo de produção" [ngModel]="selectModulosDeProducao" class="form-control">
+                                            <option value="0">(Selecione o módulo de produção)</option>
+                                            <option value="CC">CC - Ciclo Completo</option>
+                                            <option value="UPL">UPL - Unidade de Produção de Leitões</option>
+                                            <option value="UPD">UPD - Unidade de Produção de Desmamados</option>
+                                            <option value="UT">UT – Unidade de Terminação</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <select name="geneticas_id" placement="top" tooltip="Genética predominante" [ngModel]="selectGeneticas" class="form-control"
+                                            *ngIf="comboGeneticas != 0">
+                                            <option value="0">(Selecione a genética predominante)</option>
+                                            <option *ngFor="let item of comboGeneticas" value="{{item.id}}">{{item.nome}}</option>
+                                        </select>
+                                        <span *ngIf="comboGeneticas == 0">
+                                            <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Carregando...
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <select name="plano" [ngModel]="selectPlanos" class="form-control" placement="top" tooltip="Plano de assistência técnica">
+                                            <option value="0">(Selecione o plano de assistência técnica)</option>
+                                            <option value="1">Platinum</option>
+                                            <option value="2">Ouro</option>
+                                            <option value="3">Prata</option>
+                                            <option value="4">Demanda</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" placement="top" tooltip="Quantidade de barracões">
+                                                <i class="fa fa-superscript"></i>
+                                            </span>
+                                            <input type="number" id="qt_barracoes" min="1" placement="top" tooltip="Quantidade de barracões" name="qt_barracoes" ngModel 
+                                                class="form-control" placeholder="Quantidade de barracões" (change)="qt_barracoes=$event;barracoesChanged()" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <div class="input-group input-switch" placement="top" tooltip="Ativo">
+                                            Ativo&nbsp;&nbsp;
+                                            <label class="switch switch-3d switch-primary">
+                                                <input type="checkbox" readonly name="ativo" ngModel class="switch-input">
+                                                <span class="switch-label"></span>
+                                                <span class="switch-handle"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-10"></div>
+                                <div class="col-sm-1">
+                                    <button type="submit" class="btn btn-md btn-default" (click)="_ShowService.showInserir()">
+                                        Cancelar
+                                    </button>
+                                </div>
+                                <div class="col-sm-1">
+                                    <button type="button" class="btn btn-md btn-success">
+                                        Próximo
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </tab>
+                <!--Barracões-->
+                <tab heading="Inserir Barracões">
+                    <div class="row" *ngFor="let config of configBarracoes">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon" placement="top" tooltip="Nome">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <input type="text" id="nome" name="nome" placement="top" tooltip="Nome" ngModel class="form-control" placeholder="Nome">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon" placement="top" tooltip="Nome">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <input type="text" id="nome" name="nome" placement="top" tooltip="Nome" ngModel class="form-control" placeholder="Nome">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <div class="input-group input-switch" placement="top" tooltip="Ativo">
+                                    Ativo&nbsp;&nbsp;
+                                    <label class="switch switch-3d switch-primary">
+                                        <input type="checkbox" readonly name="ativo" ngModel class="switch-input">
+                                        <span class="switch-label"></span>
+                                        <span class="switch-handle"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-10"></div>
+                        <div class="col-sm-1">
+                            <button type="submit" class="btn btn-md btn-default" (click)="_ShowService.showInserir()">
+                                Voltar
+                            </button>
+                        </div>
+                        <div class="col-sm-1">
+                            <button type="button" class="btn btn-md btn-success">
+                                Próximo
+                            </button>
+                        </div>
+                    </div>
+                </tab>
+                <!--Baias-->
+                <tab heading="Inserir Baias">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4>Barracão - 01</h4>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon" placement="top" tooltip="Nome">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <input type="text" id="nome" name="nome" placement="top" tooltip="Nome" ngModel class="form-control" placeholder="Nome" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon" placement="top" tooltip="Total">
+                                        <i class="fa fa-superscript"></i>
+                                    </span>
+                                    <input type="number" id="total" name="total" placement="top" min="0" tooltip="Total" [ngModel]="total" (ngModelChange)="total=$event;femeaChanged($event)"
+                                        class="form-control" placeholder="m&#178; Total">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon" placement="top" tooltip="Capacidade">
+                                        <i class="fa fa-sort-numeric-asc"></i>
+                                    </span>
+                                    <input type="number" id="capacidade" name="capacidade" min="0" placement="top" tooltip="Espaço matriz" [ngModel]="capacidade"
+                                        (ngModelChange)="capacidade=$event;femeaChanged($event)" class="form-control" placeholder="Espaço por matriz">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon" placement="top" tooltip="Fêmeas na baia">
+                                        <i class="fa fa-paw"></i>
+                                    </span>
+                                    <input type="number" id="femea" name="femea" placement="top" tooltip="Fêmeas na baia" class="form-control" placeholder="Fêmeas na baia"
+                                        [ngModel]="femea" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="form-group">
+                                <div class="input-group input-switch" placement="top" tooltip="Ativo">
+                                    <label class="switch switch-3d switch-primary">
+                                        <input type="checkbox" readonly name="ativo" ngModel class="switch-input">
+                                        <span class="switch-label"></span>
+                                        <span class="switch-handle"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-10"></div>
+                        <div class="col-sm-1">
+                            <button type="submit" class="btn btn-md btn-default" (click)="_ShowService.showInserir()">
+                                Voltar
+                            </button>
+                        </div>
+                        <div class="col-sm-1">
+                            <button type="button" class="btn btn-md btn-success">
+                                Gravar
+                            </button>
+                        </div>
+                    </div>
+                </tab>
+            </tabset>
+        </div>
+    </div>
+</div>
+
+<!--EDITAR-->
+<div class="col-sm-12 sem-padding" *ngIf="_ShowService.editar">
+    Editar
+</div>
+
+<!--LISTAR-->
+<div class="col-lg-12 sem-padding" *ngIf="_ShowService.listar">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-sm-6 padding-form">
+                    <button (click)="_ShowService.showInserir()" class="btn btn-md btn-success">Novo</button>
+                </div>
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-search"></i>
+                        </span>
+                        <input type="text" id="busca" name="busca" ngModel class="form-control" placeholder="Pesquisar" (keyup)='searchFilter($event)'>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Fazenda</th>
+                        <th>Produtor</th>
+                        <th>Criado</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of itensFilter | paginate: { itemsPerPage: itemsPerPage, currentPage: page}">
+                        <td>
+                            <div placement="top" tooltip="Ativo" class="circleBase status1" *ngIf="item.ativo === 1"></div>
+                            <div placement="top" tooltip="Desativado" class="circleBase status2" *ngIf="item.ativo === 0"></div>
+                        </td>
+                        <td>{{item.nome}}</td>
+                        <td>{{item.nome_produtor}}</td>
+                        <td>{{item.created | date: 'dd/MM/yyyy - HH:mm'}}</td>
+                        <td align="right">
+                            <a (click)="this.GlobalService.marcaItem(item);_ShowService.showEditar()" placement="top" tooltip="Editar" class="icon-action">
+                                <i class="fa fa-pencil-square-o"></i>
+                            </a>
+                            <a (click)="this.GlobalService.marcaItem(item);deleteItem()" placement="top" tooltip="Deletar" class="icon-action">
+                                <i class="fa fa-trash-o"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <pagination-controls previousLabel="Anterior" nextLabel="Próxima" (pageChange)="page = $event" class="pagination"></pagination-controls>
+
+        </div>
+    </div>
+</div>

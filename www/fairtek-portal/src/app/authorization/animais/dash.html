@@ -1,0 +1,359 @@
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon" placement="top" tooltip="Tatuagem">
+                    <i class="fa fa-power-off"></i>
+                </span>
+                <input type="text" id="tatuagem" name="tatuagem" placement="top" tooltip="Tatuagem" disabled
+                    [ngModel]="itemCarregado[0].tatuagem" class="form-control" placeholder="Tatuagem">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon" placement="top" tooltip="Brinco">
+                    <i class="fa fa-adjust"></i>
+                </span>
+                <input type="text" id="brinco" name="brinco" placement="top" tooltip="Brinco" disabled
+                    [ngModel]="itemCarregado[0].brinco" class="form-control" placeholder="Brinco">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon" placement="top" tooltip="Chip">
+                    <i class="fa fa-power-off"></i>
+                </span>
+                <input type="text" id="chip" name="chip" placement="top" tooltip="Chip" disabled
+                    [ngModel]="itemCarregado[0].chip_num" class="form-control" placeholder="Chip">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon" placement="top" tooltip="Baia de Origem">
+                    <i class="fa fa-adjust"></i>
+                </span>
+                <input type="text" id="baia_origem" name="baia_origem" placement="top" tooltip="Baia de Origem" disabled
+                    [ngModel]="itemCarregado[0].baia_nome" class="form-control" placeholder="Baia de Origem">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon" placement="top" tooltip="Tempo Dosagem(segundos)">
+                    <i class="fa fa-power-off"></i>
+                </span>
+                <input type="text" id="tempo_dosagem" name="tempo_dosagem" placement="top"
+                    tooltip="Tempo Dosagem(segundos)" disabled [ngModel]="itemCarregado[0].tempo_entre_dosagem"
+                    class="form-control" placeholder="Tempo Dosagem">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+
+    <div class="card-header">
+        <div class="row">
+            <div class="col-sm-8">
+                <i class="fa fa-plus"></i> Selecione o Alojamento
+            </div>
+
+            <div class="col-sm-2">
+                <select name="type_graph" class="form-control" placement="top" tooltip="Tipo Gráfico"
+                    (change)="changeGrafico($event)" [disabled]="ciclo_animal==0" *ngIf="qtd_ciclos_animais != 0">
+                    <option value="2">Percentual %</option>
+                    <option value="1">Quantidade (Kg)</option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <select name="ciclo" class="form-control" placement="top" tooltip="Alojamento"
+                    (change)="getHistoricoAnimal($event)" *ngIf="qtd_ciclos_animais != 0" >
+                    <option *ngFor="let ciclo of qtd_ciclos_animais" selected value="{{ciclo}}">{{ciclo}}º Alojamento</option>
+                    <option value="0" *ngIf="tipoGrafico==2">Todos os Alojamentos</option>
+
+                </select>
+                <input type="text" readonly class="form-control" placeholder="Animal ainda não foi para Gestação."
+                    *ngIf="qtd_ciclos_animais == 0">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <h6>Qtd Alimentada Total: {{this.qa_total_alojamento}} Kg. </h6>
+                <h6 *ngIf="tipoGrafico==2">Gráfico: Percentual</h6>
+                <h6 *ngIf="tipoGrafico==1">Gráfico: Kilogramas</h6>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card-body">
+        <div class="chart-wrapper" style="height:500px;margin-top:40px;" *ngIf="comboAnimal.length > 0">
+            <canvas id="myChart" baseChart class="chart" [datasets]="mainChartData" [labels]="mainChartLabels"
+                [options]="mainChartOptions" [colors]="mainChartColours" [legend]="mainChartLegend"
+                [chartType]="mainChartType" (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)"></canvas>
+        </div>
+    </div>
+    <!-- <div class="card-footer">
+        <ul>
+            <li>
+                <div class="text-muted">Visits</div>
+                <strong>29.703 Users (40%)</strong>
+                <div class="progress progress-xs mt-2">
+                    <div class="progress-bar bg-fairtek-verde" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </li>
+            <li class="d-none d-md-table-cell">
+                <div class="text-muted">New Users</div>
+                <strong>22.123 Users (80%)</strong>
+                <div class="progress progress-xs mt-2">
+                    <div class="progress-bar bg-fairtek-preto" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </li>
+        </ul>
+    </div> -->
+</div>
+
+<!-- INSERIR
+<div class="col-sm-12 sem-padding" *ngIf="!exibeUpdate">
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-plus"></i> Inserir nova dieta do animal
+        </div>
+        <div class="card-body">
+            <form #formPost="ngForm" (ngSubmit)="postForm(formPost)">
+                <div class="row">
+                    <div class="col-sm-10">
+                        <div class="form-group">
+                            <select name="dietas_id" placement="top" tooltip="Dieta" [ngModel]="selectDieta" class="form-control" *ngIf="comboDieta != 0">
+                                <option value="0">(Selecione a dieta)</option>
+                                <option *ngFor="let item of comboDieta" value="{{item.id}}">{{item.nome}}</option>
+                            </select>
+                            <span *ngIf="comboDieta == 0">
+                                <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Carregando...
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Dia da Dieta">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                <input type="text" id="dia_dieta" name="dia_dieta" placement="top" tooltip="Dia da Dieta" ngModel class="form-control" placeholder="Dia da dieta">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Início">
+                                    <i class="fa fa-calendar-plus-o"></i>
+                                </span>
+                                <input type="text" id="dt_inicio" name="dt_inicio" placement="top" tooltip="Início" ngModel class="form-control" placeholder="Início">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Previsão">
+                                    <i class="fa fa-calendar-o"></i>
+                                </span>
+                                <input type="text" id="dt_prevista" name="dt_prevista" placement="top" tooltip="Previsão" ngModel class="form-control" placeholder="Previsão">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Fim">
+                                    <i class="fa fa-calendar-check-o"></i>
+                                </span>
+                                <input type="text" id="dt_final" name="dt_final" placement="top" tooltip="Fim" ngModel class="form-control" placeholder="Fim">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-actions">
+                    <button type="submit" class="btn btn-md btn-success" [disabled]="isBusyForm">
+                        Inserir <i class="fa fa-spin fa-spinner" *ngIf="isBusyForm"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> -->
+
+<!-- EDITAR
+<div class="col-sm-12 sem-padding" *ngIf="exibeUpdate">
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-plus"></i> Editar dieta do animal
+        </div>
+        <div class="card-body">
+            <form #formPut="ngForm" (ngSubmit)="putForm(formPut)">
+                <div class="row">
+                    <div class="col-sm-10">
+                        <div class="form-group">
+                            <select name="dietas_id" placement="top" tooltip="Dieta" [ngModel]="this.GlobalService.getItem().tb_dietas_id" class="form-control" *ngIf="comboDieta != 0">
+                                <option value="0">(Selecione a dieta)</option>
+                                <option *ngFor="let item of comboDieta" value="{{item.id}}">{{item.nome}}</option>
+                            </select>
+                            <span *ngIf="comboDieta == 0">
+                                <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Carregando...
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Dia da dieta">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                <input type="text" id="dia_dieta" name="dia_dieta" placement="top" tooltip="Dia da dieta" [ngModel]="this.GlobalService.getItem().dia_dieta" class="form-control" placeholder="Dia da dieta">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Início">
+                                    <i class="fa fa-calendar-plus-o"></i>
+                                </span>
+                                <input type="text" id="dt_inicio" name="dt_inicio" placement="top" tooltip="Início" [ngModel]="this.GlobalService.getItem().dt_inicio" class="form-control" placeholder="Início">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Previsão">
+                                    <i class="fa fa-calendar-o"></i>
+                                </span>
+                                <input type="text" id="dt_prevista" name="dt_prevista" placement="top" tooltip="Previsão" [ngModel]="this.GlobalService.getItem().dt_prevista" class="form-control" placeholder="Previsão">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" placement="top" tooltip="Fim">
+                                    <i class="fa fa-calendar-check-o"></i>
+                                </span>
+                                <input type="text" id="dt_final" name="dt_final" placement="top" tooltip="Fim" [ngModel]="this.GlobalService.getItem().dt_final" class="form-control" placeholder="Fim">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-actions">
+                    <button type="submit" class="btn btn-md btn-success" [disabled]="isBusyForm">
+                        Salvar <i class="fa fa-spin fa-spinner" *ngIf="isBusyForm"></i>
+                    </button>
+
+                    <button type="submit" class="btn btn-md btn-default" (click)="exibeUpdate=false">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> -->
+
+<div class="col-lg-12 sem-padding">
+    <div class="col-lg-12 sem-padding">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6 padding-form">
+                        <i class="fa fa-align-justify"></i>Histórico de Alimentação
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            <input type="text" id="busca" name="busca" ngModel class="form-control"
+                                placeholder="Pesquisar pela Data da Alimentação" (keyup)='searchFilter($event)'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div role="alert" class="alert alert-info alert-dismissible" *ngIf="comboAnimal.length == 0">
+                <button aria-label="Close" class="close" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+                Sem registros para este animal.
+            </div>
+            <div class="card-body" *ngIf="comboAnimal.length > 0">
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Dieta</th>
+                            <th>Baia</th>
+                            <th>Dia do Animal</th>
+                            <th>Qtd. Alimentada</th>
+                            <th>Qtd. Total</th>
+                            <th>Qtd. Restante</th>
+                            <th>Data da Alimentação</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr
+                            *ngFor="let item of comboAnimal | paginate: { itemsPerPage: itemsPerPage, currentPage: page}">
+                            <td>{{item.nome_dieta}}</td>
+                            <td>{{item.baia_nome}}</td>
+                            <td>{{item.dia}}</td>
+                            <td>
+                                <div class="clearfix">
+                                    <div class="float-left" *ngIf="item.qa <= item.qt">
+                                        <strong>{{item.qa*100}}g.
+                                            ({{(item.qa/item.qt)*100 | number: '2.0-0'}}%)</strong>
+                                    </div>
+                                    <div class="float-left" *ngIf="item.qa > item.qt">
+                                        <strong>{{item.qt*100}}g. (100%)*</strong>
+                                    </div>
+                                </div>
+                                <div>
+                                    <progressbar *ngIf="item.qa <= item.qt" type="success" [striped]="true"
+                                        placement="top" tooltip="{{item.qa/item.qt*100 | number: '2.0-0'}}%"
+                                        role="progressbar" [value]="item.qa/item.qt*100" [animate]="true"></progressbar>
+
+                                    <progressbar *ngIf="item.qa > item.qt" type="success" [striped]="true"
+                                        placement="top" tooltip="100%" role="progressbar" [value]="item.qt*100"
+                                        [animate]="true"></progressbar>
+                                </div>
+                            </td>
+                            <td>{{item.qt*100}}g.</td>
+                            <td *ngIf="item.qa <= item.qt">{{(item.qt-item.qa)*100}}g.</td>
+                            <td *ngIf="item.qa > item.qt">0g.</td>
+                            <td>
+                                <div class="small text-muted">Data Registrada</div>
+                                <strong>{{item.dosador_data | date: 'dd/MM/yyyy'}}</strong>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <pagination-controls previousLabel="Anterior" nextLabel="Próxima" (pageChange)="page = $event"
+                    class="pagination"></pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,286 @@
+/*!
+ * CoreUI - Open Source Bootstrap Admin Template
+ * @version v1.0.6
+ * @link http://coreui.io
+ * Copyright (c) 2017 creativeLabs Łukasz Holeczek
+ * @license MIT
+ */
+
+// Override Boostrap variables
+@import "bootstrap-variables";
+
+// Import Bootstrap source files
+@import "node_modules/bootstrap/scss/bootstrap";
+
+// Override core variables
+@import "core-variables";
+
+// Import core styles
+@import "core/core";
+
+// Custom styles
+@import "custom";
+
+@import "~@swimlane/ngx-datatable/release/index.css";
+@import "~@swimlane/ngx-datatable/release/themes/material.css";
+@import "~@swimlane/ngx-datatable/release/assets/icons.css";
+
+button,
+a,
+span,
+*[ng-reflect-router-link] {
+  outline: none !important;
+}
+
+.toast-container .toast {
+  width: auto !important;
+  max-width: 500px;
+}
+
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 15px;
+}
+a {
+  cursor: pointer;
+}
+.sem-padding {
+  padding: 0 !important;
+}
+.padding-form {
+  padding-top: 7px;
+}
+.input-switch {
+  padding-top: 5px;
+}
+.icon-action {
+  padding: 8px;
+  color: #151b1e !important;
+}
+.icon-action:hover {
+  background: #fff;
+  border-radius: 50px;
+}
+.icon-action i {
+  font-size: 17px;
+}
+
+pagination-template ul {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.ngx-pagination li,
+.pagination-previous,
+.pagination-next {
+  margin: 0 !important;
+}
+.ngx-pagination li.disabled {
+  border: 1px solid #ddd;
+  padding: 0.38rem 0.75rem !important;
+}
+.pagination-previous a,
+.pagination-previous.disabled {
+  margin-right: -3px !important;
+}
+.pagination-next a,
+.pagination-next.disabled {
+  margin-left: -4px !important;
+}
+.ngx-pagination a {
+  color: $fairtek-verde !important;
+}
+.ngx-pagination .current {
+  background: $fairtek-verde !important;
+  padding: 0.45rem 0.75rem !important;
+}
+
+.container-fluid {
+  padding-bottom: 70px !important;
+}
+
+.circleBase {
+  border-radius: 50%;
+}
+
+.status1 {
+  width: 15px;
+  height: 15px;
+  background: $fairtek-verde;
+}
+
+.status2 {
+  width: 15px;
+  height: 15px;
+  background: $red;
+}
+
+.status3 {
+  width: 15px;
+  height: 15px;
+  background: $blue;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px;
+}
+.odd {
+  background-color: rgb(236, 233, 233);
+  color: #00987e;
+}
+.fc-time,
+.fc-list-item-time {
+  display: none;
+}
+
+.pace .pace-activity {
+  top: 19px;
+  right: 19px;
+}
+
+.page-loading {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  overflow: hidden;
+  background: rgba(51, 51, 51, 1);
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: -1;
+}
+
+.loading-icon {
+    position: absolute;
+    left: 50%;
+    top: 86%;
+    width: 38px;
+    height: 38px;
+    margin-left: -19px;
+    margin-top: -19px;
+}
+
+app-root:empty ~ .page-loading {
+  opacity: 1;
+  z-index: 1;
+}
+
+.mtpx-7 {
+  margin-top: 7px;
+}
+
+::-moz-selection {
+  /* Code for Firefox */
+  color: white;
+  background: #007e69;
+}
+
+::selection {
+  color: white;
+  background: #007e69;
+}
+
+/* Custom Theme */
+.theme-fairtek {
+  .bs-datepicker-head {
+    background-color: #007e69;
+  }
+  .bs-datepicker-body table td {
+    span.selected,
+    &.selected span,
+    span[class*="select-"]:after,
+    &[class*="select-"] span:after {
+      background-color: #007e69;
+    }
+    &.week span {
+      color: #007e69;
+    }
+  }
+}
+
+.color-white {
+  color: white;
+}
+
+.button-go-back {
+  display: flex;
+  align-items: center;
+  
+  padding: 6px;
+  color: white;
+  -webkit-box-shadow: 5px 6px 16px 4px rgba(204, 202, 204, 1);
+  -moz-box-shadow: 5px 6px 16px 4px rgba(204, 202, 204, 1);
+  box-shadow: 3px 4px 5px 0px rgba(204, 202, 204, 1);
+  cursor: pointer;
+  border: none;
+}
+
+.button-go-back i {
+  margin-right: 5px;
+}
+
+.btn-unblock {
+    background: #00987e;
+}
+
+.btn-block {
+    background: #80808085;
+    color: gray !important;
+}
+
+.app-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.aside-menu-fixed.aside-menu-hidden .app-footer {
+  width: calc(100% - 200px);
+}
+
+body.app.header-fixed.sidebar-fixed.aside-menu-fixed.aside-menu-hidden.sidebar-minimized.brand-minimized .app-footer {
+  width: calc(100% - 50px);
+}
+//Spinner -Loading
+.loader {
+  border: 8px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 8px solid #007e69;
+  width: 60px;
+  height: 60px;
+  -webkit-animation: spin 0.5s linear infinite; /* Safari */
+  margin: 1rem auto;
+  animation: spin 0.5s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#timer {
+  margin: 0 10px 0 10px;
+  cursor: default;
+  font-weight: bold;
+  color: #007e69;
+}
+
+.column-order{
+  cursor: pointer;
+}

@@ -1,0 +1,33 @@
+.scroll-hidden{
+    overflow-y: hidden;
+    // height: -webkit-fill-available;
+    height: stretch;
+}
+
+.badge-maternity {
+    background: #e9861b; /* Laranja Fairtek*/
+    color: white;
+}
+
+.btn-maternity {
+  background: #e9861b;
+  font-weight: bold;;
+}
+
+.app-body {
+    overflow-x: inherit !important;
+}
+
+.inpt-1000-days{
+    position: relative;
+    display: block;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    width: 100%;
+}
+
+#icon-calendar {
+    height: 35px;
+}

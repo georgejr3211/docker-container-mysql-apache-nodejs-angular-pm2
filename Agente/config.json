@@ -1,0 +1,3 @@
+{"id_agente":"1","port":"/dev/ttyUSB0","t_var":"30","t_req":"10","mysql_user":"fairtek","mysql_pass":"fairtek2018",
+"mysql_url":"jdbc:mysql://127.0.0.1:3306/fairtek?serverTimezone=UTC&useSSL=false"
+}
